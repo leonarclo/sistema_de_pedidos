@@ -1,0 +1,30 @@
+package com.leonardo.spring_sistema_de_pedidos.payload;
+
+public record PedidoRequest(
+        String chave,
+        String data,
+        String empresa,
+        String consultor,
+        String cargoCliente,
+        String leadOrigem,
+        String leadData,
+        String cnpj,
+        String email,
+        String status,
+        String telefone1,
+        String telefone2,
+        String logradouro,
+        String numeroEndereco,
+        String bairro,
+        String complemento,
+        String cep,
+        String cidade,
+        String estado,
+        String transportadora,
+        String fretePreco,
+        String nomeCliente,
+        String cpfCliente,
+        String categoriaGrupo,
+        String observacoes,
+        String emailLogin) {
+}
