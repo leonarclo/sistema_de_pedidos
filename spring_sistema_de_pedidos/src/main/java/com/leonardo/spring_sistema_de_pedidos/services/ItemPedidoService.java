@@ -20,10 +20,16 @@ public class ItemPedidoService {
 
     }
 
-    public ItemPedidoDTO save(ItemPedidoDTO itemPedidoDTO) {
-        return ItemPedidoMapper
-                .toItemPedidoDTO(
-                        itemPedidoRepository.save(ItemPedidoMapper.toItemPedidoEntity(itemPedidoDTO)));
+    public List<ItemPedidoDTO> save(List<ItemPedidoDTO> itemPedidoDTO) {
+        List<ItemPedido> itemPedido = itemPedidoDTO.stream()
+                .map(ItemPedidoMapper::toItemPedidoEntity)
+                .collect(Collectors.toList());
+
+        List<ItemPedido> savedEntities = itemPedidoRepository.saveAll(itemPedido);
+
+        return savedEntities.stream()
+                .map(ItemPedidoMapper::toItemPedidoDTO)
+                .collect(Collectors.toList());
     }
 
     public List<ItemPedidoDTO> findAll() {

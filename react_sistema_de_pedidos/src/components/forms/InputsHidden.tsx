@@ -43,6 +43,18 @@ function InputsHidden() {
           </FormItem>
         )}
       />
+      <FormField
+        control={form.control}
+        name="categoriaGrupo"
+        render={({ field }) => (
+          <FormItem hidden>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </>
   );
 }

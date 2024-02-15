@@ -7,7 +7,7 @@ export const schema = z.object({
   leadOrigem: z.string({
     required_error: "Preencha o campo de 'Origem do Lead'",
   }),
-  leadData: z.coerce.date({
+  leadData: z.coerce.string({
     required_error: "Preencha o campo de 'Data do Lead'",
   }),
   cargoCliente: z.string({
@@ -89,14 +89,11 @@ export const schema = z.object({
     .max(2, {
       message: "'Estado (UF)' precisa conter 2 letras",
     }),
-  fretePreco: z
-    .string({})
-    .min(2, "O valor precisa conter pelo menos 2 números")
-    .optional(),
+  fretePreco: z.string({}).optional(),
   transportadora: z.string({}).optional(),
   arquivos: z.any({}).optional(),
   observacoes: z.string({}).optional(),
   consultor: z.string({}),
-  data: z.coerce.date({}),
+  data: z.coerce.string({}),
   chave: z.string({}),
 });

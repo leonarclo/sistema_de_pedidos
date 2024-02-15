@@ -22,14 +22,16 @@ public class ItemPedidoMapper {
         itemPedido.setPreco(itemPedidoDTO.preco());
         itemPedido.setQuantidade(itemPedidoDTO.quantidade());
         itemPedido.setPrecoTotal(itemPedidoDTO.precoTotal());
-        itemPedido.setNumeroFuncionarios(itemPedidoDTO.numeroFuncionarios());
-        itemPedido.setValorMensal(itemPedidoDTO.valorMensal());
+        itemPedido.setNumeroFuncionarios(
+                itemPedidoDTO.numeroFuncionarios() != null ? itemPedidoDTO.numeroFuncionarios() : "");
+        itemPedido.setValorMensal(itemPedidoDTO.valorMensal() != null ? itemPedidoDTO.valorMensal() : "");
         itemPedido.setFormaPagamento(itemPedidoDTO.formaPagamento());
         itemPedido.setVencimento1Boleto(itemPedidoDTO.vencimento1Boleto());
         itemPedido.setTipoPagamento(itemPedidoDTO.tipoPagamento());
-        itemPedido.setDuracaoContrato(itemPedidoDTO.duracaoContrato());
-        itemPedido.setVigenciaInicio(itemPedidoDTO.vigenciaInicio());
-        itemPedido.setVigenciaFim(itemPedidoDTO.vigenciaFim());
+        itemPedido.setDuracaoContrato(itemPedidoDTO.duracaoContrato() != null ? itemPedidoDTO.duracaoContrato()
+                : "");
+        itemPedido.setVigenciaInicio(itemPedidoDTO.vigenciaInicio() != null ? itemPedidoDTO.vigenciaInicio() : "");
+        itemPedido.setVigenciaFim(itemPedidoDTO.vigenciaFim() != null ? itemPedidoDTO.vigenciaFim() : "");
         return itemPedido;
     }
 }

@@ -19,13 +19,13 @@ export const schemaItem = z.object({
   quantidade: z.string({
     required_error: "Preencha o campo de 'Quantidade'",
   }),
-  precoTotal: z.string({}),
+  precoTotal: z.string({}).optional(),
   software: z.string({}).optional(),
   valorMensal: z.string({}).optional(),
   formaPagamento: z.string({
     required_error: "Preencha o campo de 'Forma de Pagamento'",
   }),
-  vencimento1Boleto: z.coerce.date({
+  vencimento1Boleto: z.coerce.string({
     required_error: "Preencha o campo de 'Vencimento do 1 Boleto'",
   }),
   tipoPagamento: z.string({
@@ -37,12 +37,12 @@ export const schemaItem = z.object({
     })
     .optional(),
   vigenciaInicio: z.coerce
-    .date({
+    .string({
       required_error: "Preencha o campo de 'Vencimento do 1 Boleto'",
     })
     .optional(),
   vigenciaFim: z.coerce
-    .date({
+    .string({
       required_error: "Preencha o campo de 'Vencimento do 1 Boleto'",
     })
     .optional(),

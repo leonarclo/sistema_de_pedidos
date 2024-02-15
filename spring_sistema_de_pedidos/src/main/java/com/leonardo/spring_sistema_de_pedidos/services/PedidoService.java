@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.mapper.PedidoMapper;
 import com.leonardo.spring_sistema_de_pedidos.entities.Pedido;
-import com.leonardo.spring_sistema_de_pedidos.payload.PedidoRequest;
-import com.leonardo.spring_sistema_de_pedidos.payload.PedidoResponse;
-import com.leonardo.spring_sistema_de_pedidos.repositories.ItemPedidoRepository;
 import com.leonardo.spring_sistema_de_pedidos.repositories.PedidoRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -28,35 +25,8 @@ public class PedidoService {
                 .collect(Collectors.toList());
     }
 
-    public Pedido save(PedidoRequest novoPedido) {
-        Pedido pedido = new Pedido();
-        pedido.setChave(novoPedido.chave());
-        pedido.setData(novoPedido.data());
-        pedido.setEmpresa(novoPedido.empresa());
-        pedido.setConsultor(novoPedido.consultor());
-        pedido.setCargoCliente(novoPedido.cargoCliente());
-        pedido.setLeadOrigem(novoPedido.leadOrigem());
-        pedido.setLeadData(novoPedido.leadData());
-        pedido.setCnpj(novoPedido.cnpj());
-        pedido.setEmail(novoPedido.email());
-        pedido.setStatus(novoPedido.status());
-        pedido.setTelefone1(novoPedido.telefone1());
-        pedido.setTelefone2(novoPedido.telefone2());
-        pedido.setLogradouro(novoPedido.logradouro());
-        pedido.setNumeroEndereco(novoPedido.numeroEndereco());
-        pedido.setBairro(novoPedido.bairro());
-        pedido.setComplemento(novoPedido.complemento());
-        pedido.setCep(novoPedido.cep());
-        pedido.setCidade(novoPedido.cidade());
-        pedido.setEstado(novoPedido.estado());
-        pedido.setTransportadora(novoPedido.transportadora());
-        pedido.setFretePreco(novoPedido.fretePreco());
-        pedido.setNomeCliente(novoPedido.nomeCliente());
-        pedido.setCpfCliente(novoPedido.cpfCliente());
-        pedido.setCategoriaGrupo(novoPedido.categoriaGrupo());
-        pedido.setObservacoes(novoPedido.observacoes());
-        pedido.setEmailLogin(novoPedido.emailLogin());
-        return pedidoRepository.save(pedido);
+    public PedidoDTO save(PedidoDTO novoPedido) {
+        return PedidoMapper.toPedidoDTO(pedidoRepository.save(PedidoMapper.toPedidoEntity(novoPedido)));
     }
 
     public PedidoDTO update(PedidoDTO pedidoDTO) {

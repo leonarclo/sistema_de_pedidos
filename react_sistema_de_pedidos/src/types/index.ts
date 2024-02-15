@@ -64,9 +64,9 @@ export interface IItemPedido {
   formaPagamento: string;
   vencimento1Boleto: string;
   tipoPagamento: string;
-  duracaoContrato: string;
-  vigenciaInicio: string;
-  vigenciaFim: string;
+  duracaoContrato?: string;
+  vigenciaInicio?: string;
+  vigenciaFim?: string;
 }
 
 export interface IArquivo {
@@ -77,12 +77,12 @@ export interface IArquivo {
 
 export interface IPedidoRequest {
   chave: string;
-  data: Date;
+  data: string;
   consultor: string;
   empresa: string;
   cargoCliente: string;
   leadOrigem: string;
-  leadData: Date;
+  leadData: string;
   cnpj: string;
   email: string;
   status: string;
@@ -108,14 +108,13 @@ export interface IItemPedidoRequest {
   produto: string;
   preco: string;
   quantidade: string;
-  precoTotal: string;
-  numeroFuncionarios: string;
+  precoTotal?: string;
   software?: string;
   valorMensal?: string;
   formaPagamento: string;
-  vencimento1Boleto: Date;
+  vencimento1Boleto: string;
   tipoPagamento: string;
   duracaoContrato?: string;
-  vigenciaInicio?: Date;
-  vigenciaFim?: Date;
+  vigenciaInicio?: string;
+  vigenciaFim?: string;
 }

@@ -46,7 +46,7 @@ public class ItemPedido {
     @Column(name = "precototal")
     private String precoTotal;
 
-    @Column(name = "nFuncionarios")
+    @Column(name = "nfuncionarios")
     private String numeroFuncionarios;
 
     @Column(name = "valor_mensal")
@@ -64,11 +64,9 @@ public class ItemPedido {
     @Column(name = "duracao")
     private String duracaoContrato;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "vigenciain")
     private String vigenciaInicio;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "vigenciaout")
     private String vigenciaFim;
 }

@@ -21,6 +21,7 @@ import {
 } from "@/redux/api/pedidoApi";
 import InputsHidden from "./InputsHidden";
 import { format } from "date-fns";
+import moment from "moment";
 
 function FormNovoPedido() {
   const [triggerInserirPedido] = useLazyInserirPedidoQuery();
@@ -36,11 +37,29 @@ function FormNovoPedido() {
     defaultValues: {
       chave: format(new Date(), "yyMMddHHmmss"),
       consultor: "Leonardo",
-      data: new Date(Date.now()),
+      data: moment(new Date(Date.now())).format("YYYY-MM-DD HH:mm"),
     },
   });
 
   function onSubmit(values: z.infer<typeof fullSchema>) {
+    let categoriaGrupo;
+    let venda = false;
+    let contrato = false;
+    values.itens.forEach((item) => {
+      if (item.categoria == "Venda") {
+        venda = true;
+        categoriaGrupo = "Venda";
+      }
+      if (item.categoria == "Contrato") {
+        contrato = true;
+        categoriaGrupo = "Contrato";
+      }
+      if (venda == true && contrato == true) {
+        categoriaGrupo = "Venda + Contrato";
+      }
+    });
+    console.log(categoriaGrupo);
+
     const pedido = {
       chave: values.chave,
       data: values.data,
@@ -48,7 +67,7 @@ function FormNovoPedido() {
       empresa: values.empresa,
       cargoCliente: values.cargoCliente,
       leadOrigem: values.leadOrigem,
-      leadData: values.leadData,
+      leadData: format(values.leadData, "yyyy-MM-dd"),
       cnpj: values.cnpj,
       email: values.email,
       status: values.status,
@@ -65,6 +84,7 @@ function FormNovoPedido() {
       fretePreco: values.fretePreco,
       nomeCliente: values.nomeCliente,
       cpfCliente: values.cpfCliente,
+      categoriaGrupo,
       observacoes: values.observacoes,
       emailLogin: values.emailLogin,
     };
@@ -77,14 +97,17 @@ function FormNovoPedido() {
         preco: item.preco,
         quantidade: item.quantidade,
         precoTotal: item.precoTotal,
-        numeroFuncionarios: values.numeroEndereco,
         valorMensal: item.valorMensal,
         formaPagamento: item.formaPagamento,
-        vencimento1Boleto: item.vencimento1Boleto,
+        vencimento1Boleto: format(item.vencimento1Boleto, "yyyy-MM-dd"),
         tipoPagamento: item.tipoPagamento,
         duracaoContrato: item.duracaoContrato,
-        vigenciaInicio: item.vigenciaInicio,
-        vigenciaFim: item.vigenciaFim,
+        vigenciaInicio: item.vigenciaInicio
+          ? format(item.vigenciaInicio, "yyyy-MM-dd")
+          : undefined,
+        vigenciaFim: item.vigenciaFim
+          ? format(item.vigenciaFim, "yyyy-MM-dd")
+          : undefined,
       };
 
       itens.push(itemPedido);

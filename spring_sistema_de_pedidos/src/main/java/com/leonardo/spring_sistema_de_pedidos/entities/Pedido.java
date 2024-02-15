@@ -1,8 +1,6 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
 import java.io.Serializable;
-
-import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -63,7 +61,6 @@ public class Pedido implements Serializable {
     @Column(name = "fone1")
     private String telefone1;
 
-    @Nullable
     @Column(name = "fone2")
     private String telefone2;
 
@@ -88,13 +85,11 @@ public class Pedido implements Serializable {
     @Column(name = "uf")
     private String estado;
 
-    @Nullable
     @Column(name = "transportadora")
-    private String transportadora;
+    private String transportadora = "";
 
-    @Nullable
     @Column(name = "frete")
-    private String fretePreco;
+    private String fretePreco = "";
 
     @Column(name = "responsavel_nome")
     private String nomeCliente;
@@ -102,55 +97,81 @@ public class Pedido implements Serializable {
     @Column(name = "responsavel_cpf")
     private String cpfCliente;
 
-    @Nullable
     @Column(name = "catgrupo")
     private String categoriaGrupo;
 
-    @Nullable
+    @Column(name = "categoria")
+    private String categoria = "";
+
+    @Column(name = "produto")
+    private String produto = "";
+
+    @Column(name = "preco")
+    private String preco = "";
+
+    @Column(name = "qtde")
+    private String qtde = "";
+
+    @Column(name = "precototal")
+    private String precoTotal = "";
+
+    @Column(name = "nfuncionarios")
+    private String nFuncionarios = "";
+
+    @Column(name = "valor_mensal")
+    private String valorMensal = "";
+
+    @Column(name = "forma_pgto")
+    private String formaPagamento = "";
+
+    @Column(name = "venc_1_boleto")
+    private String venc1Boleto = "";
+
+    @Column(name = "pagamentotipo")
+    private String pagamentoTipo = "";
+
+    @Column(name = "duracao")
+    private String duracao = "";
+
+    @Column(name = "vigenciain")
+    private String vigenciaIn = "";
+
+    @Column(name = "vigenciaout")
+    private String vigenciaOut = "";
+
     @Column(name = "planilhavendas")
-    private String planilhaVendas;
+    private String planilhaVendas = "";
 
-    @Nullable
     @Column(name = "licencagerada")
-    private Integer licencaGerada;
+    private Integer licencaGerada = 0;
 
-    @Nullable
     @Column(name = "assinatura")
     private Integer assinatura;
 
-    @Nullable
     @Column(name = "chat")
-    private Integer chat;
+    private Integer chat = 0;
 
-    @Nullable
     @Column(name = "posvenda")
-    private Integer posVenda;
+    private Integer posVenda = 0;
 
-    @Nullable
     @Column(name = "notafiscal")
-    private String notaFiscal;
+    private String notaFiscal = "";
 
-    @Nullable
     @Column(name = "unidadenegocio")
-    private String unidadeNegocio;
+    private String unidadeNegocio = "";
 
-    @Nullable
     @Column(name = "previsaoentrega")
-    private String previsaoEntrega;
+    private String previsaoEntrega = "";
 
-    @Nullable
     @Column(name = "numeroserie")
-    private String numeroSerie;
+    private String numeroSerie = "";
 
-    @Nullable
     @Column(name = "codigorastreio")
-    private String codigoRastreio;
+    private String codigoRastreio = "";
 
-    @Nullable
     @Column(name = "obs")
-    private String observacoes;
+    private String observacoes = "";
 
-    @Nullable
     @Column(name = "emaillogin")
-    private String emailLogin;
+    private String emailLogin = "";
 }

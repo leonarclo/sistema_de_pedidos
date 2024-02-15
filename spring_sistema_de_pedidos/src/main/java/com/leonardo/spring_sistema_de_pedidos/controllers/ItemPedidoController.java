@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.leonardo.spring_sistema_de_pedidos.dto.ItemPedidoDTO;
-import com.leonardo.spring_sistema_de_pedidos.dto.PedidoDTO;
 import com.leonardo.spring_sistema_de_pedidos.services.ItemPedidoService;
 
 @RestController
@@ -44,9 +43,9 @@ public class ItemPedidoController {
     }
 
     @PostMapping("/inserir-item")
-    public ResponseEntity<ItemPedidoDTO> save(@RequestBody ItemPedidoDTO itemPedido) {
+    public ResponseEntity<List<ItemPedidoDTO>> save(@RequestBody List<ItemPedidoDTO> itemPedido) {
         try {
-            ItemPedidoDTO novoItemPedido = itemPedidoService.save(itemPedido);
+            List<ItemPedidoDTO> novoItemPedido = itemPedidoService.save(itemPedido);
             return ResponseEntity.ok(novoItemPedido);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

@@ -17,7 +17,6 @@ import { Input } from "../ui/input";
 import { cargoOptions } from "@/constants/cargoOptions";
 import { InputMasked } from "../ui/input-mask";
 import { InputPhone } from "../ui/input-phone";
-import { InputCPFCNPJ } from "../ui/input-cnpjcpf";
 import { useFormContext } from "react-hook-form";
 
 function InputsCliente() {
@@ -69,7 +68,7 @@ function InputsCliente() {
           <FormItem>
             <FormLabel>CNPJ</FormLabel>
             <FormControl className="rounded">
-              <InputCPFCNPJ {...field} />
+              <InputMasked mask="cnpj" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

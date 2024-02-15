@@ -26,6 +26,17 @@ public record PedidoDTO(
         String nomeCliente,
         String cpfCliente,
         String categoriaGrupo,
+        String categoria,
+        String planilhaVendas,
+        Integer licencaGerada,
+        Integer assinatura,
+        Integer chat,
+        Integer posVenda,
+        String notaFiscal,
+        String unidadeNegocio,
+        String previsaoEntrega,
+        String numeroSerie,
+        String codigoRastreio,
         String observacoes,
         String emailLogin) {
 }

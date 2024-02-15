@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoDTO;
-import com.leonardo.spring_sistema_de_pedidos.entities.Pedido;
-import com.leonardo.spring_sistema_de_pedidos.payload.PedidoRequest;
 import com.leonardo.spring_sistema_de_pedidos.services.PedidoService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,9 +33,9 @@ public class PedidoController {
     }
 
     @PostMapping("/inserir-pedido")
-    public ResponseEntity<Pedido> save(@RequestBody PedidoRequest pedido) {
+    public ResponseEntity<PedidoDTO> save(@RequestBody PedidoDTO pedido) {
         try {
-            Pedido novoPedido = pedidoService.save(pedido);
+            PedidoDTO novoPedido = pedidoService.save(pedido);
             return ResponseEntity.ok(novoPedido);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
