@@ -47,7 +47,6 @@ export const schema = z.object({
     .string({
       required_error: "Preencha o campo de 'Telefone 2'",
     })
-    .min(13, "Número de telefone inválido")
     .optional(),
   emailLogin: z.string({}).optional(),
   cep: z

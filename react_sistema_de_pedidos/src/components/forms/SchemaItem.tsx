@@ -20,7 +20,6 @@ export const schemaItem = z.object({
     required_error: "Preencha o campo de 'Quantidade'",
   }),
   precoTotal: z.string({}).optional(),
-  software: z.string({}).optional(),
   valorMensal: z.string({}).optional(),
   formaPagamento: z.string({
     required_error: "Preencha o campo de 'Forma de Pagamento'",

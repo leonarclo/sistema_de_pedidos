@@ -53,9 +53,9 @@ public class ItemPedidoController {
     }
 
     @PostMapping("/editar-item")
-    public ResponseEntity<ItemPedidoDTO> update(@RequestBody ItemPedidoDTO itemPedido) {
+    public ResponseEntity<List<ItemPedidoDTO>> update(@RequestBody List<ItemPedidoDTO> itemPedido) {
         try {
-            ItemPedidoDTO novoItem = itemPedidoService.update(itemPedido);
+            List<ItemPedidoDTO> novoItem = itemPedidoService.update(itemPedido);
             return ResponseEntity.ok(novoItem);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

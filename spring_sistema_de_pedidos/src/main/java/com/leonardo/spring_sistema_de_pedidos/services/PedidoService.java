@@ -32,8 +32,6 @@ public class PedidoService {
     public PedidoDTO update(PedidoDTO pedidoDTO) {
         Pedido pedido = pedidoRepository.findById(pedidoDTO.id())
                 .orElseThrow(() -> new EntityNotFoundException("Entidade não encontrada!"));
-        pedido.setChave(pedidoDTO.chave());
-        pedido.setData(pedidoDTO.data());
         pedido.setEmpresa(pedidoDTO.empresa());
         pedido.setConsultor(pedidoDTO.consultor());
         pedido.setCargoCliente(pedidoDTO.cargoCliente());

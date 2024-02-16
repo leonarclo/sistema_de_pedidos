@@ -11,11 +11,19 @@ import InputsEndereco from "./InputsEndereco";
 import InputsItem from "./InputsItem";
 import { useAppSelector } from "@/redux/store";
 import { useEffect } from "react";
-import { IItemPedidoRequest, IPedido } from "@/types";
+import {
+  IItemPedidoRequest,
+  IItemPedidoUpdate,
+  IPedido,
+  IPedidoRequest,
+  IPedidoUpdate,
+} from "@/types";
 import { schemaItem } from "./SchemaItem";
 import InputArquivo from "./InputArquivo";
 import TextareaObservacao from "./TextareaObservacao";
 import {
+  useLazyEditarItemQuery,
+  useLazyEditarPedidoQuery,
   useLazyInserirItemPedidoQuery,
   useLazyInserirPedidoQuery,
 } from "@/redux/api/pedidoApi";
@@ -26,11 +34,17 @@ import moment from "moment";
 function FormNovoPedido() {
   const [triggerInserirPedido] = useLazyInserirPedidoQuery();
   const [triggerInserirItem] = useLazyInserirItemPedidoQuery();
-
+  const [triggerEditarPedido] = useLazyEditarPedidoQuery();
+  const [triggerEditarItemPedido] = useLazyEditarItemQuery();
   const fullSchema = z.object({
     ...schema.shape,
     itens: z.array(schemaItem),
   });
+
+  const editar = useAppSelector(
+    (state) => state.editarPedidoState.editarPedido
+  );
+  const editarItem = useAppSelector((state) => state.itensPedidoState.itens);
 
   const form = useForm<z.infer<typeof fullSchema>>({
     resolver: zodResolver(fullSchema),
@@ -60,67 +74,119 @@ function FormNovoPedido() {
     });
     console.log(categoriaGrupo);
 
-    const pedido = {
-      chave: values.chave,
-      data: values.data,
-      consultor: values.consultor,
-      empresa: values.empresa,
-      cargoCliente: values.cargoCliente,
-      leadOrigem: values.leadOrigem,
-      leadData: format(values.leadData, "yyyy-MM-dd"),
-      cnpj: values.cnpj,
-      email: values.email,
-      status: values.status,
-      telefone1: values.telefone1,
-      telefone2: values.telefone2,
-      logradouro: values.logradouro,
-      numeroEndereco: values.numeroEndereco,
-      bairro: values.bairro,
-      complemento: values.complemento,
-      cep: values.cep,
-      cidade: values.cidade,
-      estado: values.estado,
-      transportadora: values.transportadora,
-      fretePreco: values.fretePreco,
-      nomeCliente: values.nomeCliente,
-      cpfCliente: values.cpfCliente,
-      categoriaGrupo,
-      observacoes: values.observacoes,
-      emailLogin: values.emailLogin,
-    };
-    const itens: IItemPedidoRequest[] = [];
-    values.itens.forEach((item) => {
-      const itemPedido = {
-        chave: values.chave,
-        categoria: item.categoria,
-        produto: item.produto,
-        preco: item.preco,
-        quantidade: item.quantidade,
-        precoTotal: item.precoTotal,
-        valorMensal: item.valorMensal,
-        formaPagamento: item.formaPagamento,
-        vencimento1Boleto: format(item.vencimento1Boleto, "yyyy-MM-dd"),
-        tipoPagamento: item.tipoPagamento,
-        duracaoContrato: item.duracaoContrato,
-        vigenciaInicio: item.vigenciaInicio
-          ? format(item.vigenciaInicio, "yyyy-MM-dd")
-          : undefined,
-        vigenciaFim: item.vigenciaFim
-          ? format(item.vigenciaFim, "yyyy-MM-dd")
-          : undefined,
+    if (editar && editarItem) {
+      const editarPedido: IPedidoUpdate = {
+        id: editar.id,
+        consultor: values.consultor,
+        empresa: values.empresa,
+        cargoCliente: values.cargoCliente,
+        leadOrigem: values.leadOrigem,
+        leadData: format(values.leadData, "yyyy-MM-dd"),
+        cnpj: values.cnpj,
+        email: values.email,
+        status: values.status,
+        telefone1: values.telefone1,
+        telefone2: values.telefone2,
+        logradouro: values.logradouro,
+        numeroEndereco: values.numeroEndereco,
+        bairro: values.bairro,
+        complemento: values.complemento,
+        cep: values.cep,
+        cidade: values.cidade,
+        estado: values.estado,
+        transportadora: values.transportadora,
+        fretePreco: values.fretePreco,
+        nomeCliente: values.nomeCliente,
+        cpfCliente: values.cpfCliente,
+        categoriaGrupo,
+        observacoes: values.observacoes,
+        emailLogin: values.emailLogin,
       };
+      const editarItemPedido: IItemPedidoUpdate[] = [];
+      values.itens.forEach((item, index) => {
+        const editarItemId = editarItem[index]?.id;
+        const itemPedido = {
+          id: editarItemId,
+          categoria: item.categoria,
+          produto: item.produto,
+          preco: item.preco,
+          quantidade: item.quantidade,
+          precoTotal: item.precoTotal,
+          valorMensal: item.valorMensal,
+          formaPagamento: item.formaPagamento,
+          vencimento1Boleto: format(item.vencimento1Boleto, "yyyy-MM-dd"),
+          tipoPagamento: item.tipoPagamento,
+          duracaoContrato: item.duracaoContrato,
+          vigenciaInicio: item.vigenciaInicio
+            ? format(item.vigenciaInicio, "yyyy-MM-dd")
+            : undefined,
+          vigenciaFim: item.vigenciaFim
+            ? format(item.vigenciaFim, "yyyy-MM-dd")
+            : undefined,
+        };
+        editarItemPedido.push(itemPedido);
+      });
+      console.log(editarPedido);
+      console.log(editarItemPedido);
+      triggerEditarPedido(editarPedido);
+      triggerEditarItemPedido(editarItemPedido);
+    } else {
+      const pedido: IPedidoRequest = {
+        chave: values.chave,
+        data: values.data,
+        consultor: values.consultor,
+        empresa: values.empresa,
+        cargoCliente: values.cargoCliente,
+        leadOrigem: values.leadOrigem,
+        leadData: format(values.leadData, "yyyy-MM-dd"),
+        cnpj: values.cnpj,
+        email: values.email,
+        status: values.status,
+        telefone1: values.telefone1,
+        telefone2: values.telefone2,
+        logradouro: values.logradouro,
+        numeroEndereco: values.numeroEndereco,
+        bairro: values.bairro,
+        complemento: values.complemento,
+        cep: values.cep,
+        cidade: values.cidade,
+        estado: values.estado,
+        transportadora: values.transportadora,
+        fretePreco: values.fretePreco,
+        nomeCliente: values.nomeCliente,
+        cpfCliente: values.cpfCliente,
+        categoriaGrupo,
+        observacoes: values.observacoes,
+        emailLogin: values.emailLogin,
+      };
+      const itens: IItemPedidoRequest[] = [];
+      values.itens.forEach((item) => {
+        const itemPedido = {
+          chave: values.chave,
+          categoria: item.categoria,
+          produto: item.produto,
+          preco: item.preco,
+          quantidade: item.quantidade,
+          precoTotal: item.precoTotal,
+          valorMensal: item.valorMensal,
+          formaPagamento: item.formaPagamento,
+          vencimento1Boleto: format(item.vencimento1Boleto, "yyyy-MM-dd"),
+          tipoPagamento: item.tipoPagamento,
+          duracaoContrato: item.duracaoContrato,
+          vigenciaInicio: item.vigenciaInicio
+            ? format(item.vigenciaInicio, "yyyy-MM-dd")
+            : undefined,
+          vigenciaFim: item.vigenciaFim
+            ? format(item.vigenciaFim, "yyyy-MM-dd")
+            : undefined,
+        };
 
-      itens.push(itemPedido);
-    });
-    console.log(values);
-    triggerInserirPedido(pedido);
-    triggerInserirItem(itens);
+        itens.push(itemPedido);
+      });
+      triggerInserirPedido(pedido);
+      triggerInserirItem(itens);
+    }
   }
-
-  const editar = useAppSelector(
-    (state) => state.editarPedidoState.editarPedido
-  );
-  const itens = useAppSelector((state) => state.itensPedidoState.itens);
 
   useEffect(() => {
     if (editar) {
@@ -129,7 +195,7 @@ function FormNovoPedido() {
       );
       form.setValue("observacoes", "");
     }
-  }, [editar, itens, form]);
+  }, [editar, form]);
 
   return (
     <Form {...form}>

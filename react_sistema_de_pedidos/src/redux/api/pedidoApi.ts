@@ -3,8 +3,10 @@ import {
   IArquivo,
   IItemPedido,
   IItemPedidoRequest,
+  IItemPedidoUpdate,
   IPedido,
   IPedidoRequest,
+  IPedidoUpdate,
 } from "../../types";
 
 export const pedidoApi = createApi({
@@ -55,6 +57,33 @@ export const pedidoApi = createApi({
         };
       },
     }),
+    inserirArquivo: builder.query<IArquivo, IArquivo[]>({
+      query(body) {
+        return {
+          url: "/inserir-arquivo",
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    editarPedido: builder.query<IPedido, IPedidoUpdate>({
+      query(body) {
+        return {
+          url: "/editar-pedido",
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    editarItem: builder.query<IItemPedido, IItemPedidoUpdate[]>({
+      query(body) {
+        return {
+          url: "/editar-item",
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -64,4 +93,7 @@ export const {
   useLazyBuscarArquivosQuery,
   useLazyInserirPedidoQuery,
   useLazyInserirItemPedidoQuery,
+  useLazyInserirArquivoQuery,
+  useLazyEditarPedidoQuery,
+  useLazyEditarItemQuery,
 } = pedidoApi;

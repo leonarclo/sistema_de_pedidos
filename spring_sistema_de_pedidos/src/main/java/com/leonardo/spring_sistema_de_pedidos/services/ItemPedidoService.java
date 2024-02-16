@@ -43,25 +43,37 @@ public class ItemPedidoService {
                 .collect(Collectors.toList());
     }
 
-    public ItemPedidoDTO update(ItemPedidoDTO itemPedidoDTO) {
-        ItemPedido itemPedido = itemPedidoRepository.findById(itemPedidoDTO.id())
-                .orElseThrow(() -> new EntityNotFoundException("Entidade não encontrada!"));
-        itemPedido.setChave(itemPedidoDTO.chave());
-        itemPedido.setCategoria(itemPedidoDTO.categoria());
-        itemPedido.setProduto(itemPedidoDTO.produto());
-        itemPedido.setPreco(itemPedidoDTO.preco());
-        itemPedido.setQuantidade(itemPedidoDTO.quantidade());
-        itemPedido.setPrecoTotal(itemPedidoDTO.precoTotal());
-        itemPedido.setNumeroFuncionarios(itemPedidoDTO.numeroFuncionarios());
-        itemPedido.setValorMensal(itemPedidoDTO.valorMensal());
-        itemPedido.setFormaPagamento(itemPedidoDTO.formaPagamento());
-        itemPedido.setVencimento1Boleto(itemPedidoDTO.vencimento1Boleto());
-        itemPedido.setTipoPagamento(itemPedidoDTO.tipoPagamento());
-        itemPedido.setDuracaoContrato(itemPedidoDTO.duracaoContrato());
-        itemPedido.setVigenciaInicio(itemPedidoDTO.vigenciaInicio());
-        itemPedido.setVigenciaFim(itemPedidoDTO.vigenciaFim());
+    public List<ItemPedidoDTO> update(List<ItemPedidoDTO> itemPedidoDTOs) {
+        List<ItemPedido> itemPedidos = itemPedidoDTOs.stream()
+                .map(itemPedidoDTO -> itemPedidoRepository.findById(itemPedidoDTO.id())
+                        .map(existItemPedido -> {
+                            existItemPedido.setCategoria(itemPedidoDTO.categoria());
+                            existItemPedido.setProduto(itemPedidoDTO.produto());
+                            existItemPedido.setPreco(itemPedidoDTO.preco());
+                            existItemPedido.setQuantidade(itemPedidoDTO.quantidade());
+                            existItemPedido.setPrecoTotal(itemPedidoDTO.precoTotal());
+                            if (itemPedidoDTO.numeroFuncionarios() != null) {
+                                existItemPedido.setNumeroFuncionarios(itemPedidoDTO.numeroFuncionarios());
+                            }
+                            existItemPedido.setValorMensal(itemPedidoDTO.valorMensal());
+                            existItemPedido.setFormaPagamento(itemPedidoDTO.formaPagamento());
+                            existItemPedido.setVencimento1Boleto(itemPedidoDTO.vencimento1Boleto());
+                            existItemPedido.setTipoPagamento(itemPedidoDTO.tipoPagamento());
+                            if (itemPedidoDTO.duracaoContrato() != null) {
+                                existItemPedido.setDuracaoContrato(itemPedidoDTO.duracaoContrato());
+                            }
+                            if (itemPedidoDTO.vigenciaInicio() != null) {
+                                existItemPedido.setVigenciaInicio(itemPedidoDTO.vigenciaInicio());
+                            }
+                            if (itemPedidoDTO.vigenciaFim() != null) {
+                                existItemPedido.setVigenciaFim(itemPedidoDTO.vigenciaFim());
+                            }
+                            return existItemPedido;
+                        })
+                        .orElseThrow(() -> new EntityNotFoundException("Entidade não encontrada!")))
+                .collect(Collectors.toList());
 
-        ItemPedido novoItem = itemPedidoRepository.save(itemPedido);
-        return ItemPedidoMapper.toItemPedidoDTO(novoItem);
+        List<ItemPedido> novoItem = itemPedidoRepository.saveAll(itemPedidos);
+        return novoItem.stream().map(ItemPedidoMapper::toItemPedidoDTO).collect(Collectors.toList());
     }
 }

@@ -1,7 +1,5 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -47,7 +45,7 @@ public class ItemPedido {
     private String precoTotal;
 
     @Column(name = "nfuncionarios")
-    private String numeroFuncionarios;
+    private String numeroFuncionarios = "";
 
     @Column(name = "valor_mensal")
     private String valorMensal;
@@ -65,8 +63,8 @@ public class ItemPedido {
     private String duracaoContrato;
 
     @Column(name = "vigenciain")
-    private String vigenciaInicio;
+    private String vigenciaInicio = "";
 
     @Column(name = "vigenciaout")
-    private String vigenciaFim;
+    private String vigenciaFim = "";
 }
