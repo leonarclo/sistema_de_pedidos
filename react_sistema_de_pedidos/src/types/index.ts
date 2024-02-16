@@ -26,6 +26,8 @@ export interface IPedido {
   categoriaGrupo: string;
   observacoes?: string;
   emailLogin?: string;
+  editadoPor?: string;
+  editadoEm?: string;
 }
 
 export interface IStatus {
@@ -67,6 +69,8 @@ export interface IItemPedido {
   duracaoContrato?: string;
   vigenciaInicio?: string;
   vigenciaFim?: string;
+  editadoPor?: string;
+  editadoEm?: string;
 }
 
 export interface IArquivo {
@@ -102,6 +106,8 @@ export interface IPedidoRequest {
   categoriaGrupo?: string;
   observacoes?: string;
   emailLogin?: string;
+  editadoPor?: string;
+  editadoEm?: string;
 }
 
 export interface IPedidoUpdate {
@@ -130,6 +136,8 @@ export interface IPedidoUpdate {
   categoriaGrupo?: string;
   observacoes?: string;
   emailLogin?: string;
+  editadoPor: string;
+  editadoEm: string;
 }
 
 export interface IItemPedidoRequest {
@@ -146,6 +154,8 @@ export interface IItemPedidoRequest {
   duracaoContrato?: string;
   vigenciaInicio?: string;
   vigenciaFim?: string;
+  editadoPor?: string;
+  editadoEm?: string;
 }
 
 export interface IItemPedidoUpdate {
@@ -163,4 +173,6 @@ export interface IItemPedidoUpdate {
   duracaoContrato?: string;
   vigenciaInicio?: string;
   vigenciaFim?: string;
+  editadoPor: string;
+  editadoEm: string;
 }

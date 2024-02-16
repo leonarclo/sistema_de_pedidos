@@ -72,9 +72,13 @@ function FormNovoPedido() {
         categoriaGrupo = "Venda + Contrato";
       }
     });
-    console.log(categoriaGrupo);
 
     if (editar && editarItem) {
+      const observacoes = `${editar.observacoes} | ${values.observacoes}`;
+      const editadoPor = `${editar.editadoPor} | ${values.consultor}`;
+      const editadoEm = `${editar.editadoEm} | ${moment(
+        new Date(Date.now())
+      ).format("YYYY-MM-DD HH:mm")}`;
       const editarPedido: IPedidoUpdate = {
         id: editar.id,
         consultor: values.consultor,
@@ -99,12 +103,18 @@ function FormNovoPedido() {
         nomeCliente: values.nomeCliente,
         cpfCliente: values.cpfCliente,
         categoriaGrupo,
-        observacoes: values.observacoes,
+        observacoes,
         emailLogin: values.emailLogin,
+        editadoPor,
+        editadoEm,
       };
       const editarItemPedido: IItemPedidoUpdate[] = [];
       values.itens.forEach((item, index) => {
         const editarItemId = editarItem[index]?.id;
+        const editadoPor = `${editarItem[index]?.editadoPor} | ${values.consultor}`;
+        const editadoEm = `${editarItem[index]?.editadoEm} | ${moment(
+          new Date(Date.now())
+        ).format("YYYY-MM-DD HH:mm")}`;
         const itemPedido = {
           id: editarItemId,
           categoria: item.categoria,
@@ -123,6 +133,8 @@ function FormNovoPedido() {
           vigenciaFim: item.vigenciaFim
             ? format(item.vigenciaFim, "yyyy-MM-dd")
             : undefined,
+          editadoPor,
+          editadoEm,
         };
         editarItemPedido.push(itemPedido);
       });
@@ -131,6 +143,7 @@ function FormNovoPedido() {
       triggerEditarPedido(editarPedido);
       triggerEditarItemPedido(editarItemPedido);
     } else {
+      const observacoes = `<strong>${values.consultor}</strong>: ${values.observacoes}`;
       const pedido: IPedidoRequest = {
         chave: values.chave,
         data: values.data,
@@ -156,7 +169,7 @@ function FormNovoPedido() {
         nomeCliente: values.nomeCliente,
         cpfCliente: values.cpfCliente,
         categoriaGrupo,
-        observacoes: values.observacoes,
+        observacoes,
         emailLogin: values.emailLogin,
       };
       const itens: IItemPedidoRequest[] = [];

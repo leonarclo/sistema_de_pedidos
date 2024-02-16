@@ -74,6 +74,7 @@ export const pedidoApi = createApi({
           body,
         };
       },
+      transformResponse: (response: { data: IPedido }) => response.data,
     }),
     editarItem: builder.query<IItemPedido, IItemPedidoUpdate[]>({
       query(body) {

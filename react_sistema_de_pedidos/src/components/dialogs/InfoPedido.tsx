@@ -307,7 +307,8 @@ function InfoPedido() {
           <p>
             <span className="text-blue-600 text-sm">Observações:</span>
             <br />
-            {pedido?.observacoes}
+            {pedido?.editadoPor ?? ""} ({pedido?.editadoEm ?? ""}):{" "}
+            {pedido?.observacoes ?? ""}
           </p>
         </div>
       </DialogContent>
