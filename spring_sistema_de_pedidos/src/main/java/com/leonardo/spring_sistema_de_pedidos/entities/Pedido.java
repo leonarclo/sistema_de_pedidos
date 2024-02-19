@@ -1,6 +1,10 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -33,10 +37,24 @@ public class Pedido implements Serializable {
     private Long id;
 
     @Column(name = "chave")
-    private String chave;
+    private String chave = setChave();
 
     @Column(name = "data")
-    private String data;
+    private String data = setData();
+
+    public String setChave() {
+        String patternChave = "yyMMddHHmmss";
+        DateFormat fmtChave = new SimpleDateFormat(patternChave);
+        Date today = Calendar.getInstance().getTime();
+        return fmtChave.format(today);
+    }
+
+    public String setData() {
+        String patternDataEHora = "yyyy-MM-dd HH:mm";
+        DateFormat fmtData = new SimpleDateFormat(patternDataEHora);
+        Date today = Calendar.getInstance().getTime();
+        return fmtData.format(today);
+    }
 
     @Column(name = "empresa")
     private String empresa;
@@ -66,7 +84,7 @@ public class Pedido implements Serializable {
     private String telefone1;
 
     @Column(name = "fone2")
-    private String telefone2;
+    private String telefone2 = "";
 
     @Column(name = "rua")
     private String logradouro;
@@ -78,7 +96,7 @@ public class Pedido implements Serializable {
     private String bairro;
 
     @Column(name = "complemento")
-    private String complemento;
+    private String complemento = "";
 
     @Column(name = "cep")
     private String cep;
@@ -150,7 +168,7 @@ public class Pedido implements Serializable {
     private Integer licencaGerada = 0;
 
     @Column(name = "assinatura")
-    private Integer assinatura;
+    private Integer assinatura = 0;
 
     @Column(name = "chat")
     private Integer chat = 0;

@@ -11,8 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ItemPedidoResponseDTO {
-    private Long id;
+public class ItemPedidoRequestDTO {
     private String chave;
     private String categoria;
     private String produto;

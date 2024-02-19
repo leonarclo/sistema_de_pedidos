@@ -3,5 +3,5 @@ export const cargoOptions = [
   "Diretor de RH",
   "Compras",
   "Financeiro",
-  "Outro",
+  "Outros",
 ];

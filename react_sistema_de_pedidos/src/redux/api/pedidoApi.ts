@@ -1,5 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IArquivo, IItemPedido, IPedido, IPedidoCompleto } from "../../types";
+import {
+  IArquivo,
+  IItemPedidoRequest,
+  IPedido,
+  IPedidoCompleto,
+} from "../../types";
 
 export const pedidoApi = createApi({
   reducerPath: "pedidoApi",
@@ -15,7 +20,7 @@ export const pedidoApi = createApi({
         };
       },
     }),
-    buscarItem: builder.query<IItemPedido[], void>({
+    buscarItem: builder.query<IItemPedidoRequest[], void>({
       query(chave) {
         return {
           url: `/buscar-item?chave=${chave}`,
@@ -41,18 +46,19 @@ export const pedidoApi = createApi({
       },
     }),
 
-    editarPedido: builder.query<IPedido, { body: IPedidoCompleto; id: number }>(
-      {
-        query({ body, id }) {
-          return {
-            url: `/editar-pedido/${id}`,
-            method: "POST",
-            body,
-          };
-        },
-        transformResponse: (response: { data: IPedido }) => response.data,
-      }
-    ),
+    editarPedido: builder.query<
+      IPedido,
+      { body: IPedidoCompleto; id: number; itemId?: number }
+    >({
+      query({ body, id, itemId }) {
+        return {
+          url: `/editar-pedido/${id}/${itemId}`,
+          method: "POST",
+          body,
+        };
+      },
+      transformResponse: (response: { data: IPedido }) => response.data,
+    }),
   }),
 });
 

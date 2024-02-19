@@ -90,6 +90,7 @@ export interface IItemPedidoRequest {
   preco: string;
   quantidade: string;
   precoTotal?: string;
+  numeroFuncionarios?: string;
   valorMensal?: string;
   formaPagamento: string;
   vencimento1Boleto: string;

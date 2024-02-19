@@ -34,7 +34,14 @@ public class ItemPedido {
     private Pedido pedido;
 
     @Column(name = "chaveb")
-    private String chave;
+    private String chave = getChaveb();
+
+    public String getChaveb() {
+        if (pedido != null) {
+            return pedido.getChave();
+        }
+        return "";
+    }
 
     @Column(name = "categoria")
     private String categoria;
@@ -55,7 +62,7 @@ public class ItemPedido {
     private String numeroFuncionarios = "";
 
     @Column(name = "valor_mensal")
-    private String valorMensal;
+    private String valorMensal = "";
 
     @Column(name = "forma_pgto")
     private String formaPagamento;
@@ -67,7 +74,7 @@ public class ItemPedido {
     private String tipoPagamento;
 
     @Column(name = "duracao")
-    private String duracaoContrato;
+    private String duracaoContrato = "";
 
     @Column(name = "vigenciain")
     private String vigenciaInicio = "";

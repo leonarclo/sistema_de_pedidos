@@ -64,14 +64,19 @@ function FormNovoPedido() {
       const observacoes = editar.observacoes
         ? `${editar.observacoes} | ${values.consultor}: ${values.observacoes}`
         : `${values.consultor}: ${values.observacoes}`;
+      let itemId;
       const editarItemPedido: IItemPedidoRequest[] = [];
-      values.itens.forEach((item) => {
+      values.itens.forEach((item, index) => {
+        itemId = editarItem[index].id;
+        const funcionariosId = editarItem[index].numeroFuncionarios;
         const itemPedido: IItemPedidoRequest = {
+          chave: editar.chave,
           categoria: item.categoria,
           produto: item.produto,
           preco: item.preco,
           quantidade: item.quantidade,
           precoTotal: item.precoTotal,
+          numeroFuncionarios: funcionariosId,
           valorMensal: item.valorMensal,
           formaPagamento: item.formaPagamento,
           vencimento1Boleto: format(item.vencimento1Boleto, "yyyy-MM-dd"),
@@ -110,11 +115,16 @@ function FormNovoPedido() {
         nomeCliente: values.nomeCliente,
         cpfCliente: values.cpfCliente,
         categoriaGrupo,
-        observacoes: values.observacoes ? observacoes : undefined,
+        observacoes: observacoes,
         emailLogin: values.emailLogin,
         itens: editarItemPedido,
       };
-      triggerEditarPedido({ body: editarPedido, id: editar.id });
+      console.log(editarPedido);
+      triggerEditarPedido({
+        body: editarPedido,
+        id: editar.id,
+        itemId,
+      });
     } else {
       const observacoes = `${values.consultor}: ${values.observacoes}`;
       const itens: IItemPedidoRequest[] = [];
@@ -167,6 +177,7 @@ function FormNovoPedido() {
         emailLogin: values.emailLogin,
         itens,
       };
+      console.log(pedidoCompleto);
       triggerInserirPedido(pedidoCompleto);
     }
   }

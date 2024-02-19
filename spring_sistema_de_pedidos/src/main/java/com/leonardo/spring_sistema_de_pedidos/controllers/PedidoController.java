@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
-import com.leonardo.spring_sistema_de_pedidos.dto.SaveAndUpdatePedidoDTO;
+import com.leonardo.spring_sistema_de_pedidos.dto.PedidoCompletoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.services.PedidoService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,15 +32,15 @@ public class PedidoController {
     }
 
     @PostMapping("/inserir-pedido")
-    public ResponseEntity<SaveAndUpdatePedidoDTO> save(@RequestBody SaveAndUpdatePedidoDTO pedidoCompleto) {
-        SaveAndUpdatePedidoDTO savedPedido = pedidoService.save(pedidoCompleto);
+    public ResponseEntity<PedidoCompletoRequestDTO> save(@RequestBody PedidoCompletoRequestDTO pedidoCompleto) {
+        PedidoCompletoRequestDTO savedPedido = pedidoService.save(pedidoCompleto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPedido);
     }
 
-    @PostMapping("/editar-pedido/{id}")
-    public ResponseEntity<SaveAndUpdatePedidoDTO> update(@PathVariable Long id,
-            @RequestBody SaveAndUpdatePedidoDTO pedido) {
-        SaveAndUpdatePedidoDTO updatePedido = pedidoService.update(pedido, id);
+    @PostMapping("/editar-pedido/{id}/{itemId}")
+    public ResponseEntity<PedidoCompletoRequestDTO> update(@PathVariable Long id, @PathVariable Long itemId,
+            @RequestBody PedidoCompletoRequestDTO pedido) {
+        PedidoCompletoRequestDTO updatePedido = pedidoService.update(pedido, id, itemId);
         return ResponseEntity.ok(updatePedido);
     }
 

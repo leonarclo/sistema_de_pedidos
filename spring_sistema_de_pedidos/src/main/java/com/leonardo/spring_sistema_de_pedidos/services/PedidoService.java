@@ -1,14 +1,15 @@
 package com.leonardo.spring_sistema_de_pedidos.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
+import java.util.Objects;
+import java.util.Optional;
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-
-import com.leonardo.spring_sistema_de_pedidos.dto.ItemPedidoResponseDTO;
+import com.leonardo.spring_sistema_de_pedidos.dto.ItemPedidoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
-import com.leonardo.spring_sistema_de_pedidos.dto.SaveAndUpdatePedidoDTO;
+import com.leonardo.spring_sistema_de_pedidos.dto.PedidoCompletoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.mapper.PedidoMapper;
 import com.leonardo.spring_sistema_de_pedidos.entities.ItemPedido;
 import com.leonardo.spring_sistema_de_pedidos.entities.Pedido;
@@ -33,7 +34,7 @@ public class PedidoService {
     }
 
     @Transactional
-    public SaveAndUpdatePedidoDTO save(SaveAndUpdatePedidoDTO pedidoCompleto) {
+    public PedidoCompletoRequestDTO save(PedidoCompletoRequestDTO pedidoCompleto) {
         Pedido pedido = PedidoMapper.toPedidoCompletoResponse(pedidoCompleto);
 
         for (ItemPedido itemPedido : pedido.getItens()) {
@@ -45,24 +46,35 @@ public class PedidoService {
         return PedidoMapper.toUpdate(pedido);
     }
 
+    @SuppressWarnings("null")
     @Transactional
-    public SaveAndUpdatePedidoDTO update(SaveAndUpdatePedidoDTO updatePedido, Long id) {
+    public PedidoCompletoRequestDTO update(PedidoCompletoRequestDTO updatePedido, @NonNull Long id,
+            @NonNull Long itemId) {
         ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+
         Pedido findPedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pedido não encontrado!"));
 
         modelMapper.map(updatePedido, findPedido);
+        for (ItemPedidoRequestDTO itemPedidoDto : updatePedido.getItens()) {
+            Optional<ItemPedido> optionalItemPedido = findPedido.getItens().stream()
+                    .filter(itemPedido -> Objects.equals(itemPedido.getId(), itemId))
+                    .findFirst();
 
-        List<ItemPedido> itens = updatePedido.getItens().stream()
-                .map(itemDto -> {
-                    ItemPedido item = modelMapper.map(itemDto, ItemPedido.class);
-                    item.setPedido(findPedido);
-                    return item;
-                })
-                .collect(Collectors.toList());
+            if (optionalItemPedido.isPresent()) {
+                ItemPedido itemPedido = optionalItemPedido.get();
+                // Atualizar os campos do item existente
+                modelMapper.map(itemPedidoDto, itemPedido);
+                itemPedido.setPedido(findPedido);
+                itemPedidoRepository.save(itemPedido);
+            }
+        }
 
-        findPedido.setItens(itens);
         pedidoRepository.save(findPedido);
+
         return PedidoMapper.toUpdate(findPedido);
     }
+
 }

@@ -5,9 +5,9 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 
-import com.leonardo.spring_sistema_de_pedidos.dto.ItemPedidoResponseDTO;
+import com.leonardo.spring_sistema_de_pedidos.dto.ItemPedidoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
-import com.leonardo.spring_sistema_de_pedidos.dto.SaveAndUpdatePedidoDTO;
+import com.leonardo.spring_sistema_de_pedidos.dto.PedidoCompletoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.entities.Pedido;
 
 public class PedidoMapper {
@@ -21,15 +21,15 @@ public class PedidoMapper {
         return pedidos.stream().map(pedido -> toPedidoResponse(pedido)).collect(Collectors.toList());
     }
 
-    public static Pedido toPedidoCompletoResponse(SaveAndUpdatePedidoDTO pedido) {
+    public static Pedido toPedidoCompletoResponse(PedidoCompletoRequestDTO pedido) {
         return modelMapper.map(pedido, Pedido.class);
     }
 
-    public static SaveAndUpdatePedidoDTO toUpdate(Pedido pedido) {
-        List<ItemPedidoResponseDTO> itens = pedido.getItens().stream()
-                .map(item -> modelMapper.map(item, ItemPedidoResponseDTO.class))
+    public static PedidoCompletoRequestDTO toUpdate(Pedido pedido) {
+        List<ItemPedidoRequestDTO> itens = pedido.getItens().stream()
+                .map(item -> modelMapper.map(item, ItemPedidoRequestDTO.class))
                 .collect(Collectors.toList());
-        SaveAndUpdatePedidoDTO pedidoAtualizado = new SaveAndUpdatePedidoDTO();
+        PedidoCompletoRequestDTO pedidoAtualizado = new PedidoCompletoRequestDTO();
         pedidoAtualizado.setItens(itens);
         return pedidoAtualizado;
     }
