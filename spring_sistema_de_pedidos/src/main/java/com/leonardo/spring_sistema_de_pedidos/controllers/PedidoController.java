@@ -2,15 +2,18 @@ package com.leonardo.spring_sistema_de_pedidos.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.leonardo.spring_sistema_de_pedidos.dto.PedidoDTO;
+import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
+import com.leonardo.spring_sistema_de_pedidos.dto.SaveAndUpdatePedidoDTO;
 import com.leonardo.spring_sistema_de_pedidos.services.PedidoService;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -23,33 +26,22 @@ public class PedidoController {
     }
 
     @GetMapping("/buscar-pedidos")
-    public ResponseEntity<List<PedidoDTO>> findAll() {
-        try {
-            List<PedidoDTO> pedidos = pedidoService.findAll();
-            return ResponseEntity.ok(pedidos);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<List<PedidoResponseDTO>> findAll() {
+        List<PedidoResponseDTO> pedidos = pedidoService.findAll();
+        return ResponseEntity.ok(pedidos);
     }
 
     @PostMapping("/inserir-pedido")
-    public ResponseEntity<PedidoDTO> save(@RequestBody PedidoDTO pedido) {
-        try {
-            PedidoDTO novoPedido = pedidoService.save(pedido);
-            return ResponseEntity.ok(novoPedido);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<SaveAndUpdatePedidoDTO> save(@RequestBody SaveAndUpdatePedidoDTO pedidoCompleto) {
+        SaveAndUpdatePedidoDTO savedPedido = pedidoService.save(pedidoCompleto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedPedido);
     }
 
-    @PostMapping("/editar-pedido")
-    public ResponseEntity<PedidoDTO> update(@RequestBody PedidoDTO pedido) {
-        try {
-            PedidoDTO novoPedido = pedidoService.update(pedido);
-            return ResponseEntity.ok(novoPedido);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    @PostMapping("/editar-pedido/{id}")
+    public ResponseEntity<SaveAndUpdatePedidoDTO> update(@PathVariable Long id,
+            @RequestBody SaveAndUpdatePedidoDTO pedido) {
+        SaveAndUpdatePedidoDTO updatePedido = pedidoService.update(pedido, id);
+        return ResponseEntity.ok(updatePedido);
     }
 
 }

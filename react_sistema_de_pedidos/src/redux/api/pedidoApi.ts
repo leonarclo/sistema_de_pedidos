@@ -1,13 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import {
-  IArquivo,
-  IItemPedido,
-  IItemPedidoRequest,
-  IItemPedidoUpdate,
-  IPedido,
-  IPedidoRequest,
-  IPedidoUpdate,
-} from "../../types";
+import { IArquivo, IItemPedido, IPedido, IPedidoCompleto } from "../../types";
 
 export const pedidoApi = createApi({
   reducerPath: "pedidoApi",
@@ -39,7 +31,7 @@ export const pedidoApi = createApi({
         };
       },
     }),
-    inserirPedido: builder.query<IPedido, IPedidoRequest>({
+    inserirPedido: builder.query<IPedido, IPedidoCompleto>({
       query(body) {
         return {
           url: "/inserir-pedido",
@@ -48,43 +40,19 @@ export const pedidoApi = createApi({
         };
       },
     }),
-    inserirItemPedido: builder.query<IItemPedido, IItemPedidoRequest[]>({
-      query(body) {
-        return {
-          url: "/inserir-item",
-          method: "POST",
-          body,
-        };
-      },
-    }),
-    inserirArquivo: builder.query<IArquivo, IArquivo[]>({
-      query(body) {
-        return {
-          url: "/inserir-arquivo",
-          method: "POST",
-          body,
-        };
-      },
-    }),
-    editarPedido: builder.query<IPedido, IPedidoUpdate>({
-      query(body) {
-        return {
-          url: "/editar-pedido",
-          method: "POST",
-          body,
-        };
-      },
-      transformResponse: (response: { data: IPedido }) => response.data,
-    }),
-    editarItem: builder.query<IItemPedido, IItemPedidoUpdate[]>({
-      query(body) {
-        return {
-          url: "/editar-item",
-          method: "POST",
-          body,
-        };
-      },
-    }),
+
+    editarPedido: builder.query<IPedido, { body: IPedidoCompleto; id: number }>(
+      {
+        query({ body, id }) {
+          return {
+            url: `/editar-pedido/${id}`,
+            method: "POST",
+            body,
+          };
+        },
+        transformResponse: (response: { data: IPedido }) => response.data,
+      }
+    ),
   }),
 });
 
@@ -93,8 +61,5 @@ export const {
   useLazyBuscarItemQuery,
   useLazyBuscarArquivosQuery,
   useLazyInserirPedidoQuery,
-  useLazyInserirItemPedidoQuery,
-  useLazyInserirArquivoQuery,
   useLazyEditarPedidoQuery,
-  useLazyEditarItemQuery,
 } = pedidoApi;

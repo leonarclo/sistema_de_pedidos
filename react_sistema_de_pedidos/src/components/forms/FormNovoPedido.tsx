@@ -11,31 +11,20 @@ import InputsEndereco from "./InputsEndereco";
 import InputsItem from "./InputsItem";
 import { useAppSelector } from "@/redux/store";
 import { useEffect } from "react";
-import {
-  IItemPedidoRequest,
-  IItemPedidoUpdate,
-  IPedido,
-  IPedidoRequest,
-  IPedidoUpdate,
-} from "@/types";
+import { IItemPedidoRequest, IPedido, IPedidoCompleto } from "@/types";
 import { schemaItem } from "./SchemaItem";
 import InputArquivo from "./InputArquivo";
 import TextareaObservacao from "./TextareaObservacao";
 import {
-  useLazyEditarItemQuery,
   useLazyEditarPedidoQuery,
-  useLazyInserirItemPedidoQuery,
   useLazyInserirPedidoQuery,
 } from "@/redux/api/pedidoApi";
 import InputsHidden from "./InputsHidden";
 import { format } from "date-fns";
-import moment from "moment";
 
 function FormNovoPedido() {
   const [triggerInserirPedido] = useLazyInserirPedidoQuery();
-  const [triggerInserirItem] = useLazyInserirItemPedidoQuery();
   const [triggerEditarPedido] = useLazyEditarPedidoQuery();
-  const [triggerEditarItemPedido] = useLazyEditarItemQuery();
   const fullSchema = z.object({
     ...schema.shape,
     itens: z.array(schemaItem),
@@ -49,9 +38,7 @@ function FormNovoPedido() {
   const form = useForm<z.infer<typeof fullSchema>>({
     resolver: zodResolver(fullSchema),
     defaultValues: {
-      chave: format(new Date(), "yyMMddHHmmss"),
       consultor: "Leonardo",
-      data: moment(new Date(Date.now())).format("YYYY-MM-DD HH:mm"),
     },
   });
 
@@ -74,49 +61,12 @@ function FormNovoPedido() {
     });
 
     if (editar && editarItem) {
-      const observacoes = `${editar.observacoes} | ${values.observacoes}`;
-      const editadoPor = `${editar.editadoPor} | ${values.consultor}`;
-      const editadoEm = `${editar.editadoEm} | ${moment(
-        new Date(Date.now())
-      ).format("YYYY-MM-DD HH:mm")}`;
-      const editarPedido: IPedidoUpdate = {
-        id: editar.id,
-        consultor: values.consultor,
-        empresa: values.empresa,
-        cargoCliente: values.cargoCliente,
-        leadOrigem: values.leadOrigem,
-        leadData: format(values.leadData, "yyyy-MM-dd"),
-        cnpj: values.cnpj,
-        email: values.email,
-        status: values.status,
-        telefone1: values.telefone1,
-        telefone2: values.telefone2,
-        logradouro: values.logradouro,
-        numeroEndereco: values.numeroEndereco,
-        bairro: values.bairro,
-        complemento: values.complemento,
-        cep: values.cep,
-        cidade: values.cidade,
-        estado: values.estado,
-        transportadora: values.transportadora,
-        fretePreco: values.fretePreco,
-        nomeCliente: values.nomeCliente,
-        cpfCliente: values.cpfCliente,
-        categoriaGrupo,
-        observacoes,
-        emailLogin: values.emailLogin,
-        editadoPor,
-        editadoEm,
-      };
-      const editarItemPedido: IItemPedidoUpdate[] = [];
-      values.itens.forEach((item, index) => {
-        const editarItemId = editarItem[index]?.id;
-        const editadoPor = `${editarItem[index]?.editadoPor} | ${values.consultor}`;
-        const editadoEm = `${editarItem[index]?.editadoEm} | ${moment(
-          new Date(Date.now())
-        ).format("YYYY-MM-DD HH:mm")}`;
-        const itemPedido = {
-          id: editarItemId,
+      const observacoes = editar.observacoes
+        ? `${editar.observacoes} | ${values.consultor}: ${values.observacoes}`
+        : `${values.consultor}: ${values.observacoes}`;
+      const editarItemPedido: IItemPedidoRequest[] = [];
+      values.itens.forEach((item) => {
+        const itemPedido: IItemPedidoRequest = {
           categoria: item.categoria,
           produto: item.produto,
           preco: item.preco,
@@ -133,20 +83,11 @@ function FormNovoPedido() {
           vigenciaFim: item.vigenciaFim
             ? format(item.vigenciaFim, "yyyy-MM-dd")
             : undefined,
-          editadoPor,
-          editadoEm,
         };
         editarItemPedido.push(itemPedido);
       });
-      console.log(editarPedido);
-      console.log(editarItemPedido);
-      triggerEditarPedido(editarPedido);
-      triggerEditarItemPedido(editarItemPedido);
-    } else {
-      const observacoes = `<strong>${values.consultor}</strong>: ${values.observacoes}`;
-      const pedido: IPedidoRequest = {
-        chave: values.chave,
-        data: values.data,
+      const editarPedido: IPedidoCompleto = {
+        chave: editar.chave,
         consultor: values.consultor,
         empresa: values.empresa,
         cargoCliente: values.cargoCliente,
@@ -169,13 +110,16 @@ function FormNovoPedido() {
         nomeCliente: values.nomeCliente,
         cpfCliente: values.cpfCliente,
         categoriaGrupo,
-        observacoes,
+        observacoes: values.observacoes ? observacoes : undefined,
         emailLogin: values.emailLogin,
+        itens: editarItemPedido,
       };
+      triggerEditarPedido({ body: editarPedido, id: editar.id });
+    } else {
+      const observacoes = `${values.consultor}: ${values.observacoes}`;
       const itens: IItemPedidoRequest[] = [];
       values.itens.forEach((item) => {
         const itemPedido = {
-          chave: values.chave,
           categoria: item.categoria,
           produto: item.produto,
           preco: item.preco,
@@ -196,8 +140,34 @@ function FormNovoPedido() {
 
         itens.push(itemPedido);
       });
-      triggerInserirPedido(pedido);
-      triggerInserirItem(itens);
+      const pedidoCompleto: IPedidoCompleto = {
+        consultor: values.consultor,
+        empresa: values.empresa,
+        cargoCliente: values.cargoCliente,
+        leadOrigem: values.leadOrigem,
+        leadData: format(values.leadData, "yyyy-MM-dd"),
+        cnpj: values.cnpj,
+        email: values.email,
+        status: values.status,
+        telefone1: values.telefone1,
+        telefone2: values.telefone2,
+        logradouro: values.logradouro,
+        numeroEndereco: values.numeroEndereco,
+        bairro: values.bairro,
+        complemento: values.complemento,
+        cep: values.cep,
+        cidade: values.cidade,
+        estado: values.estado,
+        transportadora: values.transportadora,
+        fretePreco: values.fretePreco,
+        nomeCliente: values.nomeCliente,
+        cpfCliente: values.cpfCliente,
+        categoriaGrupo,
+        observacoes: values.observacoes ? observacoes : undefined,
+        emailLogin: values.emailLogin,
+        itens,
+      };
+      triggerInserirPedido(pedidoCompleto);
     }
   }
 

@@ -3,61 +3,66 @@ package com.leonardo.spring_sistema_de_pedidos.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import com.leonardo.spring_sistema_de_pedidos.dto.PedidoDTO;
+
+import com.leonardo.spring_sistema_de_pedidos.dto.ItemPedidoResponseDTO;
+import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
+import com.leonardo.spring_sistema_de_pedidos.dto.SaveAndUpdatePedidoDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.mapper.PedidoMapper;
+import com.leonardo.spring_sistema_de_pedidos.entities.ItemPedido;
 import com.leonardo.spring_sistema_de_pedidos.entities.Pedido;
+import com.leonardo.spring_sistema_de_pedidos.repositories.ItemPedidoRepository;
 import com.leonardo.spring_sistema_de_pedidos.repositories.PedidoRepository;
 
-import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 @Service
 public class PedidoService {
 
     private final PedidoRepository pedidoRepository;
+    private final ItemPedidoRepository itemPedidoRepository;
 
-    public PedidoService(PedidoRepository pedidoRepository) {
+    public PedidoService(PedidoRepository pedidoRepository, ItemPedidoRepository itemPedidoRepository) {
         this.pedidoRepository = pedidoRepository;
+        this.itemPedidoRepository = itemPedidoRepository;
     }
 
-    public List<PedidoDTO> findAll() {
-        return pedidoRepository.findAllByOrderByIdDesc().stream().map(PedidoMapper::toPedidoDTO)
+    public List<PedidoResponseDTO> findAll() {
+        return PedidoMapper.toPedidoList(pedidoRepository.findAllByOrderByIdDesc());
+    }
+
+    @Transactional
+    public SaveAndUpdatePedidoDTO save(SaveAndUpdatePedidoDTO pedidoCompleto) {
+        Pedido pedido = PedidoMapper.toPedidoCompletoResponse(pedidoCompleto);
+
+        for (ItemPedido itemPedido : pedido.getItens()) {
+            itemPedido.setPedido(pedido);
+            itemPedidoRepository.save(itemPedido);
+        }
+
+        pedidoRepository.save(pedido);
+        return PedidoMapper.toUpdate(pedido);
+    }
+
+    @Transactional
+    public SaveAndUpdatePedidoDTO update(SaveAndUpdatePedidoDTO updatePedido, Long id) {
+        ModelMapper modelMapper = new ModelMapper();
+        Pedido findPedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado!"));
+
+        modelMapper.map(updatePedido, findPedido);
+
+        List<ItemPedido> itens = updatePedido.getItens().stream()
+                .map(itemDto -> {
+                    ItemPedido item = modelMapper.map(itemDto, ItemPedido.class);
+                    item.setPedido(findPedido);
+                    return item;
+                })
                 .collect(Collectors.toList());
-    }
 
-    public PedidoDTO save(PedidoDTO novoPedido) {
-        return PedidoMapper.toPedidoDTO(pedidoRepository.save(PedidoMapper.toPedidoEntity(novoPedido)));
-    }
-
-    public PedidoDTO update(PedidoDTO pedidoDTO) {
-        Pedido pedido = pedidoRepository.findById(pedidoDTO.id())
-                .orElseThrow(() -> new EntityNotFoundException("Entidade não encontrada!"));
-        pedido.setEmpresa(pedidoDTO.empresa());
-        pedido.setConsultor(pedidoDTO.consultor());
-        pedido.setCargoCliente(pedidoDTO.cargoCliente());
-        pedido.setLeadOrigem(pedidoDTO.leadOrigem());
-        pedido.setLeadData(pedidoDTO.leadData());
-        pedido.setCnpj(pedidoDTO.cnpj());
-        pedido.setEmail(pedidoDTO.email());
-        pedido.setStatus(pedidoDTO.status());
-        pedido.setTelefone1(pedidoDTO.telefone1());
-        pedido.setTelefone2(pedidoDTO.telefone2());
-        pedido.setLogradouro(pedidoDTO.logradouro());
-        pedido.setNumeroEndereco(pedidoDTO.numeroEndereco());
-        pedido.setBairro(pedidoDTO.bairro());
-        pedido.setComplemento(pedidoDTO.complemento());
-        pedido.setCep(pedidoDTO.cep());
-        pedido.setCidade(pedidoDTO.cidade());
-        pedido.setEstado(pedidoDTO.estado());
-        pedido.setTransportadora(pedidoDTO.transportadora());
-        pedido.setFretePreco(pedidoDTO.fretePreco());
-        pedido.setNomeCliente(pedidoDTO.nomeCliente());
-        pedido.setCpfCliente(pedidoDTO.cpfCliente());
-        pedido.setCategoriaGrupo(pedidoDTO.categoriaGrupo());
-        pedido.setObservacoes(pedidoDTO.observacoes());
-        pedido.setEmailLogin(pedidoDTO.emailLogin());
-
-        Pedido novoPedido = pedidoRepository.save(pedido);
-        return PedidoMapper.toPedidoDTO(novoPedido);
+        findPedido.setItens(itens);
+        pedidoRepository.save(findPedido);
+        return PedidoMapper.toUpdate(findPedido);
     }
 }

@@ -93,6 +93,4 @@ export const schema = z.object({
   arquivos: z.any({}).optional(),
   observacoes: z.string({}).optional(),
   consultor: z.string({}),
-  data: z.coerce.string({}),
-  chave: z.string({}),
 });
