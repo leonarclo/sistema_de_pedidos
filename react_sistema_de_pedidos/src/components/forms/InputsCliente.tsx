@@ -51,6 +51,7 @@ function InputsCliente() {
       <FormField
         control={form.control}
         name="empresa"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>Empresa</FormLabel>
@@ -64,6 +65,7 @@ function InputsCliente() {
       <FormField
         control={form.control}
         name="cnpj"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>CNPJ</FormLabel>
@@ -77,6 +79,7 @@ function InputsCliente() {
       <FormField
         control={form.control}
         name="nomeCliente"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>Nome</FormLabel>
@@ -90,6 +93,7 @@ function InputsCliente() {
       <FormField
         control={form.control}
         name="cpfCliente"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>CPF</FormLabel>
@@ -103,6 +107,7 @@ function InputsCliente() {
       <FormField
         control={form.control}
         name="email"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>Email</FormLabel>
@@ -116,6 +121,7 @@ function InputsCliente() {
       <FormField
         control={form.control}
         name="telefone1"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>Telefone 1</FormLabel>
@@ -129,6 +135,7 @@ function InputsCliente() {
       <FormField
         control={form.control}
         name="telefone2"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>Telefone 2</FormLabel>
@@ -142,6 +149,7 @@ function InputsCliente() {
       <FormField
         control={form.control}
         name="emailLogin"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>Email Sistema</FormLabel>

@@ -20,8 +20,8 @@ export const schema = z.object({
     .min(3, "'Empresa' precisa conter pelo menos 3 letras"),
   cnpj: z.string().refine(
     (value) => {
-      const cnpjNumber = value.replace(/\D/g, "");
-      return cnpjNumber.length == 14;
+      const number = value.replace(/\D/g, "");
+      return number.length == 14;
     },
     { message: "O  CNPJ precisa conter 14 números" }
   ),
@@ -32,8 +32,8 @@ export const schema = z.object({
     .min(3, "'Nome' precisa conter pelo menos 3 letras"),
   cpfCliente: z.string().refine(
     (value) => {
-      const cnpjNumber = value.replace(/\D/g, "");
-      return cnpjNumber.length == 11;
+      const number = value.replace(/\D/g, "");
+      return number.length == 11;
     },
     { message: "O CPF precisa conter 11 números" }
   ),
@@ -42,11 +42,13 @@ export const schema = z.object({
       required_error: "Preencha o campo de 'Email'",
     })
     .email("Email inválido"),
-  telefone1: z
-    .string({
-      required_error: "Preencha o campo de 'Telefone 1'",
-    })
-    .min(13, "Número de telefone inválido"),
+  telefone1: z.string().refine(
+    (value) => {
+      const number = value.replace(/\D/g, "");
+      return number.length >= 10;
+    },
+    { message: "O Telefone precisa conter 10 ou 11 números" }
+  ),
   telefone2: z
     .string({
       required_error: "Preencha o campo de 'Telefone 2'",
@@ -55,8 +57,8 @@ export const schema = z.object({
   emailLogin: z.string({}).optional(),
   cep: z.string().refine(
     (value) => {
-      const cnpjNumber = value.replace(/\D/g, "");
-      return cnpjNumber.length == 8;
+      const number = value.replace(/\D/g, "");
+      return number.length == 8;
     },
     { message: "O CEP precisa conter 8 números" }
   ),
@@ -101,4 +103,14 @@ export const schema = z.object({
   arquivos: z.any({}).optional(),
   observacoes: z.string({}).optional(),
   consultor: z.string({}),
+  planilhaVendas: z.any().default(false).optional(),
+  licencaGerada: z.coerce.boolean().default(false).optional(),
+  assinatura: z.coerce.boolean().default(false).optional(),
+  chat: z.coerce.boolean().default(false).optional(),
+  posVenda: z.coerce.boolean().default(false).optional(),
+  notaFiscal: z.string({}).optional(),
+  unidadeNegocio: z.string({}).optional(),
+  previsaoEntrega: z.coerce.string({}).optional(),
+  numeroSerie: z.string({}).optional(),
+  codigoRastreio: z.string({}).optional(),
 });

@@ -26,6 +26,15 @@ export interface IPedido {
   categoriaGrupo: string;
   observacoes?: string;
   emailLogin?: string;
+  planilhaVendas?: string;
+  licencaGerada?: number;
+  assinatura?: number;
+  chat?: number;
+  posVenda?: number;
+  notaFiscal?: string;
+  unidadeNegocio?: string;
+  previsaoEntrega?: string;
+  codigoRastreio?: string;
 }
 
 export interface IItemPedido {
@@ -44,8 +53,6 @@ export interface IItemPedido {
   duracaoContrato?: string;
   vigenciaInicio?: string;
   vigenciaFim?: string;
-  editadoPor?: string;
-  editadoEm?: string;
 }
 
 export interface IArquivo {
@@ -95,5 +102,15 @@ export interface IPedidoCompleto {
   categoriaGrupo?: string;
   observacoes?: string;
   emailLogin?: string;
+  planilhaVendas?: string;
+  licencaGerada?: number;
+  assinatura?: number;
+  chat?: number;
+  posVenda?: number;
+  notaFiscal?: string;
+  unidadeNegocio?: string;
+  previsaoEntrega?: string;
+  numeroSerie?: string;
+  codigoRastreio?: string;
   itens: IItemPedidoRequest[];
 }

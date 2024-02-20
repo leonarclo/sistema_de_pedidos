@@ -36,6 +36,7 @@ function InputsEndereco() {
       form.setValue("bairro", data.neighborhood);
       form.setValue("cidade", data.city);
       form.setValue("estado", data.state);
+      form.clearErrors(["logradouro", "bairro", "cidade", "estado"]);
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -47,6 +48,7 @@ function InputsEndereco() {
       <FormField
         control={form.control}
         name="cep"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>CEP</FormLabel>
@@ -68,6 +70,7 @@ function InputsEndereco() {
       <FormField
         control={form.control}
         name="logradouro"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>Logradouro</FormLabel>
@@ -85,6 +88,7 @@ function InputsEndereco() {
       <FormField
         control={form.control}
         name="numeroEndereco"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>Número</FormLabel>
@@ -98,6 +102,7 @@ function InputsEndereco() {
       <FormField
         control={form.control}
         name="complemento"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>Complemento</FormLabel>
@@ -111,6 +116,7 @@ function InputsEndereco() {
       <FormField
         control={form.control}
         name="bairro"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>Bairro</FormLabel>
@@ -128,6 +134,7 @@ function InputsEndereco() {
       <FormField
         control={form.control}
         name="cidade"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>Cidade</FormLabel>
@@ -145,6 +152,7 @@ function InputsEndereco() {
       <FormField
         control={form.control}
         name="estado"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>Estado (UF)</FormLabel>
@@ -174,6 +182,7 @@ function InputsEndereco() {
       <FormField
         control={form.control}
         name="fretePreco"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>Frete (R$)</FormLabel>
@@ -187,6 +196,7 @@ function InputsEndereco() {
       <FormField
         control={form.control}
         name="transportadora"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>Transportadora</FormLabel>

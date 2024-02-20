@@ -21,6 +21,7 @@ import {
 } from "@/redux/api/pedidoApi";
 import InputsHidden from "./InputsHidden";
 import { format } from "date-fns";
+import InputsAdm from "./InputsAdm";
 
 function FormNovoPedido() {
   const [triggerInserirPedido] = useLazyInserirPedidoQuery();
@@ -114,6 +115,18 @@ function FormNovoPedido() {
         cpfCliente: values.cpfCliente,
         categoriaGrupo,
         observacoes: observacoes,
+        planilhaVendas: values.planilhaVendas == true ? "1" : "0",
+        licencaGerada: values.licencaGerada == true ? 1 : 0,
+        assinatura: values.assinatura == true ? 1 : 0,
+        chat: values.chat == true ? 1 : 0,
+        posVenda: values.posVenda == true ? 1 : 0,
+        notaFiscal: values.notaFiscal,
+        unidadeNegocio: values.unidadeNegocio,
+        previsaoEntrega: values.previsaoEntrega
+          ? format(values.previsaoEntrega, "yyyy-MM-dd")
+          : undefined,
+        numeroSerie: values.numeroSerie,
+        codigoRastreio: values.codigoRastreio,
         emailLogin: values.emailLogin,
         itens: editarItemPedido,
       };
@@ -172,6 +185,18 @@ function FormNovoPedido() {
         cpfCliente: values.cpfCliente,
         categoriaGrupo,
         observacoes: values.observacoes ? observacoes : undefined,
+        planilhaVendas: values.planilhaVendas == true ? "1" : "0",
+        licencaGerada: values.licencaGerada == true ? 1 : 0,
+        assinatura: values.assinatura == true ? 1 : 0,
+        chat: values.chat == true ? 1 : 0,
+        posVenda: values.posVenda == true ? 1 : 0,
+        notaFiscal: values.notaFiscal,
+        unidadeNegocio: values.unidadeNegocio,
+        previsaoEntrega: values.previsaoEntrega
+          ? format(values.previsaoEntrega, "yyyy-MM-dd")
+          : undefined,
+        numeroSerie: values.numeroSerie,
+        codigoRastreio: values.codigoRastreio,
         emailLogin: values.emailLogin,
         itens,
       };
@@ -186,6 +211,14 @@ function FormNovoPedido() {
         form.setValue(key, editar[key as keyof IPedido])
       );
       form.setValue("observacoes", "");
+      form.setValue(
+        "planilhaVendas",
+        editar.planilhaVendas == "1" ? true : false
+      );
+      form.setValue("licencaGerada", editar.licencaGerada == 1 ? true : false);
+      form.setValue("assinatura", editar.assinatura == 1 ? true : false);
+      form.setValue("chat", editar.chat == 1 ? true : false);
+      form.setValue("posVenda", editar.posVenda == 1 ? true : false);
     }
   }, [editar, form]);
 
@@ -209,6 +242,10 @@ function FormNovoPedido() {
             <hr />
             <div className="flex flex-wrap gap-6 justify-start items-center">
               <InputsItem />
+            </div>
+            <hr />
+            <div className="flex flex-wrap gap-6 justify-start items-center">
+              <InputsAdm />
             </div>
             <hr />
             <h4>Adicionar arquivo(s):</h4>

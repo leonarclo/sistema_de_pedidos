@@ -78,15 +78,14 @@ function InputsItem() {
 
   return (
     <div>
-      {itens.length < 1 && (
-        <div>
-          <div className="flex items-center justify-end p-2">
-            <Button className="border" onClick={() => append({})}>
-              Adicionar Item
-            </Button>
-          </div>
+      <div>
+        <div className="flex items-center justify-end p-2">
+          <Button className="border" onClick={() => append({})}>
+            Adicionar Item
+          </Button>
         </div>
-      )}
+      </div>
+
       {editando &&
         itens.map((_, index) => (
           <div
@@ -96,6 +95,7 @@ function InputsItem() {
             <FormField
               control={form.control}
               name={`itens.${index}.categoria`}
+              defaultValue=""
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Categoria</FormLabel>
@@ -122,6 +122,7 @@ function InputsItem() {
             <FormField
               control={form.control}
               name={`itens.${index}.produto`}
+              defaultValue=""
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Produto</FormLabel>
@@ -192,6 +193,7 @@ function InputsItem() {
             <FormField
               control={form.control}
               name={`itens.${index}.preco`}
+              defaultValue=""
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Preço Unitário (R$)</FormLabel>
@@ -205,6 +207,7 @@ function InputsItem() {
             <FormField
               control={form.control}
               name={`itens.${index}.quantidade`}
+              defaultValue=""
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Quantidade</FormLabel>
@@ -218,6 +221,7 @@ function InputsItem() {
             <FormField
               control={form.control}
               name={`itens.${index}.precoTotal`}
+              defaultValue=""
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Preço Total (R$)</FormLabel>
@@ -231,6 +235,7 @@ function InputsItem() {
             <FormField
               control={form.control}
               name={`itens.${index}.formaPagamento`}
+              defaultValue=""
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Forma de Pagamento</FormLabel>
@@ -244,6 +249,7 @@ function InputsItem() {
             <FormField
               control={form.control}
               name={`itens.${index}.vencimento1Boleto`}
+              defaultValue=""
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel className="pb-[6px]">
@@ -313,6 +319,7 @@ function InputsItem() {
                 <FormField
                   control={form.control}
                   name={`itens.${index}.valorMensal`}
+                  defaultValue=""
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Valor Mensal (R$)</FormLabel>
@@ -326,6 +333,7 @@ function InputsItem() {
                 <FormField
                   control={form.control}
                   name={`itens.${index}.duracaoContrato`}
+                  defaultValue=""
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Duração (Contrato)</FormLabel>
@@ -447,6 +455,7 @@ function InputsItem() {
               <FormField
                 control={form.control}
                 name={`itens.${index}.categoria` as const}
+                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Categoria</FormLabel>
@@ -473,6 +482,7 @@ function InputsItem() {
               <FormField
                 control={form.control}
                 name={`itens.${index}.produto`}
+                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Produto</FormLabel>
@@ -509,6 +519,7 @@ function InputsItem() {
               <FormField
                 control={form.control}
                 name={`itens.${index}.preco`}
+                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Preço Unitário (R$)</FormLabel>
@@ -522,6 +533,7 @@ function InputsItem() {
               <FormField
                 control={form.control}
                 name={`itens.${index}.quantidade`}
+                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Quantidade</FormLabel>
@@ -535,6 +547,7 @@ function InputsItem() {
               <FormField
                 control={form.control}
                 name={`itens.${index}.precoTotal`}
+                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Preço Total (R$)</FormLabel>
@@ -548,6 +561,7 @@ function InputsItem() {
               <FormField
                 control={form.control}
                 name={`itens.${index}.formaPagamento`}
+                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Forma de Pagamento</FormLabel>
@@ -606,6 +620,7 @@ function InputsItem() {
               <FormField
                 control={form.control}
                 name={`itens.${index}.tipoPagamento`}
+                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Pagamento</FormLabel>
@@ -642,6 +657,7 @@ function InputsItem() {
                   <FormField
                     control={form.control}
                     name={`itens.${index}.duracaoContrato`}
+                    defaultValue=""
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Duração (Contrato)</FormLabel>
