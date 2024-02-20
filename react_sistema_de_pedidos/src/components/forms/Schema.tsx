@@ -18,21 +18,25 @@ export const schema = z.object({
       required_error: "Preencha o campo de 'Empresa'",
     })
     .min(3, "'Empresa' precisa conter pelo menos 3 letras"),
-  cnpj: z
-    .string({
-      required_error: "Preencha o campo de 'CNPJ'",
-    })
-    .min(10, "CNPJ inválido"),
+  cnpj: z.string().refine(
+    (value) => {
+      const cnpjNumber = value.replace(/\D/g, "");
+      return cnpjNumber.length == 14;
+    },
+    { message: "O  CNPJ precisa conter 14 números" }
+  ),
   nomeCliente: z
     .string({
       required_error: "Preencha o campo de 'Nome'",
     })
     .min(3, "'Nome' precisa conter pelo menos 3 letras"),
-  cpfCliente: z
-    .string({
-      required_error: "Preencha o campo de 'CPF'",
-    })
-    .min(14, "CPF inválido"),
+  cpfCliente: z.string().refine(
+    (value) => {
+      const cnpjNumber = value.replace(/\D/g, "");
+      return cnpjNumber.length == 11;
+    },
+    { message: "O CPF precisa conter 11 números" }
+  ),
   email: z
     .string({
       required_error: "Preencha o campo de 'Email'",
@@ -49,9 +53,13 @@ export const schema = z.object({
     })
     .optional(),
   emailLogin: z.string({}).optional(),
-  cep: z
-    .string({ required_error: "Preencha o campo de 'CEP'" })
-    .min(8, "'CEP' precisa conter pelo menos 9 letras"),
+  cep: z.string().refine(
+    (value) => {
+      const cnpjNumber = value.replace(/\D/g, "");
+      return cnpjNumber.length == 8;
+    },
+    { message: "O CEP precisa conter 8 números" }
+  ),
   logradouro: z
     .string({
       required_error: "Preencha o campo de 'Logradouro'",

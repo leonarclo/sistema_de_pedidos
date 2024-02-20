@@ -46,7 +46,6 @@ public class PedidoService {
         return PedidoMapper.toUpdate(pedido);
     }
 
-    @SuppressWarnings("null")
     @Transactional
     public PedidoCompletoRequestDTO update(PedidoCompletoRequestDTO updatePedido, @NonNull Long id,
             @NonNull Long itemId) {

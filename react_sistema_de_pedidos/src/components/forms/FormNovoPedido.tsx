@@ -70,7 +70,6 @@ function FormNovoPedido() {
         itemId = editarItem[index].id;
         const funcionariosId = editarItem[index].numeroFuncionarios;
         const itemPedido: IItemPedidoRequest = {
-          chave: editar.chave,
           categoria: item.categoria,
           produto: item.produto,
           preco: item.preco,
@@ -92,7 +91,6 @@ function FormNovoPedido() {
         editarItemPedido.push(itemPedido);
       });
       const editarPedido: IPedidoCompleto = {
-        chave: editar.chave,
         consultor: values.consultor,
         empresa: values.empresa,
         cargoCliente: values.cargoCliente,

@@ -18,13 +18,11 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @Table(name = "co_pedidos")
@@ -37,24 +35,10 @@ public class Pedido implements Serializable {
     private Long id;
 
     @Column(name = "chave")
-    private String chave = setChave();
+    private String chave;
 
     @Column(name = "data")
-    private String data = setData();
-
-    public String setChave() {
-        String patternChave = "yyMMddHHmmss";
-        DateFormat fmtChave = new SimpleDateFormat(patternChave);
-        Date today = Calendar.getInstance().getTime();
-        return fmtChave.format(today);
-    }
-
-    public String setData() {
-        String patternDataEHora = "yyyy-MM-dd HH:mm";
-        DateFormat fmtData = new SimpleDateFormat(patternDataEHora);
-        Date today = Calendar.getInstance().getTime();
-        return fmtData.format(today);
-    }
+    private String data;
 
     @Column(name = "empresa")
     private String empresa;
@@ -84,7 +68,7 @@ public class Pedido implements Serializable {
     private String telefone1;
 
     @Column(name = "fone2")
-    private String telefone2 = "";
+    private String telefone2;
 
     @Column(name = "rua")
     private String logradouro;
@@ -96,7 +80,7 @@ public class Pedido implements Serializable {
     private String bairro;
 
     @Column(name = "complemento")
-    private String complemento = "";
+    private String complemento;
 
     @Column(name = "cep")
     private String cep;
@@ -108,10 +92,10 @@ public class Pedido implements Serializable {
     private String estado;
 
     @Column(name = "transportadora")
-    private String transportadora = "";
+    private String transportadora;
 
     @Column(name = "frete")
-    private String fretePreco = "";
+    private String fretePreco;
 
     @Column(name = "responsavel_nome")
     private String nomeCliente;
@@ -122,81 +106,53 @@ public class Pedido implements Serializable {
     @Column(name = "catgrupo")
     private String categoriaGrupo;
 
-    @Column(name = "categoria")
-    private String categoria = "";
-
-    @Column(name = "produto")
-    private String produto = "";
-
-    @Column(name = "preco")
-    private String preco = "";
-
-    @Column(name = "qtde")
-    private String qtde = "";
-
-    @Column(name = "precototal")
-    private String precoTotal = "";
-
-    @Column(name = "nfuncionarios")
-    private String nFuncionarios = "";
-
-    @Column(name = "valor_mensal")
-    private String valorMensal = "";
-
-    @Column(name = "forma_pgto")
-    private String formaPagamento = "";
-
-    @Column(name = "venc_1_boleto")
-    private String venc1Boleto = "";
-
-    @Column(name = "pagamentotipo")
-    private String pagamentoTipo = "";
-
-    @Column(name = "duracao")
-    private String duracao = "";
-
-    @Column(name = "vigenciain")
-    private String vigenciaIn = "";
-
-    @Column(name = "vigenciaout")
-    private String vigenciaOut = "";
-
     @Column(name = "planilhavendas")
-    private String planilhaVendas = "";
+    private String planilhaVendas;
 
     @Column(name = "licencagerada")
-    private Integer licencaGerada = 0;
+    private Integer licencaGerada;
 
     @Column(name = "assinatura")
-    private Integer assinatura = 0;
+    private Integer assinatura;
 
     @Column(name = "chat")
-    private Integer chat = 0;
+    private Integer chat;
 
     @Column(name = "posvenda")
-    private Integer posVenda = 0;
+    private Integer posVenda;
 
     @Column(name = "notafiscal")
-    private String notaFiscal = "";
+    private String notaFiscal;
 
     @Column(name = "unidadenegocio")
-    private String unidadeNegocio = "";
+    private String unidadeNegocio;
 
     @Column(name = "previsaoentrega")
-    private String previsaoEntrega = "";
+    private String previsaoEntrega;
 
     @Column(name = "numeroserie")
-    private String numeroSerie = "";
+    private String numeroSerie;
 
     @Column(name = "codigorastreio")
-    private String codigoRastreio = "";
+    private String codigoRastreio;
 
     @Column(name = "obs")
-    private String observacoes = "";
+    private String observacoes;
 
     @Column(name = "emaillogin")
-    private String emailLogin = "";
+    private String emailLogin;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens;
+
+    public Pedido() {
+        this.chave = generateChave();
+    }
+
+    private static String generateChave() {
+        String patternChave = "yyMMddHHmmss";
+        DateFormat fmtChave = new SimpleDateFormat(patternChave);
+        Date today = Calendar.getInstance().getTime();
+        return fmtChave.format(today);
+    }
 }

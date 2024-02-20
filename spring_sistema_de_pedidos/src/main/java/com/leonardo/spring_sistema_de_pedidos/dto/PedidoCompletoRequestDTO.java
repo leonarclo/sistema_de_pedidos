@@ -1,20 +1,20 @@
 package com.leonardo.spring_sistema_de_pedidos.dto;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class PedidoCompletoRequestDTO {
-        private String chave;
+        private String data;
         private String empresa;
         private String consultor;
         private String cargoCliente;
@@ -37,7 +37,6 @@ public class PedidoCompletoRequestDTO {
         private String nomeCliente;
         private String cpfCliente;
         private String categoriaGrupo;
-        private String categoria;
         private String planilhaVendas;
         private Integer licencaGerada;
         private Integer assinatura;
@@ -51,4 +50,30 @@ public class PedidoCompletoRequestDTO {
         private String observacoes;
         private String emailLogin;
         private List<ItemPedidoRequestDTO> itens;
+
+        public PedidoCompletoRequestDTO() {
+                this.data = getCurrentDateTimeAsString();
+                this.telefone2 = telefone2 != null ? telefone2 : "";
+                this.complemento = complemento != null ? complemento : "";
+                this.transportadora = transportadora != null ? transportadora : "";
+                this.fretePreco = fretePreco != null ? fretePreco : "";
+                this.planilhaVendas = planilhaVendas != null ? planilhaVendas : "";
+                this.licencaGerada = licencaGerada != null ? licencaGerada : 0;
+                this.assinatura = assinatura != null ? assinatura : 0;
+                this.chat = chat != null ? chat : 0;
+                this.posVenda = posVenda != null ? posVenda : 0;
+                this.notaFiscal = notaFiscal != null ? notaFiscal : "";
+                this.unidadeNegocio = unidadeNegocio != null ? unidadeNegocio : "";
+                this.previsaoEntrega = previsaoEntrega != null ? previsaoEntrega : "";
+                this.numeroSerie = numeroSerie != null ? numeroSerie : "";
+                this.codigoRastreio = codigoRastreio != null ? codigoRastreio : "";
+                this.observacoes = observacoes != null ? observacoes : "";
+                this.emailLogin = emailLogin != null ? emailLogin : "";
+        }
+
+        private static String getCurrentDateTimeAsString() {
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                return currentDateTime.format(formatter);
+        }
 }

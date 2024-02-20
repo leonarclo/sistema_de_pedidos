@@ -1,5 +1,8 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,13 +15,11 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @Table(name = "co_itens")
@@ -34,14 +35,7 @@ public class ItemPedido {
     private Pedido pedido;
 
     @Column(name = "chaveb")
-    private String chave = getChaveb();
-
-    public String getChaveb() {
-        if (pedido != null) {
-            return pedido.getChave();
-        }
-        return "";
-    }
+    private String chave;
 
     @Column(name = "categoria")
     private String categoria;
@@ -59,10 +53,10 @@ public class ItemPedido {
     private String precoTotal;
 
     @Column(name = "nfuncionarios")
-    private String numeroFuncionarios = "";
+    private String numeroFuncionarios;
 
     @Column(name = "valor_mensal")
-    private String valorMensal = "";
+    private String valorMensal;
 
     @Column(name = "forma_pgto")
     private String formaPagamento;
@@ -74,11 +68,20 @@ public class ItemPedido {
     private String tipoPagamento;
 
     @Column(name = "duracao")
-    private String duracaoContrato = "";
+    private String duracaoContrato;
 
     @Column(name = "vigenciain")
-    private String vigenciaInicio = "";
+    private String vigenciaInicio;
 
     @Column(name = "vigenciaout")
-    private String vigenciaFim = "";
+    private String vigenciaFim;
+
+    public ItemPedido() {
+        this.chave = generateChave();
+    }
+
+    private String generateChave() {
+        LocalDateTime now = LocalDateTime.now();
+        return now.format(DateTimeFormatter.ofPattern("yyMMddHHmmss"));
+    }
 }
