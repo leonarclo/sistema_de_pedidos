@@ -103,7 +103,7 @@ export const schema = z.object({
   arquivos: z.any({}).optional(),
   observacoes: z.string({}).optional(),
   consultor: z.string({}),
-  planilhaVendas: z.any().default(false).optional(),
+  planilhaVendas: z.boolean().default(false).optional(),
   licencaGerada: z.coerce.boolean().default(false).optional(),
   assinatura: z.coerce.boolean().default(false).optional(),
   chat: z.coerce.boolean().default(false).optional(),

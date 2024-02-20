@@ -22,7 +22,7 @@ function InfoPedido() {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="bg-white min-w-[75vw] m-2">
+      <DialogContent className="bg-white min-w-[75vw] m-2 overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>Pedido: {pedido?.id}</DialogTitle>
         </DialogHeader>
@@ -292,7 +292,7 @@ function InfoPedido() {
           )}
         </div>
         <div className="mt-4">
-          <p>Arquivos: </p>
+          <p>Arquivos:</p>
           {arquivos.map((item) => (
             <a
               key={item.id}
@@ -304,10 +304,64 @@ function InfoPedido() {
           ))}
         </div>
         <div className="mt-4">
+          <p>Administrativo:</p>
+          <div className="flex flex-row gap-10">
+            <p>
+              <span className="text-blue-600 text-sm">Planilha de Vendas:</span>{" "}
+              <br />
+              {pedido?.planilhaVendas}
+            </p>
+            <p>
+              <span className="text-blue-600 text-sm">Licença Gerada:</span>{" "}
+              <br />
+              {pedido?.licencaGerada}
+            </p>
+            <p>
+              <span className="text-blue-600 text-sm">Assinatura:</span> <br />
+              {pedido?.assinatura}
+            </p>
+            <p>
+              <span className="text-blue-600 text-sm">Chat:</span> <br />
+              {pedido?.chat}
+            </p>
+            <p>
+              <span className="text-blue-600 text-sm">Pós-venda:</span> <br />
+              {pedido?.posVenda}
+            </p>
+          </div>
+          <div className="flex flex-row gap-10">
+            <p>
+              <span className="text-blue-600 text-sm">Nota Fiscal:</span> <br />
+              {pedido?.notaFiscal}
+            </p>
+            <p>
+              <span className="text-blue-600 text-sm">Unidade de Negócio:</span>{" "}
+              <br />
+              {pedido?.unidadeNegocio}
+            </p>
+            <p>
+              <span className="text-blue-600 text-sm">
+                Previsao de Entrega:
+              </span>{" "}
+              <br />
+              {pedido?.previsaoEntrega}
+            </p>
+            <p>
+              <span className="text-blue-600 text-sm">Código de Rastreio:</span>{" "}
+              <br />
+              {pedido?.codigoRastreio}
+            </p>
+            <p>
+              <span className="text-blue-600 text-sm">Números de Série:</span>{" "}
+              <br />
+              {pedido?.numeroSerie}
+            </p>
+          </div>
+        </div>
+        <div className="mt-4">
           <p>
             <span className="text-blue-600 text-sm">Observações:</span>
             <br />
-            {pedido?.editadoPor ?? ""} ({pedido?.editadoEm ?? ""}):{" "}
             {pedido?.observacoes ?? ""}
           </p>
         </div>

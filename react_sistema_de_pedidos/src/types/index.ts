@@ -34,6 +34,7 @@ export interface IPedido {
   notaFiscal?: string;
   unidadeNegocio?: string;
   previsaoEntrega?: string;
+  numeroSerie?: string;
   codigoRastreio?: string;
 }
 
@@ -58,6 +59,10 @@ export interface IItemPedido {
 export interface IArquivo {
   id: number;
   chave: string;
+  arquivo: string;
+}
+
+export interface IArquivoRequest {
   arquivo: string;
 }
 
@@ -113,4 +118,5 @@ export interface IPedidoCompleto {
   numeroSerie?: string;
   codigoRastreio?: string;
   itens: IItemPedidoRequest[];
+  arquivos?: string[];
 }

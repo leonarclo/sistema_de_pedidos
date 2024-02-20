@@ -37,30 +37,37 @@ function InputArquivo() {
   const form = useFormContext();
 
   function handleOnDrop(acceptedFiles: FileList | null) {
-    if (acceptedFiles && acceptedFiles.length > 0) {
-      const allowedTypes = ["image/*", "application/pdf"];
-      const isValidFiles = Array.from(acceptedFiles).every((file) =>
-        allowedTypes.some((type) => file.type.startsWith(type))
-      );
-
-      if (isValidFiles) {
-        form.setValue("arquivos", [
-          ...(form.getValues("arquivos") || []),
-          ...acceptedFiles,
-        ]);
-        form.clearErrors("arquivos");
-      } else {
-        form.setError("arquivos", {
-          message: "Apenas imagens e arquivos PDF são permitidos.",
-          type: "typeError",
-        });
-      }
-    } else {
+    if (!acceptedFiles || acceptedFiles.length === 0) {
       form.setError("arquivos", {
         message: "Adicione pelo menos um arquivo.",
         type: "typeError",
       });
+      return;
     }
+
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "application/pdf",
+    ];
+    const isValidFiles = Array.from(acceptedFiles).every((file) =>
+      allowedTypes.some((type) => file.type.startsWith(type))
+    );
+
+    if (!isValidFiles) {
+      form.setError("arquivos", {
+        message:
+          "Apenas imagens (JPG, PNG, GIF) e arquivos PDF são permitidos.",
+        type: "typeError",
+      });
+      return;
+    }
+
+    const currentFiles = form.getValues("arquivos") || [];
+    const updatedFiles = [...currentFiles, ...acceptedFiles];
+    form.setValue("arquivos", updatedFiles);
+    form.clearErrors("arquivos");
   }
 
   function removeFile(index: number) {

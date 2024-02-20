@@ -35,36 +35,47 @@ function FormNovoPedido() {
     (state) => state.editarPedidoState.editarPedido
   );
   const editarItem = useAppSelector((state) => state.itensPedidoState.itens);
+  const arquivos = useAppSelector((state) => state.arquivosState.arquivos);
 
   const form = useForm<z.infer<typeof fullSchema>>({
     resolver: zodResolver(fullSchema),
     defaultValues: {
       consultor: "Leonardo",
+      leadOrigem: "",
+      itens: [],
     },
+    context: "pedido",
   });
 
+  useEffect(() => {
+    console.log(form.getValues("arquivos"));
+  }, [form]);
+
   function onSubmit(values: z.infer<typeof fullSchema>) {
-    let categoriaGrupo;
-    let venda = false;
-    let contrato = false;
-    values.itens.forEach((item) => {
-      if (item.categoria == "Venda") {
-        venda = true;
-        categoriaGrupo = "Venda";
-      }
-      if (item.categoria == "Contrato") {
-        contrato = true;
-        categoriaGrupo = "Contrato";
-      }
-      if (venda == true && contrato == true) {
-        categoriaGrupo = "Venda + Contrato";
-      }
-    });
+    // let categoriaGrupo;
+    // let venda = false;
+    // let contrato = false;
+    // values.itens.forEach((item) => {
+    //   if (item.categoria == "Venda") {
+    //     venda = true;
+    //     categoriaGrupo = "Venda";
+    //   }
+    //   if (item.categoria == "Contrato") {
+    //     contrato = true;
+    //     categoriaGrupo = "Contrato";
+    //   }
+    //   if (venda == true && contrato == true) {
+    //     categoriaGrupo = "Venda + Contrato";
+    //   }
+    // });
 
     if (editar && editarItem) {
-      const observacoes = editar.observacoes
-        ? `${editar.observacoes} | ${values.consultor}: ${values.observacoes}`
-        : `${values.consultor}: ${values.observacoes}`;
+      const observacoes =
+        values.observacoes && values.observacoes != ""
+          ? editar.observacoes && editar.observacoes != ""
+            ? `${editar.observacoes} | ${values.consultor} : ${values.observacoes}`
+            : `${values.consultor}: ${values.observacoes}`
+          : "";
       let itemId;
       const editarItemPedido: IItemPedidoRequest[] = [];
       values.itens.forEach((item, index) => {
@@ -91,6 +102,17 @@ function FormNovoPedido() {
         };
         editarItemPedido.push(itemPedido);
       });
+
+      const fileNames = [];
+      arquivos.forEach((arquivo) => {
+        fileNames.push(arquivo.arquivo);
+      });
+      if (values.arquivos) {
+        for (let i = 0; i < values.arquivos.length; i++) {
+          fileNames.push(values.arquivos[i].name);
+        }
+      }
+
       const editarPedido: IPedidoCompleto = {
         consultor: values.consultor,
         empresa: values.empresa,
@@ -113,7 +135,6 @@ function FormNovoPedido() {
         fretePreco: values.fretePreco,
         nomeCliente: values.nomeCliente,
         cpfCliente: values.cpfCliente,
-        categoriaGrupo,
         observacoes: observacoes,
         planilhaVendas: values.planilhaVendas == true ? "1" : "0",
         licencaGerada: values.licencaGerada == true ? 1 : 0,
@@ -129,6 +150,7 @@ function FormNovoPedido() {
         codigoRastreio: values.codigoRastreio,
         emailLogin: values.emailLogin,
         itens: editarItemPedido,
+        arquivos: fileNames,
       };
       console.log(editarPedido);
       triggerEditarPedido({
@@ -137,7 +159,10 @@ function FormNovoPedido() {
         itemId,
       });
     } else {
-      const observacoes = `${values.consultor}: ${values.observacoes}`;
+      const observacoes =
+        values.observacoes && values.observacoes != ""
+          ? `${values.consultor}: ${values.observacoes}`
+          : "";
       const itens: IItemPedidoRequest[] = [];
       values.itens.forEach((item) => {
         const itemPedido = {
@@ -161,6 +186,14 @@ function FormNovoPedido() {
 
         itens.push(itemPedido);
       });
+
+      const fileNames = [];
+      if (values.arquivos) {
+        for (let i = 0; i < values.arquivos.length; i++) {
+          fileNames.push(values.arquivos[i].name);
+        }
+      }
+
       const pedidoCompleto: IPedidoCompleto = {
         consultor: values.consultor,
         empresa: values.empresa,
@@ -183,7 +216,6 @@ function FormNovoPedido() {
         fretePreco: values.fretePreco,
         nomeCliente: values.nomeCliente,
         cpfCliente: values.cpfCliente,
-        categoriaGrupo,
         observacoes: values.observacoes ? observacoes : undefined,
         planilhaVendas: values.planilhaVendas == true ? "1" : "0",
         licencaGerada: values.licencaGerada == true ? 1 : 0,
@@ -199,6 +231,7 @@ function FormNovoPedido() {
         codigoRastreio: values.codigoRastreio,
         emailLogin: values.emailLogin,
         itens,
+        arquivos: fileNames,
       };
       console.log(pedidoCompleto);
       triggerInserirPedido(pedidoCompleto);
@@ -244,20 +277,22 @@ function FormNovoPedido() {
               <InputsItem />
             </div>
             <hr />
-            <div className="flex flex-wrap gap-6 justify-start items-center">
-              <InputsAdm />
-            </div>
+            {editar ? (
+              <div className="flex flex-wrap gap-6 justify-start items-center">
+                <InputsAdm />
+              </div>
+            ) : null}
             <hr />
             <h4>Adicionar arquivo(s):</h4>
             <div className="flex flex-wrap justify-start items-center">
               <InputArquivo />
             </div>
             <div className="flex flex-col flex-wrap justify-center items-start w-[50%]">
-              {editar && (
+              {editar ? (
                 <div className="mb-4">
                   <p>{editar.observacoes}</p>
                 </div>
-              )}
+              ) : null}
               <TextareaObservacao />
             </div>
           </div>
