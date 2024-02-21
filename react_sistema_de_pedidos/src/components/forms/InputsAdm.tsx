@@ -140,7 +140,7 @@ function InputsAdm() {
         name="previsaoEntrega"
         render={({ field }) => (
           <FormItem className="flex flex-col">
-            <FormLabel className="pb-[6px]">Previsão de Entrega:</FormLabel>
+            <FormLabel className="pb-[5px]">Previsão de Entrega:</FormLabel>
             <Popover modal={true}>
               <PopoverTrigger asChild>
                 <FormControl>

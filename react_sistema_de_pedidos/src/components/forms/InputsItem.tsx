@@ -80,7 +80,13 @@ function InputsItem() {
     <div>
       <div>
         <div className="flex items-center justify-end p-2">
-          <Button className="border" onClick={() => append({})}>
+          <Button
+            className="border bg-blue-500 text-white hover:bg-blue-700"
+            onClick={(e) => {
+              e.preventDefault();
+              append({});
+            }}
+          >
             Adicionar Item
           </Button>
         </div>
@@ -252,7 +258,7 @@ function InputsItem() {
               defaultValue=""
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel className="pb-[6px]">
+                  <FormLabel className="pb-[5px] mt-1">
                     Vencimento do 1 Boleto
                   </FormLabel>
                   <Popover modal={true}>
@@ -261,7 +267,7 @@ function InputsItem() {
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
+                            "min-w-[200px] flex h-8 w-full border border-zinc-400 bg-background px-3 py-2",
                             !field.value && "text-muted-foreground"
                           )}
                         >
@@ -360,7 +366,7 @@ function InputsItem() {
                   name={`itens.${index}.vigenciaInicio`}
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel className="pb-[6px]">
+                      <FormLabel className="pb-[5px] mt-1">
                         Vigência (Início)
                       </FormLabel>
                       <Popover modal={true}>
@@ -369,7 +375,7 @@ function InputsItem() {
                             <Button
                               variant={"outline"}
                               className={cn(
-                                "w-[240px] pl-3 text-left font-normal",
+                                "min-w-[200px] flex h-8 w-full border border-zinc-400 bg-background px-3 py-2",
                                 !field.value && "text-muted-foreground"
                               )}
                             >
@@ -405,14 +411,16 @@ function InputsItem() {
                   name={`itens.${index}.vigenciaFim`}
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel className="pb-[6px]">Vigência (Fim)</FormLabel>
+                      <FormLabel className="pb-[5px] mt-1">
+                        Vigência (Fim)
+                      </FormLabel>
                       <Popover modal={true}>
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
                               variant={"outline"}
                               className={cn(
-                                "w-[240px] pl-3 text-left font-normal",
+                                "min-w-[200px] flex h-8 w-full border border-zinc-400 bg-background px-3 py-2",
                                 !field.value && "text-muted-foreground"
                               )}
                             >
@@ -577,7 +585,7 @@ function InputsItem() {
                 name={`itens.${index}.vencimento1Boleto`}
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel className="pb-[6px]">
+                    <FormLabel className="pb-[5px] mt-1">
                       Vencimento do 1 Boleto
                     </FormLabel>
                     <Popover modal={true}>
@@ -586,7 +594,7 @@ function InputsItem() {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "w-[240px] pl-3 text-left font-normal",
+                              "min-w-[200px] flex h-8 w-full border border-zinc-400 bg-background px-3 py-2",
                               !field.value && "text-muted-foreground"
                             )}
                           >
@@ -684,7 +692,7 @@ function InputsItem() {
                     name={`itens.${index}.vigenciaInicio`}
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel className="pb-[6px]">
+                        <FormLabel className="pb-[5px] mt-1">
                           Vigência (Início)
                         </FormLabel>
                         <Popover modal={true}>
@@ -693,7 +701,7 @@ function InputsItem() {
                               <Button
                                 variant={"outline"}
                                 className={cn(
-                                  "w-[240px] pl-3 text-left font-normal",
+                                  "min-w-[200px] flex h-8 w-full border border-zinc-400 bg-background px-3 py-2",
                                   !field.value && "text-muted-foreground"
                                 )}
                               >
@@ -729,7 +737,7 @@ function InputsItem() {
                     name={`itens.${index}.vigenciaFim`}
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel className="pb-[6px]">
+                        <FormLabel className="pb-[5px] mt-1">
                           Vigência (Fim)
                         </FormLabel>
                         <Popover modal={true}>
@@ -738,7 +746,7 @@ function InputsItem() {
                               <Button
                                 variant={"outline"}
                                 className={cn(
-                                  "w-[240px] pl-3 text-left font-normal",
+                                  "min-w-[200px] flex h-8 w-full border border-zinc-400 bg-background px-3 py-2",
                                   !field.value && "text-muted-foreground"
                                 )}
                               >
@@ -771,11 +779,20 @@ function InputsItem() {
                   />
                 </>
               )}
-              <div className="flex items-center justify-end p-2">
-                <Button className="border" onClick={() => remove(index)}>
-                  Remover Item
-                </Button>
-              </div>
+            </div>
+            <div className="flex items-center justify-end p-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                className=" bg-red-400 rounded text-white hover:text-white hover:bg-red-500"
+                onClick={(e) => {
+                  e.preventDefault();
+                  remove(index);
+                }}
+                disabled={fields.length < 2}
+              >
+                Remover Item
+              </Button>
             </div>
             <hr />
           </div>

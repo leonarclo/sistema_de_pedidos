@@ -70,14 +70,14 @@ function InputsDetalhes() {
         name="leadData"
         render={({ field }) => (
           <FormItem className="flex flex-col">
-            <FormLabel className="pb-[6px]">Data Lead</FormLabel>
+            <FormLabel className="pb-[4px] mt-1">Data Lead</FormLabel>
             <Popover modal={true}>
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "w-[240px] pl-3 text-left font-normal",
+                      "min-w-[200px] flex h-8 w-full border border-zinc-400 bg-background px-3 py-2",
                       !field.value && "text-muted-foreground"
                     )}
                   >
