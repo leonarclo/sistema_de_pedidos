@@ -80,7 +80,7 @@ function InputsItem() {
         form.setValue(`itens.${index}.precoTotal`, formattedTotal);
       }
     });
-  }, [fields, form]);
+  }, [fields, itens, form]);
 
   useEffect(() => {
     if (editando) {

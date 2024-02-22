@@ -1,7 +1,6 @@
 package com.leonardo.spring_sistema_de_pedidos.dto;
 
 import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -15,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class UsuarioDTO implements Serializable {
+public class UsuarioResponseDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
@@ -23,7 +22,6 @@ public class UsuarioDTO implements Serializable {
     private String nomeCompleto;
     private String departamento;
     private String email;
-    private String password;
     private Integer nivel;
     private Integer fator;
 }

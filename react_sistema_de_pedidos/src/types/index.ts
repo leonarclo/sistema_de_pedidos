@@ -120,3 +120,23 @@ export interface IPedidoCompleto {
   itens: IItemPedidoRequest[];
   arquivos?: string[];
 }
+
+export interface IUsuario {
+  id: number;
+  usuario: string;
+  nomeCompleto: string;
+  departamento: string;
+  email: string;
+  nivel: number;
+  fator: number;
+}
+
+export interface IUsuarioRequest {
+  usuario: string;
+  senha: string;
+  nomeCompleto: string;
+  departamento: string;
+  email: string;
+  nivel: number;
+  fator: number;
+}
