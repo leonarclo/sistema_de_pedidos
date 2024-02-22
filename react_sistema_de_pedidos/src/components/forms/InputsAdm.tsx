@@ -140,14 +140,16 @@ function InputsAdm() {
         name="previsaoEntrega"
         render={({ field }) => (
           <FormItem className="flex flex-col">
-            <FormLabel className="pb-[5px]">Previsão de Entrega:</FormLabel>
+            <FormLabel className="pb-[5px] mt-1">
+              Previsão de Entrega:
+            </FormLabel>
             <Popover modal={true}>
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "w-[240px] pl-3 text-left font-normal",
+                      "min-w-[200px] flex h-8 w-full border border-zinc-400 bg-background px-3 py-2",
                       !field.value && "text-muted-foreground"
                     )}
                   >

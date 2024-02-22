@@ -276,13 +276,15 @@ function FormNovoPedido() {
             <div className="flex flex-wrap gap-6 justify-start items-center">
               <InputsItem />
             </div>
-            <hr />
             {editar ? (
-              <div className="flex flex-wrap gap-6 justify-start items-center">
-                <InputsAdm />
-              </div>
+              <>
+                <hr />
+                <div className="flex flex-wrap gap-6 justify-start items-center">
+                  <InputsAdm />
+                </div>
+                <hr />
+              </>
             ) : null}
-            <hr />
             <h4>Adicionar arquivo(s):</h4>
             <div className="flex flex-wrap justify-start items-center">
               <InputArquivo />

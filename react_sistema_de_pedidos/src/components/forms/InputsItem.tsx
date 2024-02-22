@@ -46,6 +46,23 @@ function InputsItem() {
   }, [append, itens, itens.length]);
 
   useEffect(() => {
+    itens.forEach((_, index) => {
+      const precoUnitario = form.watch(`itens.${index}.preco`);
+      const quantidade = form.watch(`itens.${index}.quantidade`);
+
+      if (precoUnitario && quantidade) {
+        const precoUnitarioFloat = parseFloat(
+          precoUnitario.replace(/[^\d,-]/g, "").replace(",", ".")
+        );
+        const total = precoUnitarioFloat * quantidade;
+
+        const formattedTotal = total
+          .toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
+          .replace("R$", "")
+          .trim();
+        form.setValue(`itens.${index}.precoTotal`, formattedTotal);
+      }
+    });
     fields.forEach((_, index) => {
       const precoUnitario = form.watch(`itens.${index}.preco`);
       const quantidade = form.watch(`itens.${index}.quantidade`);
@@ -78,19 +95,21 @@ function InputsItem() {
 
   return (
     <div>
-      <div>
-        <div className="flex items-center justify-end p-2">
-          <Button
-            className="border bg-blue-500 text-white hover:bg-blue-700"
-            onClick={(e) => {
-              e.preventDefault();
-              append({});
-            }}
-          >
-            Adicionar Item
-          </Button>
+      {itens.length < 1 ? (
+        <div>
+          <div className="flex items-center justify-end p-2">
+            <Button
+              className="border bg-blue-500 text-white hover:bg-blue-700"
+              onClick={(e) => {
+                e.preventDefault();
+                append({});
+              }}
+            >
+              Adicionar Item
+            </Button>
+          </div>
         </div>
-      </div>
+      ) : null}
 
       {editando &&
         itens.map((_, index) => (

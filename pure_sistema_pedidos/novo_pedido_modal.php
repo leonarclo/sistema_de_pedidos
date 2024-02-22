@@ -190,7 +190,6 @@
                             const itemBlock = document.querySelector('.item-block');
                             const newItemBlock = itemBlock.cloneNode(true);
                             itemContainer.appendChild(newItemBlock);
-                            console.log(itemContainer.children.length);
                             updateRemoveButtonState();
                         }
 
