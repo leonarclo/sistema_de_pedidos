@@ -1,7 +1,5 @@
 package com.leonardo.spring_sistema_de_pedidos.dto;
 
-import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioRequestDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class LoginDTO {
     private String usuario;
-    private String nomeCompleto;
-    private String departamento;
-    private String email;
     private String password;
-    private Integer nivel;
 }

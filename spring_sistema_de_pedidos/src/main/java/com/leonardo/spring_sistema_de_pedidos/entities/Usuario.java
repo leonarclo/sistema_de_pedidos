@@ -1,6 +1,12 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,8 +27,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Table(name = "co_acesso")
-public class Usuario implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,4 +54,50 @@ public class Usuario implements Serializable {
 
     @Column(name = "fator")
     private Integer fator;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        switch (this.nivel) {
+            case 9:
+                return List.of(new SimpleGrantedAuthority("9"), new SimpleGrantedAuthority("7"),
+                        new SimpleGrantedAuthority("5"), new SimpleGrantedAuthority("1"));
+            case 7:
+                return List.of(new SimpleGrantedAuthority("7"), new SimpleGrantedAuthority("5"),
+                        new SimpleGrantedAuthority("1"));
+            case 5:
+                return List.of(new SimpleGrantedAuthority("5"), new SimpleGrantedAuthority("1"));
+            case 1:
+                return List.of(new SimpleGrantedAuthority("1"));
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public String getUsername() {
+        return usuario;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        if (this.nivel != 0) {
+            return true;
+        }
+        return false;
+    }
 }
