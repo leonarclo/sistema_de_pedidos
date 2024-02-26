@@ -1,8 +1,6 @@
 package com.leonardo.spring_sistema_de_pedidos.controllers;
 
 import java.util.List;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,12 +26,6 @@ public class UsuarioController {
     public ResponseEntity<List<UsuarioResponseDTO>> findAll() {
         List<UsuarioResponseDTO> usuarios = usuarioService.findAll();
         return ResponseEntity.ok(usuarios);
-    }
-
-    @PostMapping("/inserir-usuario")
-    public ResponseEntity<UsuarioResponseDTO> save(@RequestBody UsuarioRequestDTO novoUser) {
-        UsuarioResponseDTO usuario = usuarioService.save(novoUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 
     @PostMapping("/editar-usuario/{id}")

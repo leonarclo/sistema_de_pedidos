@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.leonardo.spring_sistema_de_pedidos.dto.UsuarioRequestDTO;
@@ -25,10 +26,6 @@ public class UsuarioService {
         return UsuarioMapper.toUserList(usuarioRepository.findAllByOrderByIdDesc());
     }
 
-    public UsuarioResponseDTO save(UsuarioRequestDTO novoUser) {
-        return UsuarioMapper.toUserResponse(usuarioRepository.save(UsuarioMapper.toUserRequest(novoUser)));
-    }
-
     public UsuarioResponseDTO update(UsuarioRequestDTO updateUser, Long id) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
@@ -37,7 +34,13 @@ public class UsuarioService {
         Usuario findUser = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
 
+        String hashedPassword = new BCryptPasswordEncoder().encode(updateUser.getPassword());
         UsuarioResponseDTO userUpdated = UsuarioMapper.toUserResponse(findUser);
+        if (updateUser.getPassword() == "" || updateUser.getPassword() == null) {
+            updateUser.setPassword(findUser.getPassword());
+        } else {
+            updateUser.setPassword(hashedPassword);
+        }
         modelMapper.map(updateUser, findUser);
         usuarioRepository.save(findUser);
         return userUpdated;

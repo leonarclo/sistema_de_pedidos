@@ -29,15 +29,11 @@ public class PedidoController {
 
     @GetMapping("/buscar-pedidos")
     public ResponseEntity<List<PedidoResponseDTO>> findAll(
-            @RequestParam(name = "consultor", required = false) String consultor) {
+            @RequestParam(name = "consultor", required = false) String consultor,
+            @RequestParam(name = "consultorId", required = false) Integer consultorId) {
         return ResponseEntity
-                .ok(consultor == null ? pedidoService.findAll() : pedidoService.findByConsultor(consultor));
-    }
-
-    @GetMapping("/buscar-meus-pedidos")
-    public ResponseEntity<List<PedidoResponseDTO>> findByConsultor(@RequestParam(name = "consultor") String consultor) {
-        List<PedidoResponseDTO> meusPedidos = pedidoService.findByConsultor(consultor);
-        return ResponseEntity.ok(meusPedidos);
+                .ok(consultor == null ? pedidoService.findAll()
+                        : pedidoService.findByConsultor(consultor, consultorId));
     }
 
     @PostMapping("/inserir-pedido")

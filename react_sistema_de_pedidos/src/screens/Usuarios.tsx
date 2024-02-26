@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import UsuarioDialog from "@/components/dialogs/UsuarioDialog";
 import { columns } from "@/components/tabela-usuarios/Columns";
 import DataTable from "@/components/tabela-usuarios/DataTable";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
@@ -9,7 +10,8 @@ function AdmUsuarios() {
   return (
     <>
       <Navbar />
-      <div className="container bg-white mx-auto border rounded-md p-5 m-5 min-h-full">
+      <div className="container bg-white mx-auto border rounded-md p-5 m-5 min-h-full flex flex-col">
+        <UsuarioDialog />
         {isLoading ? (
           <LoadingSpinner />
         ) : (

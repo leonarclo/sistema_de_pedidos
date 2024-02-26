@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -53,14 +55,11 @@ public class Usuario implements UserDetails {
     @Column(name = "adm")
     private Integer nivel;
 
-    @Column(name = "fator")
-    private Integer fator;
-
     @CreationTimestamp
     @Column(name = "criado_em", updatable = false)
     private Date criadoEm;
 
-    @CreationTimestamp
+    @UpdateTimestamp
     @Column(name = "editado_em")
     private Date editadoEm;
 

@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { openModal } from "@/redux/features/modalSlice";
 import { Pencil } from "lucide-react";
 import { useAppDispatch } from "@/redux/store";
+import { editarUsuarioState } from "@/redux/features/usuariosSlice";
 
 function EditButton({ row }: any) {
   const dispatch = useAppDispatch();
@@ -10,7 +11,8 @@ function EditButton({ row }: any) {
   const handleClickEditButton = async (e: any, row: any) => {
     e.stopPropagation();
     row.getIsSelected();
-    dispatch(openModal("edit-user"));
+    dispatch(openModal("user"));
+    dispatch(editarUsuarioState(row.original));
     console.log("Valor da linha para editar:", row.original);
   };
   return (

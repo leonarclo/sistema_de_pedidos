@@ -9,11 +9,18 @@ import { useAppSelector } from "@/redux/store";
 
 function Dashboard() {
   const usuario = useAppSelector((state) => state.getUserState.usuario);
-  const usuarioSub = usuario?.sub;
 
-  const { data, isLoading } = useBuscarPedidosQuery(
-    usuarioSub && usuario?.nivel < 5 ? usuarioSub : undefined
-  );
+  const usuarioSub = usuario?.sub;
+  const usuarioId = usuario?.id;
+
+  const query =
+    usuarioSub && usuarioId && usuario?.nivel < 7
+      ? { consultor: usuarioSub, consultorId: usuarioId }
+      : undefined;
+
+  console.log(query);
+
+  const { data, isLoading } = useBuscarPedidosQuery(query);
 
   return (
     <>

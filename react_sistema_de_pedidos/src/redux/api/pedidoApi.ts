@@ -4,6 +4,8 @@ import {
   IItemPedidoRequest,
   IPedido,
   IPedidoCompleto,
+  IProduto,
+  IQueryPedido,
 } from "../../types";
 
 export const pedidoApi = createApi({
@@ -23,11 +25,16 @@ export const pedidoApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    buscarPedidos: builder.query<IPedido[], string | undefined | void>({
-      query(consultor) {
-        const queryParam = consultor ? `?consultor=${consultor}` : "";
+    buscarPedidos: builder.query<IPedido[], IQueryPedido | undefined>({
+      query(data) {
+        const consultorParam = data?.consultor
+          ? `?consultor=${data?.consultor}`
+          : "";
+        const consultorIdParam = data?.consultorId
+          ? `&consultorId=${data?.consultorId}`
+          : "";
         return {
-          url: `/buscar-pedidos${queryParam}`,
+          url: `/buscar-pedidos${consultorParam}${consultorIdParam}`,
           method: "GET",
           credentials: "include",
         };
@@ -76,12 +83,20 @@ export const pedidoApi = createApi({
       },
       transformResponse: (response: { data: IPedido }) => response.data,
     }),
+    buscarProdutos: builder.query<IProduto[], void>({
+      query() {
+        return {
+          url: "/buscar-produtos",
+          method: "GET",
+          credentials: "include",
+        };
+      },
+    }),
   }),
 });
 
 export const {
   useBuscarPedidosQuery,
-
   useLazyBuscarItemQuery,
   useLazyBuscarArquivosQuery,
   useLazyInserirPedidoQuery,

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ChevronDown } from "lucide-react";
 import NovoPedidoDialog from "./dialogs/NovoPedido";
 import { Button } from "./ui/button";
@@ -12,33 +13,34 @@ import { jwtDecode } from "jwt-decode";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { getUserState } from "@/redux/features/authSlice";
 import { useEffect } from "react";
+import { ITokenPayload } from "@/types";
 
 function Navbar() {
   const dispatch = useAppDispatch();
-  const tokenString = localStorage.getItem("token");
-  const userInfo = tokenString ? jwtDecode(tokenString) : null;
-
-  useEffect(() => {
-    dispatch(getUserState(userInfo));
-  }, []);
-
-  const usuario = useAppSelector((state) => state.getUserState.usuario);
-
   const navigate = useNavigate();
   const location = useLocation();
+  const tokenString = localStorage.getItem("token");
+  const userInfo = tokenString ? jwtDecode(tokenString) : null;
+  const usuario = useAppSelector((state) => state.getUserState.usuario);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const thisPage = location.pathname;
   const loginPage =
     (location.state && location.state.from && location.state.from.pathname) ||
     "/login";
 
+  useEffect(() => {
+    dispatch(getUserState(userInfo as ITokenPayload));
+  }, []);
+
   if (!userInfo) {
-    return navigate(loginPage);
+    navigate(loginPage);
+    return;
   }
 
   const logout = () => {
     localStorage.removeItem("token");
     navigate(loginPage);
+    return;
   };
 
   let nivel;
@@ -47,7 +49,7 @@ function Navbar() {
       nivel = "Master";
       break;
     case 7:
-      nivel = "Adm";
+      nivel = "ADM";
       break;
     case 5:
       nivel = "Editor";
@@ -63,7 +65,6 @@ function Navbar() {
       break;
   }
 
-  const thisPage = location.pathname;
   return (
     <>
       <div className="container bg-white mx-auto border rounded-md p-5 m-5">
@@ -89,7 +90,7 @@ function Navbar() {
                 </Button>
               </a>
             )}
-            {usuario?.nivel == 9 ? (
+            {usuario && usuario.nivel >= 7 ? (
               <DropdownMenu>
                 <DropdownMenuTrigger className="bg-cyan-500 hover:bg-cyan-700 rounded text-white font-bold flex items-center gap-2 px-5 focus:outline-none">
                   Admin

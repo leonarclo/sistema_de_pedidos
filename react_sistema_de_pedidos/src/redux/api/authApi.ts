@@ -1,4 +1,4 @@
-import { ILogin } from "@/types";
+import { ILogin, IUsuario, IUsuarioRequest } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const authApi = createApi({
@@ -28,15 +28,25 @@ export const authApi = createApi({
         };
       },
     }),
-    logout: builder.mutation<void, void>({
-      query() {
+    registrar: builder.mutation<IUsuario, IUsuarioRequest>({
+      query(body) {
         return {
-          url: "/logout",
-          method: "GET",
+          url: "/registrar",
+          method: "POST",
+          body,
           credentials: "include",
         };
       },
     }),
+    // logout: builder.mutation<void, void>({
+    //   query() {
+    //     return {
+    //       url: "/logout",
+    //       method: "GET",
+    //       credentials: "include",
+    //     };
+    //   },
+    // }),
     // getMe: builder.query<IUsuario, void>({
     //   query() {
     //     return {
@@ -57,4 +67,4 @@ export const authApi = createApi({
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation } = authApi;
+export const { useLoginMutation, useRegistrarMutation } = authApi;

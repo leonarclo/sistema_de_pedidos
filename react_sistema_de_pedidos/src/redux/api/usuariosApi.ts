@@ -27,18 +27,7 @@ export const usuariosApi = createApi({
         };
       },
     }),
-
-    inserirUsuario: builder.query<IUsuario, IUsuarioRequest>({
-      query(body) {
-        return {
-          url: "/inserir-usuario",
-          method: "POST",
-          body,
-          credentials: "include",
-        };
-      },
-    }),
-    editarUsuario: builder.query<
+    editarUsuario: builder.mutation<
       IUsuario,
       { body: IUsuarioRequest; id: number }
     >({
@@ -55,8 +44,4 @@ export const usuariosApi = createApi({
   }),
 });
 
-export const {
-  useBuscarUsuariosQuery,
-  useLazyInserirUsuarioQuery,
-  useLazyEditarUsuarioQuery,
-} = usuariosApi;
+export const { useBuscarUsuariosQuery, useEditarUsuarioMutation } = usuariosApi;

@@ -1,8 +1,7 @@
+import { ITokenPayload } from "@/types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { JwtPayload } from "jwt-decode";
-
 interface IUsuarioState {
-  usuario: JwtPayload | null;
+  usuario: ITokenPayload | null;
 }
 
 const initialState: IUsuarioState = {
@@ -13,7 +12,7 @@ export const authSlice = createSlice({
   name: "authSlice",
   initialState,
   reducers: {
-    getUserState: (state, action: PayloadAction<JwtPayload | null>) => {
+    getUserState: (state, action: PayloadAction<ITokenPayload | null>) => {
       state.usuario = action.payload;
     },
   },

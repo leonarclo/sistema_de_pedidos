@@ -128,17 +128,21 @@ export interface IUsuario {
   departamento: string;
   email: string;
   nivel: number;
-  fator: number;
 }
 
 export interface IUsuarioRequest {
   usuario: string;
-  senha: string;
+  password?: string;
   nomeCompleto: string;
   departamento: string;
   email: string;
   nivel: number;
-  fator: number;
+}
+
+export interface IProduto {
+  id: number;
+  produto: string;
+  categoria: string;
 }
 
 export interface ILogin {
@@ -155,4 +159,9 @@ export interface ITokenPayload {
   nivel: number;
   nomeCompleto: string;
   sub: string;
+}
+
+export interface IQueryPedido {
+  consultor: string;
+  consultorId: number;
 }

@@ -23,5 +23,4 @@ public class UsuarioResponseDTO implements Serializable {
     private String departamento;
     private String email;
     private Integer nivel;
-    private Integer fator;
 }
