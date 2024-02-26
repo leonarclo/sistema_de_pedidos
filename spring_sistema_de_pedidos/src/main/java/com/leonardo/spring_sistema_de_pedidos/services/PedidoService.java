@@ -33,6 +33,10 @@ public class PedidoService {
         return PedidoMapper.toPedidoList(pedidoRepository.findAllByOrderByIdDesc());
     }
 
+    public List<PedidoResponseDTO> findByConsultor(String consultor) {
+        return PedidoMapper.toPedidoList(pedidoRepository.findAllByConsultorOrderByIdDesc(consultor));
+    }
+
     @Transactional
     public PedidoCompletoRequestDTO save(PedidoCompletoRequestDTO pedidoCompleto) {
         Pedido pedido = PedidoMapper.toPedidoCompletoResponse(pedidoCompleto);

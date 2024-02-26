@@ -11,22 +11,33 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
 
+    private final SecurityFilter securityFilter;
+
+    public SpringSecurityConfig(SecurityFilter securityFilter) {
+        this.securityFilter = securityFilter;
+    }
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "api/v1/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "api/v1/buscar-pedidos").hasRole("5")
-                        .requestMatchers(HttpMethod.POST, "api/v1/buscar-usuarios").hasRole("7")
-                        .anyRequest().authenticated());
+                        .requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/me").hasAuthority("1")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/registrar").hasAuthority("9")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/buscar-pedidos").hasAuthority("1")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/buscar-item").hasAuthority("1")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/buscar-arquivos").hasAuthority("1")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/buscar-usuarios").hasAuthority("7")
+                        .anyRequest().authenticated())
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

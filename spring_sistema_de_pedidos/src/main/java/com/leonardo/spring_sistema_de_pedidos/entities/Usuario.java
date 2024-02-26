@@ -1,9 +1,10 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
-import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,6 +55,14 @@ public class Usuario implements UserDetails {
 
     @Column(name = "fator")
     private Integer fator;
+
+    @CreationTimestamp
+    @Column(name = "criado_em", updatable = false)
+    private Date criadoEm;
+
+    @CreationTimestamp
+    @Column(name = "editado_em")
+    private Date editadoEm;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

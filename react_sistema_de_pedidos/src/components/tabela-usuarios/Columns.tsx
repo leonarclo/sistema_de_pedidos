@@ -12,11 +12,11 @@ const converterNivelAcesso = (nivel: any): string => {
     case 1:
       return "Consultor";
     case 5:
-      return "Administrador";
+      return "Editor";
     case 7:
-      return "Master";
+      return "Administrador";
     case 9:
-      return "TI";
+      return "Master";
     default:
       return "Desconhecido";
   }

@@ -140,3 +140,19 @@ export interface IUsuarioRequest {
   nivel: number;
   fator: number;
 }
+
+export interface ILogin {
+  usuario: string;
+  password: string;
+}
+
+export interface ITokenPayload {
+  departamento: string;
+  email: string;
+  exp: number;
+  id: number;
+  iss: string;
+  nivel: number;
+  nomeCompleto: string;
+  sub: string;
+}

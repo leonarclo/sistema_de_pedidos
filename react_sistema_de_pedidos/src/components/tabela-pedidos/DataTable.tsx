@@ -23,7 +23,7 @@ import {
 import { useState } from "react";
 import { Pagination } from "./Pagination";
 import { Filters } from "./Filters";
-import { useAppDispatch } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { IPedido } from "@/types";
 import { pedidoState } from "@/redux/features/pedidoSlice";
 import { openModal } from "@/redux/features/modalSlice";
@@ -49,6 +49,8 @@ function DataTable<TData, TValue>({
   const dispatch = useAppDispatch();
   const [triggerBuscarItens] = useLazyBuscarItemQuery();
   const [triggerBuscarArquivos] = useLazyBuscarArquivosQuery();
+  const usuario = useAppSelector((state) => state.getUserState.usuario);
+  const userEdit = usuario?.nivel >= 7;
 
   const table = useReactTable({
     data,
@@ -67,6 +69,7 @@ function DataTable<TData, TValue>({
       sorting,
       columnFilters,
       rowSelection,
+      columnVisibility: { edit: userEdit },
     },
   });
 
@@ -120,7 +123,7 @@ function DataTable<TData, TValue>({
                         cell.column.id === "status"
                           ? getStatusColor(cell.getValue() as string)
                           : ""
-                      } py-1`}
+                      } py-2`}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>

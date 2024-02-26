@@ -2,6 +2,7 @@ package com.leonardo.spring_sistema_de_pedidos.controllers;
 
 import java.util.List;
 
+import org.apache.el.stream.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoCompletoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.services.PedidoService;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -26,9 +28,16 @@ public class PedidoController {
     }
 
     @GetMapping("/buscar-pedidos")
-    public ResponseEntity<List<PedidoResponseDTO>> findAll() {
-        List<PedidoResponseDTO> pedidos = pedidoService.findAll();
-        return ResponseEntity.ok(pedidos);
+    public ResponseEntity<List<PedidoResponseDTO>> findAll(
+            @RequestParam(name = "consultor", required = false) String consultor) {
+        return ResponseEntity
+                .ok(consultor == null ? pedidoService.findAll() : pedidoService.findByConsultor(consultor));
+    }
+
+    @GetMapping("/buscar-meus-pedidos")
+    public ResponseEntity<List<PedidoResponseDTO>> findByConsultor(@RequestParam(name = "consultor") String consultor) {
+        List<PedidoResponseDTO> meusPedidos = pedidoService.findByConsultor(consultor);
+        return ResponseEntity.ok(meusPedidos);
     }
 
     @PostMapping("/inserir-pedido")

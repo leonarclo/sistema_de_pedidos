@@ -5,6 +5,17 @@ export const usuariosApi = createApi({
   reducerPath: "usuariosApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8080/api/v1",
+    mode: "cors",
+    credentials: "same-origin",
+    prepareHeaders: (headers) => {
+      const accessToken = localStorage.getItem("token");
+      if (accessToken) {
+        headers.set("authorization", `Bearer ${accessToken}`);
+        headers.set("Content-Type", "application/json; charset-utf=8");
+      }
+
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     buscarUsuarios: builder.query<IUsuario[], void>({
@@ -12,6 +23,7 @@ export const usuariosApi = createApi({
         return {
           url: "/buscar-usuarios",
           method: "GET",
+          credentials: "include",
         };
       },
     }),
@@ -22,6 +34,7 @@ export const usuariosApi = createApi({
           url: "/inserir-usuario",
           method: "POST",
           body,
+          credentials: "include",
         };
       },
     }),
@@ -34,6 +47,7 @@ export const usuariosApi = createApi({
           url: `/editar-usuario/${id}`,
           method: "POST",
           body,
+          credentials: "include",
         };
       },
       transformResponse: (response: { data: IUsuario }) => response.data,

@@ -11,4 +11,6 @@ import com.leonardo.spring_sistema_de_pedidos.entities.Pedido;
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
     List<Pedido> findAllByOrderByIdDesc();
+
+    List<Pedido> findAllByConsultorOrderByIdDesc(String chave);
 }

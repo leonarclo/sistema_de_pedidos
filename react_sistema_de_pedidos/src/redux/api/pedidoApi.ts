@@ -10,13 +10,26 @@ export const pedidoApi = createApi({
   reducerPath: "pedidoApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8080/api/v1",
+    mode: "cors",
+    credentials: "same-origin",
+    prepareHeaders: (headers) => {
+      const accessToken = localStorage.getItem("token");
+      if (accessToken) {
+        headers.set("authorization", `Bearer ${accessToken}`);
+        headers.set("Content-Type", "application/json; charset-utf=8");
+      }
+
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
-    buscarPedidos: builder.query<IPedido[], void>({
-      query() {
+    buscarPedidos: builder.query<IPedido[], string | undefined | void>({
+      query(consultor) {
+        const queryParam = consultor ? `?consultor=${consultor}` : "";
         return {
-          url: "/buscar-pedidos",
+          url: `/buscar-pedidos${queryParam}`,
           method: "GET",
+          credentials: "include",
         };
       },
     }),
@@ -25,6 +38,7 @@ export const pedidoApi = createApi({
         return {
           url: `/buscar-item?chave=${chave}`,
           method: "GET",
+          credentials: "include",
         };
       },
     }),
@@ -33,6 +47,7 @@ export const pedidoApi = createApi({
         return {
           url: `/buscar-arquivos?chave=${chave}`,
           method: "GET",
+          credentials: "include",
         };
       },
     }),
@@ -42,6 +57,7 @@ export const pedidoApi = createApi({
           url: "/inserir-pedido",
           method: "POST",
           body,
+          credentials: "include",
         };
       },
     }),
@@ -55,6 +71,7 @@ export const pedidoApi = createApi({
           url: `/editar-pedido/${id}/${itemId}`,
           method: "POST",
           body,
+          credentials: "include",
         };
       },
       transformResponse: (response: { data: IPedido }) => response.data,
@@ -64,6 +81,7 @@ export const pedidoApi = createApi({
 
 export const {
   useBuscarPedidosQuery,
+
   useLazyBuscarItemQuery,
   useLazyBuscarArquivosQuery,
   useLazyInserirPedidoQuery,
