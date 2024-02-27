@@ -1,14 +1,17 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +32,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 @Table(name = "co_acesso")
 public class Usuario implements UserDetails {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,15 +58,19 @@ public class Usuario implements UserDetails {
     private Integer nivel;
 
     @Column(name = "imagem", nullable = true)
-    private Integer imagem;
+    private String imagem;
 
     @CreationTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "criado_em", updatable = false, nullable = true)
-    private Date criadoEm;
+    private LocalDateTime criadoEm;
 
     @UpdateTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "editado_em", nullable = true)
-    private Date editadoEm;
+    private LocalDateTime editadoEm;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

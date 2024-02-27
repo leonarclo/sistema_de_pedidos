@@ -2,12 +2,14 @@ package com.leonardo.spring_sistema_de_pedidos.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class ItemPedidoRequestDTO {
     private String categoria;
@@ -23,13 +25,4 @@ public class ItemPedidoRequestDTO {
     private String duracaoContrato;
     private String vigenciaInicio;
     private String vigenciaFim;
-
-    public ItemPedidoRequestDTO() {
-        this.numeroFuncionarios = numeroFuncionarios != null ? numeroFuncionarios : "";
-        this.valorMensal = valorMensal != null ? valorMensal : "";
-        this.tipoPagamento = tipoPagamento != null ? tipoPagamento : "";
-        this.duracaoContrato = duracaoContrato != null ? duracaoContrato : "";
-        this.vigenciaInicio = vigenciaInicio != null ? vigenciaInicio : "";
-        this.vigenciaFim = vigenciaFim != null ? vigenciaFim : "";
-    }
 }

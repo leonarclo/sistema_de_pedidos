@@ -56,22 +56,6 @@ public class PedidoCompletoRequestDTO {
 
         public PedidoCompletoRequestDTO() {
                 this.data = getCurrentDateTimeAsString();
-                this.telefone2 = telefone2 != null ? telefone2 : "";
-                this.complemento = complemento != null ? complemento : "";
-                this.transportadora = transportadora != null ? transportadora : "";
-                this.fretePreco = fretePreco != null ? fretePreco : "";
-                this.planilhaVendas = planilhaVendas != null ? planilhaVendas : "";
-                this.licencaGerada = licencaGerada != null ? licencaGerada : 0;
-                this.assinatura = assinatura != null ? assinatura : 0;
-                this.chat = chat != null ? chat : 0;
-                this.posVenda = posVenda != null ? posVenda : 0;
-                this.notaFiscal = notaFiscal != null ? notaFiscal : "";
-                this.unidadeNegocio = unidadeNegocio != null ? unidadeNegocio : "";
-                this.previsaoEntrega = previsaoEntrega != null ? previsaoEntrega : "";
-                this.numeroSerie = numeroSerie != null ? numeroSerie : "";
-                this.codigoRastreio = codigoRastreio != null ? codigoRastreio : "";
-                this.observacoes = observacoes != null ? observacoes : "";
-                this.emailLogin = emailLogin != null ? emailLogin : "";
         }
 
         private static String getCurrentDateTimeAsString() {
