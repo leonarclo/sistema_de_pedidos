@@ -4,11 +4,18 @@ export const schema = z.object({
   status: z.string({
     required_error: "Selecione uma opção de status",
   }),
-  leadOrigem: z.string({
-    required_error: "Preencha o campo de 'Origem do Lead'",
-  }),
-  leadData: z.coerce.string({
-    required_error: "Preencha o campo de 'Data do Lead'",
+  leadOrigem: z
+    .string({
+      required_error: "Preencha o campo de 'Origem do Lead'",
+    })
+    .min(1, { message: "Preencha o campo de 'Origem do Lead'" }),
+  leadData: z.coerce.date({
+    errorMap: (issue, { defaultError }) => ({
+      message:
+        issue.code === "invalid_date"
+          ? "Selecione uma data válida"
+          : defaultError,
+    }),
   }),
   cargoCliente: z.string({
     required_error: "Selecione uma opção de cargo",
@@ -54,7 +61,7 @@ export const schema = z.object({
       required_error: "Preencha o campo de 'Telefone 2'",
     })
     .optional(),
-  emailLogin: z.string({}).optional(),
+  emailLogin: z.string({}).nullable().optional(),
   cep: z.string().refine(
     (value) => {
       const number = value.replace(/\D/g, "");
@@ -69,9 +76,11 @@ export const schema = z.object({
     .min(3, {
       message: "'Logradouro' precisa conter pelo menos 3 letras",
     }),
-  numeroEndereco: z.string({
-    required_error: "Preencha o campo de 'Número'",
-  }),
+  numeroEndereco: z
+    .string({
+      required_error: "Preencha o campo de 'Número'",
+    })
+    .min(1, { message: "Preencha o campo de 'Número'" }),
   complemento: z
     .string({
       required_error: "Preencha o campo de 'Complemento'",
@@ -95,8 +104,8 @@ export const schema = z.object({
     .string({
       required_error: "Preencha o campo de 'Estado'",
     })
-    .max(2, {
-      message: "'Estado (UF)' precisa conter 2 letras",
+    .min(2, {
+      message: "Selecione uma opção de UF",
     }),
   fretePreco: z.string({}).optional(),
   transportadora: z.string({}).optional(),

@@ -206,6 +206,10 @@ function FormUsuario() {
                     <SelectItem value="1">Consultor</SelectItem>
                     <SelectItem value="5">Editor</SelectItem>
                     <SelectItem value="7">ADM</SelectItem>
+                    <SelectItem value="0">Inativo</SelectItem>
+                    {estaEditando?.nivel == 9 ? (
+                      <SelectItem value="9">Master</SelectItem>
+                    ) : null}
                   </SelectContent>
                 </Select>
                 <FormMessage />

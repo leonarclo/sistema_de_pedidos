@@ -8,41 +8,46 @@ export const schemaItem = z.object({
     .refine((value) => value === "Venda" || value === "Contrato", {
       message: "Categoria inválida",
     }),
-  produto: z.string({
-    required_error: "Selecione uma opção de produto",
-  }),
+  produto: z
+    .string({
+      required_error: "Selecione uma opção de produto",
+    })
+    .min(1, { message: "Selecione uma opção de produto" }),
   preco: z
     .string({
       required_error: "Preencha o campo de 'Preço Unitário'",
     })
     .min(4, "O valor precisa conter pelo menos 3 números"),
-  quantidade: z.string({
-    required_error: "Preencha o campo de 'Quantidade'",
-  }),
+  quantidade: z
+    .string({
+      required_error: "Preencha o campo de 'Quantidade'",
+    })
+    .min(1, { message: "Preencha o campo de 'Quantidade'" }),
   precoTotal: z.string({}).optional(),
   valorMensal: z.string({}).optional(),
-  formaPagamento: z.string({
-    required_error: "Preencha o campo de 'Forma de Pagamento'",
+  formaPagamento: z
+    .string({
+      required_error: "Preencha o campo de 'Forma de Pagamento'",
+    })
+    .min(1, "Preencha o campo de 'Forma de Pagamento'"),
+  vencimento1Boleto: z.coerce.date({
+    errorMap: (issue, { defaultError }) => ({
+      message:
+        issue.code === "invalid_date"
+          ? "Selecione uma data válida"
+          : defaultError,
+    }),
   }),
-  vencimento1Boleto: z.coerce.string({
-    required_error: "Preencha o campo de 'Vencimento do 1 Boleto'",
-  }),
-  tipoPagamento: z.string({
-    required_error: "Preencha o campo de 'Pagamento'",
-  }),
+  tipoPagamento: z
+    .string({
+      required_error: "Preencha o campo de 'Pagamento'",
+    })
+    .min(1, "Preencha o campo de 'Tipo de Pagamento'"),
   duracaoContrato: z
     .string({
       required_error: "Preencha o campo de 'Pagamento'",
     })
     .optional(),
-  vigenciaInicio: z.coerce
-    .string({
-      required_error: "Preencha o campo de 'Vencimento do 1 Boleto'",
-    })
-    .optional(),
-  vigenciaFim: z.coerce
-    .string({
-      required_error: "Preencha o campo de 'Vencimento do 1 Boleto'",
-    })
-    .optional(),
+  vigenciaInicio: z.coerce.string({}).optional(),
+  vigenciaFim: z.coerce.string({}).optional(),
 });

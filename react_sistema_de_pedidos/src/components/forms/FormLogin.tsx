@@ -43,6 +43,7 @@ function FormLogin() {
 
   useEffect(() => {
     if (isSuccess && data) {
+      localStorage.removeItem("token");
       localStorage.setItem("token", data.token);
       navigate("/");
     }

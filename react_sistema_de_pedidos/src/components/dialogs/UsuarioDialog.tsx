@@ -15,6 +15,9 @@ import { editarUsuarioState } from "@/redux/features/usuariosSlice";
 function UsuarioDialog() {
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector((state) => state.modalState.modals["user"]);
+  const estaEditando = useAppSelector(
+    (state) => state.editarUsuarioState.editarUsuario
+  );
 
   const handleOpenChange = (newOpenState: boolean) => {
     if (newOpenState) {
@@ -40,7 +43,9 @@ function UsuarioDialog() {
       </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle className="pb-4">Novo Usuário</DialogTitle>
+          <DialogTitle className="pb-4">
+            {estaEditando ? "Editando Usuário" : "Novo Usuário"}
+          </DialogTitle>
         </DialogHeader>
         <FormUsuario />
       </DialogContent>

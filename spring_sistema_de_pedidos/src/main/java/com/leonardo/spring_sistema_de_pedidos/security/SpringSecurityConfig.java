@@ -33,6 +33,8 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/me").hasAuthority("1")
                         .requestMatchers(HttpMethod.POST, "/api/v1/registrar").hasAuthority("7")
                         .requestMatchers(HttpMethod.GET, "/api/v1/buscar-pedidos").hasAuthority("1")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/inserir-pedido").hasAuthority("1")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/editar-pedido").hasAuthority("7")
                         .requestMatchers(HttpMethod.GET, "/api/v1/buscar-item").hasAuthority("1")
                         .requestMatchers(HttpMethod.GET, "/api/v1/buscar-arquivos").hasAuthority("1")
                         .requestMatchers(HttpMethod.POST, "/api/v1/buscar-usuarios").hasAuthority("7")

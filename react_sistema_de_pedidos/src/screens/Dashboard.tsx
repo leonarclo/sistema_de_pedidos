@@ -6,8 +6,11 @@ import { useBuscarPedidosQuery } from "@/redux/api/pedidoApi";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import InfoPedido from "@/components/dialogs/InfoPedido";
 import { useAppSelector } from "@/redux/store";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
+  const navigate = useNavigate();
   const usuario = useAppSelector((state) => state.getUserState.usuario);
 
   const usuarioSub = usuario?.sub;
@@ -18,9 +21,14 @@ function Dashboard() {
       ? { consultor: usuarioSub, consultorId: usuarioId }
       : undefined;
 
-  console.log(query);
+  const { data, isLoading, isError } = useBuscarPedidosQuery(query);
 
-  const { data, isLoading } = useBuscarPedidosQuery(query);
+  useEffect(() => {
+    if (isError) {
+      localStorage.removeItem("token");
+      navigate("/login");
+    }
+  }, [isError]);
 
   return (
     <>

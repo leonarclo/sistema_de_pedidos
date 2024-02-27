@@ -106,7 +106,7 @@ export interface IPedidoCompleto {
   cpfCliente: string;
   categoriaGrupo?: string;
   observacoes?: string;
-  emailLogin?: string;
+  emailLogin?: string | null;
   planilhaVendas?: string;
   licencaGerada?: number;
   assinatura?: number;
@@ -117,6 +117,9 @@ export interface IPedidoCompleto {
   previsaoEntrega?: string;
   numeroSerie?: string;
   codigoRastreio?: string;
+  usuario?: {
+    id?: number;
+  };
   itens: IItemPedidoRequest[];
   arquivos?: string[];
 }

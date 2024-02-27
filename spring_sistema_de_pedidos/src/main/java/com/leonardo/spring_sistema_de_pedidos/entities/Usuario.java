@@ -6,11 +6,9 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -49,18 +47,21 @@ public class Usuario implements UserDetails {
     @Column(name = "secretpin")
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", length = 100)
     private String password;
 
     @Column(name = "adm")
     private Integer nivel;
 
+    @Column(name = "imagem", nullable = true)
+    private Integer imagem;
+
     @CreationTimestamp
-    @Column(name = "criado_em", updatable = false)
+    @Column(name = "criado_em", updatable = false, nullable = true)
     private Date criadoEm;
 
     @UpdateTimestamp
-    @Column(name = "editado_em")
+    @Column(name = "editado_em", nullable = true)
     private Date editadoEm;
 
     @Override

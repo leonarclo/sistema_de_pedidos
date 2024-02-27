@@ -58,7 +58,7 @@ export const pedidoApi = createApi({
         };
       },
     }),
-    inserirPedido: builder.query<IPedido, IPedidoCompleto>({
+    inserirPedido: builder.mutation<IPedido, IPedidoCompleto>({
       query(body) {
         return {
           url: "/inserir-pedido",
@@ -69,7 +69,7 @@ export const pedidoApi = createApi({
       },
     }),
 
-    editarPedido: builder.query<
+    editarPedido: builder.mutation<
       IPedido,
       { body: IPedidoCompleto; id: number; itemId?: number }
     >({
@@ -99,6 +99,6 @@ export const {
   useBuscarPedidosQuery,
   useLazyBuscarItemQuery,
   useLazyBuscarArquivosQuery,
-  useLazyInserirPedidoQuery,
-  useLazyEditarPedidoQuery,
+  useInserirPedidoMutation,
+  useEditarPedidoMutation,
 } = pedidoApi;

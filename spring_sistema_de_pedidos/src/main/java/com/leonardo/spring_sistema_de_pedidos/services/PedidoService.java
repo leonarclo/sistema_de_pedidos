@@ -13,6 +13,7 @@ import com.leonardo.spring_sistema_de_pedidos.dto.PedidoCompletoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.mapper.PedidoMapper;
 import com.leonardo.spring_sistema_de_pedidos.entities.ItemPedido;
 import com.leonardo.spring_sistema_de_pedidos.entities.Pedido;
+import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
 import com.leonardo.spring_sistema_de_pedidos.repositories.ItemPedidoRepository;
 import com.leonardo.spring_sistema_de_pedidos.repositories.PedidoRepository;
 
@@ -27,6 +28,7 @@ public class PedidoService {
     public PedidoService(PedidoRepository pedidoRepository, ItemPedidoRepository itemPedidoRepository) {
         this.pedidoRepository = pedidoRepository;
         this.itemPedidoRepository = itemPedidoRepository;
+
     }
 
     public List<PedidoResponseDTO> findAll() {
@@ -35,13 +37,13 @@ public class PedidoService {
 
     public List<PedidoResponseDTO> findByConsultor(String consultor, Integer consultorId) {
         return PedidoMapper.toPedidoList(pedidoRepository.findByConsultorOrUsuario_id(consultor, consultorId));
-        // return
-        // PedidoMapper.toPedidoList(pedidoRepository.findAllByConsultorOrderByIdDesc(consultor));
     }
 
     @Transactional
     public PedidoCompletoRequestDTO save(PedidoCompletoRequestDTO pedidoCompleto) {
         Pedido pedido = PedidoMapper.toPedidoCompletoResponse(pedidoCompleto);
+        Usuario usuario = pedidoCompleto.getUsuario();
+        pedido.setUsuario(usuario);
 
         for (ItemPedido itemPedido : pedido.getItens()) {
             itemPedido.setPedido(pedido);

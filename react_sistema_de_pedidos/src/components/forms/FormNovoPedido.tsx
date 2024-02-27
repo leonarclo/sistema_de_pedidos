@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,23 +10,43 @@ import InputsCliente from "./InputsCliente";
 import { schema } from "./Schema";
 import InputsEndereco from "./InputsEndereco";
 import InputsItem from "./InputsItem";
-import { useAppSelector } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect } from "react";
 import { IItemPedidoRequest, IPedido, IPedidoCompleto } from "@/types";
 import { schemaItem } from "./SchemaItem";
 import InputArquivo from "./InputArquivo";
 import TextareaObservacao from "./TextareaObservacao";
 import {
-  useLazyEditarPedidoQuery,
-  useLazyInserirPedidoQuery,
+  useInserirPedidoMutation,
+  useEditarPedidoMutation,
 } from "@/redux/api/pedidoApi";
 import InputsHidden from "./InputsHidden";
 import { format } from "date-fns";
 import InputsAdm from "./InputsAdm";
+import { LoadingSpinner } from "../ui/loading-spinner";
+import { Check } from "lucide-react";
+import { useToast } from "../ui/use-toast";
+import { closeModal } from "@/redux/features/modalSlice";
 
 function FormNovoPedido() {
-  const [triggerInserirPedido] = useLazyInserirPedidoQuery();
-  const [triggerEditarPedido] = useLazyEditarPedidoQuery();
+  const dispatch = useAppDispatch();
+  const { toast } = useToast();
+  const [triggerInserirPedido, { isLoading: inserindo, isSuccess: inserido }] =
+    useInserirPedidoMutation();
+  const [triggerEditarPedido, { isLoading: editando, isSuccess: editado }] =
+    useEditarPedidoMutation();
+  const usuario = useAppSelector((state) => state.getUserState.usuario);
+
+  useEffect(() => {
+    if (inserido || editado) {
+      dispatch(closeModal("edit"));
+      toast({
+        variant: "success",
+        description: "Sucesso!",
+      });
+    }
+  }, [inserido, editado]);
+
   const fullSchema = z.object({
     ...schema.shape,
     itens: z.array(schemaItem),
@@ -40,34 +61,30 @@ function FormNovoPedido() {
   const form = useForm<z.infer<typeof fullSchema>>({
     resolver: zodResolver(fullSchema),
     defaultValues: {
-      consultor: "Leonardo",
+      consultor: usuario?.sub,
       leadOrigem: "",
       itens: [],
     },
     context: "pedido",
   });
 
-  useEffect(() => {
-    console.log(form.getValues("arquivos"));
-  }, [form]);
-
   function onSubmit(values: z.infer<typeof fullSchema>) {
-    // let categoriaGrupo;
-    // let venda = false;
-    // let contrato = false;
-    // values.itens.forEach((item) => {
-    //   if (item.categoria == "Venda") {
-    //     venda = true;
-    //     categoriaGrupo = "Venda";
-    //   }
-    //   if (item.categoria == "Contrato") {
-    //     contrato = true;
-    //     categoriaGrupo = "Contrato";
-    //   }
-    //   if (venda == true && contrato == true) {
-    //     categoriaGrupo = "Venda + Contrato";
-    //   }
-    // });
+    let categoriaGrupo;
+    let venda = false;
+    let contrato = false;
+    values.itens.forEach((item) => {
+      if (item.categoria == "Venda") {
+        venda = true;
+        categoriaGrupo = "Venda";
+      }
+      if (item.categoria == "Contrato") {
+        contrato = true;
+        categoriaGrupo = "Contrato";
+      }
+      if (venda == true && contrato == true) {
+        categoriaGrupo = "Venda + Contrato";
+      }
+    });
 
     if (editar && editarItem) {
       const observacoes =
@@ -152,7 +169,6 @@ function FormNovoPedido() {
         itens: editarItemPedido,
         arquivos: fileNames,
       };
-      console.log(editarPedido);
       triggerEditarPedido({
         body: editarPedido,
         id: editar.id,
@@ -216,6 +232,7 @@ function FormNovoPedido() {
         fretePreco: values.fretePreco,
         nomeCliente: values.nomeCliente,
         cpfCliente: values.cpfCliente,
+        categoriaGrupo,
         observacoes: values.observacoes ? observacoes : undefined,
         planilhaVendas: values.planilhaVendas == true ? "1" : "0",
         licencaGerada: values.licencaGerada == true ? 1 : 0,
@@ -230,6 +247,7 @@ function FormNovoPedido() {
         numeroSerie: values.numeroSerie,
         codigoRastreio: values.codigoRastreio,
         emailLogin: values.emailLogin,
+        usuario: { id: usuario?.id },
         itens,
         arquivos: fileNames,
       };
@@ -304,6 +322,8 @@ function FormNovoPedido() {
             type="submit"
             className="bg-emerald-500 hover:bg-emerald-600 text-white rounded font-bold flex items-center gap-2"
           >
+            {inserindo || (editando && <LoadingSpinner />)}
+            {inserido || (editado && <Check />)}
             Enviar
           </Button>
         </div>
