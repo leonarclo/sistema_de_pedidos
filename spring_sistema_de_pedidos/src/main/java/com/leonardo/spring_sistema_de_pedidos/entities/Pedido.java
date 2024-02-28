@@ -169,7 +169,7 @@ public class Pedido implements Serializable {
 
     @PreUpdate
     public void preUpdate() {
-        this.editadoPor = this.usuario.getId();
+        this.editadoPor = usuario.getId();
     }
 
     public Pedido() {

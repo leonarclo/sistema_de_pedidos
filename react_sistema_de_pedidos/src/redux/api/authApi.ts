@@ -1,4 +1,4 @@
-import { ILogin, IUsuario, IUsuarioRequest } from "@/types";
+import { ILogin, ITokenResponse, IUsuario, IUsuarioRequest } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const authApi = createApi({
@@ -18,7 +18,7 @@ export const authApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    login: builder.mutation<string, ILogin>({
+    login: builder.mutation<ITokenResponse, ILogin>({
       query(body) {
         return {
           url: "/login",

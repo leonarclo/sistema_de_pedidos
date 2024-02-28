@@ -31,10 +31,14 @@ import { useToast } from "../ui/use-toast";
 
 function FormUsuario() {
   const dispatch = useAppDispatch();
-  const [inserirUsuario, { isLoading: inserindo, isSuccess: usuarioInserido }] =
-    useRegistrarMutation();
-  const [editarIsuario, { isLoading: editando, isSuccess: usuarioEditado }] =
-    useEditarUsuarioMutation();
+  const [
+    inserirUsuario,
+    { isLoading: inserindo, isSuccess: inserido, isError: erroInserir },
+  ] = useRegistrarMutation();
+  const [
+    editarIsuario,
+    { isLoading: editando, isSuccess: editado, isError: erroEditar },
+  ] = useEditarUsuarioMutation();
 
   const { toast } = useToast();
 
@@ -43,14 +47,19 @@ function FormUsuario() {
   );
 
   useEffect(() => {
-    if (usuarioInserido || usuarioEditado) {
+    if (inserido || editado) {
       dispatch(closeModal("user"));
       toast({
         variant: "success",
         description: "Sucesso!",
       });
+    } else if (erroInserir || erroEditar) {
+      toast({
+        variant: "error",
+        description: "Ops... tente novamente!",
+      });
     }
-  }, [usuarioEditado, usuarioInserido]);
+  }, [editado, inserido]);
 
   const NovoUsuarioSchema = z.object({
     usuario: z.string({ required_error: "Preenchimento obrigatório" }).min(3, {
@@ -223,7 +232,7 @@ function FormUsuario() {
           className="bg-emerald-500 hover:bg-emerald-600 text-white rounded self-center"
         >
           {inserindo || (editando && <LoadingSpinner />)}
-          {usuarioInserido || (usuarioEditado && <Check />)}
+          {inserido || (editado && <Check />)}
           {estaEditando ? "Salvar" : "Criar"}
         </Button>
       </form>

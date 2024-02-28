@@ -11,31 +11,31 @@ export interface IPedido {
   email: string;
   status: string;
   telefone1: string;
-  telefone2?: string;
+  telefone2?: string | null;
   logradouro: string;
   numeroEndereco: string;
   bairro: string;
-  complemento?: string;
+  complemento?: string | null;
   cep: string;
   cidade: string;
   estado: string;
-  transportadora?: string;
-  fretePreco?: string;
+  transportadora?: string | null;
+  fretePreco?: string | null;
   nomeCliente: string;
   cpfCliente: string;
   categoriaGrupo: string;
-  observacoes?: string;
-  emailLogin?: string;
-  planilhaVendas?: string;
-  licencaGerada?: number;
-  assinatura?: number;
-  chat?: number;
-  posVenda?: number;
-  notaFiscal?: string;
-  unidadeNegocio?: string;
-  previsaoEntrega?: string;
-  numeroSerie?: string;
-  codigoRastreio?: string;
+  observacoes?: string | null;
+  emailLogin?: string | null;
+  planilhaVendas?: string | null;
+  licencaGerada?: number | null;
+  assinatura?: number | null;
+  chat?: number | null;
+  posVenda?: number | null;
+  notaFiscal?: string | null;
+  unidadeNegocio?: string | null;
+  previsaoEntrega?: string | null;
+  numeroSerie?: string | null;
+  codigoRastreio?: string | null;
 }
 
 export interface IItemPedido {
@@ -51,9 +51,9 @@ export interface IItemPedido {
   formaPagamento: string;
   vencimento1Boleto: string;
   tipoPagamento: string;
-  duracaoContrato?: string;
-  vigenciaInicio?: string;
-  vigenciaFim?: string;
+  duracaoContrato?: string | null;
+  vigenciaInicio?: string | null;
+  vigenciaFim?: string | null;
 }
 
 export interface IArquivo {
@@ -71,15 +71,15 @@ export interface IItemPedidoRequest {
   produto: string;
   preco: string;
   quantidade: string;
-  precoTotal?: string;
-  numeroFuncionarios?: string;
-  valorMensal?: string;
+  precoTotal?: string | null;
+  numeroFuncionarios?: string | null;
+  valorMensal?: string | null;
   formaPagamento: string;
   vencimento1Boleto: string;
   tipoPagamento: string;
-  duracaoContrato?: string;
-  vigenciaInicio?: string;
-  vigenciaFim?: string;
+  duracaoContrato?: string | null;
+  vigenciaInicio?: string | null;
+  vigenciaFim?: string | null;
 }
 
 export interface IPedidoCompleto {
@@ -92,33 +92,33 @@ export interface IPedidoCompleto {
   email: string;
   status: string;
   telefone1: string;
-  telefone2?: string;
+  telefone2?: string | null;
   logradouro: string;
   numeroEndereco: string;
   bairro: string;
-  complemento?: string;
+  complemento?: string | null;
   cep: string;
   cidade: string;
   estado: string;
-  transportadora?: string;
-  fretePreco?: string;
+  transportadora?: string | null;
+  fretePreco?: string | null;
   nomeCliente: string;
   cpfCliente: string;
-  categoriaGrupo?: string;
-  observacoes?: string;
-  emailLogin?: string | null;
-  planilhaVendas?: string;
-  licencaGerada?: number;
-  assinatura?: number;
-  chat?: number;
-  posVenda?: number;
-  notaFiscal?: string;
-  unidadeNegocio?: string;
-  previsaoEntrega?: string;
-  numeroSerie?: string;
-  codigoRastreio?: string;
+  categoriaGrupo?: string | null;
+  observacoes?: string | null;
+  emailLogin?: string | null | null;
+  planilhaVendas?: string | null;
+  licencaGerada?: number | null;
+  assinatura?: number | null;
+  chat?: number | null;
+  posVenda?: number | null;
+  notaFiscal?: string | null;
+  unidadeNegocio?: string | null;
+  previsaoEntrega?: string | null;
+  numeroSerie?: string | null;
+  codigoRastreio?: string | null;
   usuario?: {
-    id?: number;
+    id?: number | null;
   };
   itens: IItemPedidoRequest[];
   arquivos?: string[];
@@ -135,7 +135,7 @@ export interface IUsuario {
 
 export interface IUsuarioRequest {
   usuario: string;
-  password?: string;
+  password?: string | null;
   nomeCompleto: string;
   departamento: string;
   email: string;
@@ -162,6 +162,10 @@ export interface ITokenPayload {
   nivel: number;
   nomeCompleto: string;
   sub: string;
+}
+
+export interface ITokenResponse {
+  token: string;
 }
 
 export interface IQueryPedido {

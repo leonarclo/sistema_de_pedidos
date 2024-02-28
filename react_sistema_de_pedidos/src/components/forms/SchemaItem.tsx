@@ -23,8 +23,8 @@ export const schemaItem = z.object({
       required_error: "Preencha o campo de 'Quantidade'",
     })
     .min(1, { message: "Preencha o campo de 'Quantidade'" }),
-  precoTotal: z.string({}).optional(),
-  valorMensal: z.string({}).optional(),
+  precoTotal: z.string({}).nullable().optional(),
+  valorMensal: z.string({}).nullable().optional(),
   formaPagamento: z
     .string({
       required_error: "Preencha o campo de 'Forma de Pagamento'",
@@ -47,7 +47,8 @@ export const schemaItem = z.object({
     .string({
       required_error: "Preencha o campo de 'Pagamento'",
     })
+    .nullable()
     .optional(),
-  vigenciaInicio: z.coerce.string({}).optional(),
-  vigenciaFim: z.coerce.string({}).optional(),
+  vigenciaInicio: z.coerce.string({}).nullable().optional(),
+  vigenciaFim: z.coerce.string({}).nullable().optional(),
 });

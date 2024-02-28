@@ -58,7 +58,7 @@ function InputsDetalhes() {
         render={({ field }) => (
           <FormItem>
             <FormLabel>Origem Lead</FormLabel>
-            <FormControl className="rounded">
+            <FormControl className="rounded" autoFocus={true}>
               <Input {...field} />
             </FormControl>
             <FormMessage />

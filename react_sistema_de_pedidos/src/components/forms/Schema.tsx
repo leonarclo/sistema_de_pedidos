@@ -17,9 +17,11 @@ export const schema = z.object({
           : defaultError,
     }),
   }),
-  cargoCliente: z.string({
-    required_error: "Selecione uma opção de cargo",
-  }),
+  cargoCliente: z
+    .string({
+      required_error: "Selecione uma opção de cargo",
+    })
+    .min(1, { message: "Selecione uma opção de cargo" }),
   empresa: z
     .string({
       required_error: "Preencha o campo de 'Empresa'",
@@ -60,6 +62,7 @@ export const schema = z.object({
     .string({
       required_error: "Preencha o campo de 'Telefone 2'",
     })
+    .nullable()
     .optional(),
   emailLogin: z.string({}).nullable().optional(),
   cep: z.string().refine(
@@ -85,6 +88,7 @@ export const schema = z.object({
     .string({
       required_error: "Preencha o campo de 'Complemento'",
     })
+    .nullable()
     .optional(),
   bairro: z
     .string({
@@ -107,19 +111,19 @@ export const schema = z.object({
     .min(2, {
       message: "Selecione uma opção de UF",
     }),
-  fretePreco: z.string({}).optional(),
-  transportadora: z.string({}).optional(),
-  arquivos: z.any({}).optional(),
-  observacoes: z.string({}).optional(),
+  fretePreco: z.string({}).nullable().optional(),
+  transportadora: z.string({}).nullable().optional(),
+  arquivos: z.any({}).nullable().optional(),
+  observacoes: z.string({}).nullable().optional(),
   consultor: z.string({}),
-  planilhaVendas: z.boolean().default(false).optional(),
-  licencaGerada: z.coerce.boolean().default(false).optional(),
-  assinatura: z.coerce.boolean().default(false).optional(),
-  chat: z.coerce.boolean().default(false).optional(),
-  posVenda: z.coerce.boolean().default(false).optional(),
-  notaFiscal: z.string({}).optional(),
-  unidadeNegocio: z.string({}).optional(),
-  previsaoEntrega: z.coerce.string({}).optional(),
-  numeroSerie: z.string({}).optional(),
-  codigoRastreio: z.string({}).optional(),
+  planilhaVendas: z.boolean().nullable().default(false).optional(),
+  licencaGerada: z.coerce.boolean().nullable().default(false).optional(),
+  assinatura: z.coerce.boolean().nullable().default(false).optional(),
+  chat: z.coerce.boolean().nullable().default(false).optional(),
+  posVenda: z.coerce.boolean().nullable().default(false).optional(),
+  notaFiscal: z.string({}).nullable().optional(),
+  unidadeNegocio: z.string({}).nullable().optional(),
+  previsaoEntrega: z.coerce.string({}).nullable().optional(),
+  numeroSerie: z.string({}).nullable().optional(),
+  codigoRastreio: z.string({}).nullable().optional(),
 });

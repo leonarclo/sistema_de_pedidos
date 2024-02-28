@@ -31,21 +31,15 @@ import { closeModal } from "@/redux/features/modalSlice";
 function FormNovoPedido() {
   const dispatch = useAppDispatch();
   const { toast } = useToast();
-  const [triggerInserirPedido, { isLoading: inserindo, isSuccess: inserido }] =
-    useInserirPedidoMutation();
-  const [triggerEditarPedido, { isLoading: editando, isSuccess: editado }] =
-    useEditarPedidoMutation();
+  const [
+    triggerInserirPedido,
+    { isLoading: inserindo, isSuccess: inserido, isError: erroInserir },
+  ] = useInserirPedidoMutation();
+  const [
+    triggerEditarPedido,
+    { isLoading: editando, isSuccess: editado, isError: erroEditar },
+  ] = useEditarPedidoMutation();
   const usuario = useAppSelector((state) => state.getUserState.usuario);
-
-  useEffect(() => {
-    if (inserido || editado) {
-      dispatch(closeModal("edit"));
-      toast({
-        variant: "success",
-        description: "Sucesso!",
-      });
-    }
-  }, [inserido, editado]);
 
   const fullSchema = z.object({
     ...schema.shape,
@@ -67,6 +61,40 @@ function FormNovoPedido() {
     },
     context: "pedido",
   });
+
+  const errors = form.formState.errors;
+
+  useEffect(() => {
+    if (inserido || editado) {
+      dispatch(closeModal("edit"));
+      toast({
+        variant: "success",
+        description: "Sucesso!",
+      });
+    } else if (erroInserir || erroEditar) {
+      toast({
+        variant: "error",
+        description: "Ops... tente novamente!",
+      });
+    }
+  }, [inserido, editado, errors]);
+
+  useEffect(() => {
+    const firstErrorInput = Object.keys(errors).find((field) => {
+      return document.getElementsByName(field).length > 0;
+    });
+
+    if (firstErrorInput) {
+      const element = document.getElementsByName(firstErrorInput)[0];
+      if (element) {
+        element.focus();
+      }
+    } else {
+      (
+        document.querySelector("[name=leadOrigem]") as HTMLInputElement | null
+      )?.focus();
+    }
+  }, [errors]);
 
   function onSubmit(values: z.infer<typeof fullSchema>) {
     let categoriaGrupo;

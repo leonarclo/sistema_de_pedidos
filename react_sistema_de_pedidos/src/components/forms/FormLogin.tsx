@@ -65,8 +65,8 @@ function FormLogin() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Usuário:</FormLabel>
-              <FormControl>
-                <Input {...field} className="w-96" />
+              <FormControl className="rounded">
+                <Input {...field} className="w-80" autoFocus />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -78,7 +78,7 @@ function FormLogin() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Senha:</FormLabel>
-              <FormControl>
+              <FormControl className="rounded">
                 <Input {...field} type="password" />
               </FormControl>
               <FormMessage />
@@ -88,7 +88,7 @@ function FormLogin() {
         <Button
           type="submit"
           size={"lg"}
-          className="bg-emerald-500 text-white rounded self-center"
+          className="bg-emerald-500 hover:bg-emerald-600 text-white rounded self-center"
         >
           Entrar
         </Button>
