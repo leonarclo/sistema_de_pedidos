@@ -111,7 +111,9 @@ function DataTable<TData, TValue>({
             table.getRowModel().rows.map((row) => (
               <TableRow
                 onClick={() => handleTableRowClick(row)}
-                className="hover:bg-zinc-100 cursor-pointer z-10"
+                className={` hover:bg-zinc-200 cursor-pointer z-10 ${
+                  row.index % 2 == 0 ? "bg-zinc-100" : "bg-zinc-50"
+                }`}
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >

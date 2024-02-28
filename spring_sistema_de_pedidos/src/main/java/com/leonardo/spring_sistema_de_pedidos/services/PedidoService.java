@@ -13,7 +13,6 @@ import com.leonardo.spring_sistema_de_pedidos.dto.PedidoCompletoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.mapper.PedidoMapper;
 import com.leonardo.spring_sistema_de_pedidos.entities.ItemPedido;
 import com.leonardo.spring_sistema_de_pedidos.entities.Pedido;
-import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
 import com.leonardo.spring_sistema_de_pedidos.repositories.ItemPedidoRepository;
 import com.leonardo.spring_sistema_de_pedidos.repositories.PedidoRepository;
 
@@ -36,19 +35,18 @@ public class PedidoService {
     }
 
     public List<PedidoResponseDTO> findByConsultor(String consultor, Integer consultorId) {
-        return PedidoMapper.toPedidoList(pedidoRepository.findByConsultorOrUsuario_id(consultor, consultorId));
+        return PedidoMapper.toPedidoList(pedidoRepository.findByConsultorOrConsultorId(consultor, consultorId));
     }
 
     @Transactional
     public PedidoCompletoRequestDTO save(PedidoCompletoRequestDTO pedidoCompleto) {
         Pedido pedido = PedidoMapper.toPedidoCompletoResponse(pedidoCompleto);
-        Usuario usuario = pedidoCompleto.getUsuario();
-        pedido.setUsuario(usuario);
-
         for (ItemPedido itemPedido : pedido.getItens()) {
             itemPedido.setPedido(pedido);
             itemPedidoRepository.save(itemPedido);
         }
+
+        pedido.setConsultorId(pedidoCompleto.getConsultorId());
 
         pedidoRepository.save(pedido);
         return PedidoMapper.toUpdate(pedido);
@@ -64,6 +62,7 @@ public class PedidoService {
         Pedido findPedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pedido não encontrado!"));
 
+        findPedido.setEditadoPor(updatePedido.getConsultorId());
         modelMapper.map(updatePedido, findPedido);
         for (ItemPedidoRequestDTO itemPedidoDto : updatePedido.getItens()) {
             Optional<ItemPedido> optionalItemPedido = findPedido.getItens().stream()
@@ -72,7 +71,6 @@ public class PedidoService {
 
             if (optionalItemPedido.isPresent()) {
                 ItemPedido itemPedido = optionalItemPedido.get();
-                // Atualizar os campos do item existente
                 modelMapper.map(itemPedidoDto, itemPedido);
                 itemPedido.setPedido(findPedido);
                 itemPedidoRepository.save(itemPedido);

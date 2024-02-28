@@ -56,7 +56,6 @@ function FormNovoPedido() {
     resolver: zodResolver(fullSchema),
     defaultValues: {
       consultor: usuario?.sub,
-      leadOrigem: "",
       itens: [],
     },
     context: "pedido",
@@ -115,12 +114,25 @@ function FormNovoPedido() {
     });
 
     if (editar && editarItem) {
-      const observacoes =
-        values.observacoes && values.observacoes != ""
-          ? editar.observacoes && editar.observacoes != ""
-            ? `${editar.observacoes} | ${values.consultor} : ${values.observacoes}`
-            : `${values.consultor}: ${values.observacoes}`
-          : "";
+      let observacoes;
+      if (
+        values.observacoes &&
+        values.observacoes != "" &&
+        editar.observacoes &&
+        editar.observacoes != ""
+      ) {
+        observacoes = `${editar.observacoes} | ${usuario?.sub}: ${values.observacoes}`;
+      } else if (
+        values.observacoes == "" ||
+        (values.observacoes == null &&
+          editar.observacoes != "" &&
+          editar.observacoes != null)
+      ) {
+        observacoes = editar.observacoes;
+      } else {
+        observacoes = `${usuario?.sub}: ${values.observacoes}`;
+      }
+
       let itemId;
       const editarItemPedido: IItemPedidoRequest[] = [];
       values.itens.forEach((item, index) => {
@@ -194,6 +206,7 @@ function FormNovoPedido() {
         numeroSerie: values.numeroSerie,
         codigoRastreio: values.codigoRastreio,
         emailLogin: values.emailLogin,
+        consultorId: usuario?.id,
         itens: editarItemPedido,
         arquivos: fileNames,
       };
@@ -205,7 +218,7 @@ function FormNovoPedido() {
     } else {
       const observacoes =
         values.observacoes && values.observacoes != ""
-          ? `${values.consultor}: ${values.observacoes}`
+          ? `${usuario?.sub}: ${values.observacoes}`
           : "";
       const itens: IItemPedidoRequest[] = [];
       values.itens.forEach((item) => {
@@ -275,11 +288,10 @@ function FormNovoPedido() {
         numeroSerie: values.numeroSerie,
         codigoRastreio: values.codigoRastreio,
         emailLogin: values.emailLogin,
-        usuario: { id: usuario?.id },
+        consultorId: usuario?.id,
         itens,
         arquivos: fileNames,
       };
-      console.log(pedidoCompleto);
       triggerInserirPedido(pedidoCompleto);
     }
   }

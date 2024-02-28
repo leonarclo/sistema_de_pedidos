@@ -14,5 +14,5 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
     List<Pedido> findAllByConsultorOrderByIdDesc(String consultor);
 
-    List<Pedido> findByConsultorOrUsuario_id(String consultor, Integer consultorId);
+    List<Pedido> findByConsultorOrConsultorId(String consultor, Integer consultorId);
 }

@@ -117,9 +117,7 @@ export interface IPedidoCompleto {
   previsaoEntrega?: string | null;
   numeroSerie?: string | null;
   codigoRastreio?: string | null;
-  usuario?: {
-    id?: number | null;
-  };
+  consultorId?: number | null;
   itens: IItemPedidoRequest[];
   arquivos?: string[];
 }

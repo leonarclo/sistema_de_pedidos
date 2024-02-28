@@ -3,9 +3,6 @@ package com.leonardo.spring_sistema_de_pedidos.dto;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
-import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,7 +48,8 @@ public class PedidoCompletoRequestDTO {
         private String codigoRastreio;
         private String observacoes;
         private String emailLogin;
-        private Usuario usuario;
+        private Long editadoPor;
+        private Long consultorId;
         private List<ItemPedidoRequestDTO> itens;
 
         public PedidoCompletoRequestDTO() {
