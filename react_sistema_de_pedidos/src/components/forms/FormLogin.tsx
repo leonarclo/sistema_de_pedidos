@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,8 +13,10 @@ import { useLoginMutation } from "@/redux/api/authApi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
+import { LoadingSpinner } from "../ui/loading-spinner";
+import { useToast } from "../ui/use-toast";
 
 const loginSchema = z.object({
   usuario: z.string().min(3, {
@@ -25,13 +28,10 @@ const loginSchema = z.object({
 });
 
 function FormLogin() {
-  const [login, { data, isSuccess }] = useLoginMutation();
+  const [login, { data, isLoading, isSuccess, isError }] = useLoginMutation();
+  const { toast } = useToast();
 
   const navigate = useNavigate();
-  const location = useLocation();
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const from = ((location.state as any)?.from.pathname as string) || "/";
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -43,11 +43,19 @@ function FormLogin() {
 
   useEffect(() => {
     if (isSuccess && data) {
-      localStorage.removeItem("token");
       localStorage.setItem("token", data.token);
       navigate("/");
     }
-  }, [isSuccess, navigate, from, data]);
+  }, [isSuccess, data, navigate]);
+
+  useEffect(() => {
+    if (isError) {
+      toast({
+        variant: "error",
+        description: "Credenciais inválidas ou usuário inexistente!",
+      });
+    }
+  }, [isError, toast]);
 
   function onSubmit(values: z.infer<typeof loginSchema>) {
     login(values);
@@ -90,7 +98,7 @@ function FormLogin() {
           size={"lg"}
           className="bg-emerald-500 hover:bg-emerald-600 text-white rounded self-center"
         >
-          Entrar
+          {isLoading ? <LoadingSpinner /> : "Entrar"}
         </Button>
       </form>
     </Form>

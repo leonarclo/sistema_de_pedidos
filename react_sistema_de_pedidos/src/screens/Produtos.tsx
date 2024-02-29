@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Navbar from "@/components/Navbar";
 import ProdutosDialog from "@/components/dialogs/ProdutosDialog";
 import { columns } from "@/components/tabela-produtos/Columns";

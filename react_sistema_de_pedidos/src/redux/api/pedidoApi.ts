@@ -126,7 +126,7 @@ export const pedidoApi = createApi({
     removerProduto: builder.mutation<IProduto, { id: number }>({
       query({ id }) {
         return {
-          url: `/inserir-produto/${id}`,
+          url: `/remover-produto/${id}`,
           method: "POST",
           credentials: "include",
         };

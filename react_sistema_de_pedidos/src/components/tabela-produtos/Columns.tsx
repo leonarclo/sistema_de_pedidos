@@ -1,10 +1,22 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
 import { IProduto } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Trash } from "lucide-react";
 import EditButton from "./EditButton";
-import DeleteProdutoDialog from "../dialogs/DeleteProdutoDialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { useRemoverProdutoMutation } from "@/redux/api/pedidoApi";
+import { useToast } from "../ui/use-toast";
+import { useEffect } from "react";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 export const columns: ColumnDef<IProduto>[] = [
   {
@@ -55,6 +67,64 @@ export const columns: ColumnDef<IProduto>[] = [
   },
   {
     id: "delete",
-    cell: ({ row }) => <DeleteProdutoDialog row={row} />,
+    cell: ({ row }) => {
+      const [remover, { isSuccess, isError }] = useRemoverProdutoMutation();
+      const { toast } = useToast();
+
+      useEffect(() => {
+        if (isSuccess) {
+          toast({
+            variant: "success",
+            description: "Sucesso!",
+          });
+        }
+        if (isError) {
+          toast({
+            variant: "error",
+            description:
+              "Houve um erro ao remover este produto. Atualize a página e tente novamente",
+          });
+        }
+      }, [isSuccess, isError]);
+
+      return (
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant={"outline"}
+              style={{ cursor: "pointer" }}
+              className="border p-4 border-gray-400 hover:bg-gray-300 z-2"
+            >
+              <Trash />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="bg-white">
+            <DialogHeader>
+              <DialogTitle className="flex flex-col gap-3 p-4 pb-10">
+                Tem certeza que deseja remover o produto:{" "}
+                <p>{row.original.produto}</p>
+              </DialogTitle>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button
+                  type="submit"
+                  variant={"default"}
+                  className="bg-green-500 hover:bg-green-600"
+                  onClick={() => remover({ id: row.original.id })}
+                >
+                  Sim
+                </Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button variant={"outline"} className="hover:bg-slate-200">
+                  Não
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      );
+    },
   },
 ];

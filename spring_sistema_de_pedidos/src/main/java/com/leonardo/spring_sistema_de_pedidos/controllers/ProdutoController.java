@@ -56,4 +56,9 @@ public class ProdutoController {
         return ResponseEntity.ok(produto);
     }
 
+    @PostMapping("/remover-produto/{id}")
+    public ResponseEntity<ProdutoDTO> remove(ProdutoDTO deleteProduto,
+            @PathVariable @NonNull Long id) {
+        return ResponseEntity.ok(produtoService.remove(id));
+    }
 }

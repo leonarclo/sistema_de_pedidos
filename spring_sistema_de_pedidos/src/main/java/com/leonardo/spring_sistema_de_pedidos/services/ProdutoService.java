@@ -48,4 +48,14 @@ public class ProdutoService {
         produtoRepository.save(findProduto);
         return produtoUpdated;
     }
+
+    @SuppressWarnings("null")
+    public ProdutoDTO remove(@NonNull Long id) {
+        Produto findProduto = produtoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
+
+        ProdutoDTO produtoDeletado = ProdutoMapper.toProdutoResponse(findProduto);
+        produtoRepository.delete(findProduto);
+        return produtoDeletado;
+    }
 }

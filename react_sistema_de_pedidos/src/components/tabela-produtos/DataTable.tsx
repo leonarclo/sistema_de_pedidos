@@ -50,6 +50,7 @@ function DataTable<TData, TValue>({
     onRowSelectionChange: setRowSelection,
     enableRowSelection: true,
     enableMultiRowSelection: true,
+    autoResetPageIndex: true,
     state: {
       sorting,
       columnFilters,

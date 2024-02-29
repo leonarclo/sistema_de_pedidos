@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { getUserState } from "@/redux/features/authSlice";
 import { useEffect } from "react";
 import { ITokenPayload } from "@/types";
+import LogoutDialog from "./dialogs/LogoutDialog";
 
 function Navbar() {
   const dispatch = useAppDispatch();
@@ -32,16 +33,11 @@ function Navbar() {
     dispatch(getUserState(userInfo as ITokenPayload));
   }, []);
 
-  if (!userInfo) {
-    navigate(loginPage);
-    return;
-  }
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    navigate(loginPage);
-    return;
-  };
+  useEffect(() => {
+    if (!userInfo) {
+      navigate(loginPage);
+    }
+  }, []);
 
   let nivel;
   switch (usuario?.nivel) {
@@ -72,7 +68,7 @@ function Navbar() {
           <h1 className="text-2xl">
             Olá,{" "}
             <span className="capitalize">
-              {userInfo.sub}!{" "}
+              {userInfo?.sub}!{" "}
               <sup className="text-sm text-orange-400 font-bold">{nivel}</sup>
             </span>
           </h1>
@@ -111,13 +107,7 @@ function Navbar() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : null}
-            <Button
-              variant={"link"}
-              className="hover:text-red-400"
-              onClick={() => logout()}
-            >
-              Sair
-            </Button>
+            <LogoutDialog />
           </div>
         </div>
       </div>

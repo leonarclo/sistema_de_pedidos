@@ -18,9 +18,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SpringSecurityConfig {
 
     private final SecurityFilter securityFilter;
+    private final CustomLogoutHandler customLogoutHandler;
 
-    public SpringSecurityConfig(SecurityFilter securityFilter) {
+    public SpringSecurityConfig(SecurityFilter securityFilter, CustomLogoutHandler customLogoutHandler) {
         this.securityFilter = securityFilter;
+        this.customLogoutHandler = customLogoutHandler;
     }
 
     @Bean
@@ -40,8 +42,13 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/buscar-usuarios").hasAuthority("7")
                         .requestMatchers(HttpMethod.POST, "/api/v1/buscar-produtos").hasAuthority("7")
                         .requestMatchers(HttpMethod.POST, "/api/v1/editar-usuario").hasAuthority("7")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/editar-usuario").hasAuthority("7")
                         .anyRequest().authenticated())
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout(logout -> logout
+                        .logoutUrl("/api/v1/logout")
+                        .permitAll()
+                        .logoutSuccessHandler(customLogoutHandler));
         return http.build();
     }
 
