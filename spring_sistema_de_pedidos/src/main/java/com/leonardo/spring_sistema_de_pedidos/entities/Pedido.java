@@ -7,21 +7,16 @@ import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import org.springframework.data.annotation.CreatedDate;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -45,7 +40,8 @@ public class Pedido implements Serializable {
     @Column(name = "chave")
     private String chave;
 
-    @Column(name = "data")
+    @CreatedDate
+    @Column(name = "data", updatable = false)
     private String data;
 
     @Column(name = "empresa")
@@ -150,17 +146,16 @@ public class Pedido implements Serializable {
     @Column(name = "emaillogin")
     private String emailLogin;
 
-    @Column(name = "consultor_id", nullable = true)
-    private Long consultorId;
-
-    @UpdateTimestamp
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "editado_em", nullable = true)
     private LocalDateTime editadoEm;
 
-    @Column(name = "editado_por", nullable = true)
-    private Long editadoPor;
+    @ManyToOne
+    @JoinColumn(name = "editado_por", referencedColumnName = "id", nullable = true)
+    private Usuario editadoPor;
+
+    @ManyToOne
+    @JoinColumn(name = "criado_por", referencedColumnName = "id", nullable = true, updatable = false)
+    private Usuario criadoPor;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens;

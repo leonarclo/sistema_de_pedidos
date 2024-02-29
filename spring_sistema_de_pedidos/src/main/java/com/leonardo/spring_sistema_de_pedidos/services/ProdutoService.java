@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.leonardo.spring_sistema_de_pedidos.dto.ProdutoDTO;
@@ -28,11 +29,13 @@ public class ProdutoService {
         return ProdutoMapper.toProdutoList(produtoRepository.findAllByCategoria(categoria));
     }
 
-    public ProdutoDTO save(ProdutoDTO novoProduto) {
+    @SuppressWarnings("null")
+    public ProdutoDTO save(@NonNull ProdutoDTO novoProduto) {
         return ProdutoMapper.toProdutoResponse(produtoRepository.save(ProdutoMapper.toProdutoRequest(novoProduto)));
     }
 
-    public ProdutoDTO update(ProdutoDTO updateProduto, Long id) {
+    @SuppressWarnings("null")
+    public ProdutoDTO update(@NonNull ProdutoDTO updateProduto, @NonNull Long id) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
         modelMapper.getConfiguration().setSkipNullEnabled(true);

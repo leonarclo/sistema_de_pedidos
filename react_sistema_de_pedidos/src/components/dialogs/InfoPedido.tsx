@@ -20,6 +20,13 @@ function InfoPedido() {
     }
   };
 
+  function observacoesFmt(
+    text: string | null | undefined
+  ): string[] | undefined {
+    const comments = text?.split(" | ");
+    return comments;
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="bg-white min-w-[75vw] m-2 overflow-y-scroll">
@@ -362,7 +369,9 @@ function InfoPedido() {
           <p>
             <span className="text-blue-600 text-sm">Observações:</span>
             <br />
-            {pedido?.observacoes ?? ""}
+            {observacoesFmt(pedido?.observacoes)?.map((item: string) => {
+              return <p>{item}</p>;
+            })}
           </p>
         </div>
       </DialogContent>

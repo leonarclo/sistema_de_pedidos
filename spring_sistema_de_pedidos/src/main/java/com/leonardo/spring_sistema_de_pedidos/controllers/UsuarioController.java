@@ -2,6 +2,7 @@ package com.leonardo.spring_sistema_de_pedidos.controllers;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +30,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/editar-usuario/{id}")
-    public ResponseEntity<UsuarioResponseDTO> update(@RequestBody UsuarioRequestDTO updateUser, @PathVariable Long id) {
+    public ResponseEntity<UsuarioResponseDTO> update(@RequestBody UsuarioRequestDTO updateUser,
+            @PathVariable @NonNull Long id) {
         UsuarioResponseDTO usuario = usuarioService.update(updateUser, id);
         return ResponseEntity.ok(usuario);
     }

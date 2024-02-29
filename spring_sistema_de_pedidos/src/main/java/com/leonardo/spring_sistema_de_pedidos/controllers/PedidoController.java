@@ -2,9 +2,9 @@ package com.leonardo.spring_sistema_de_pedidos.controllers;
 
 import java.util.List;
 
-import org.apache.el.stream.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,22 +30,23 @@ public class PedidoController {
     @GetMapping("/buscar-pedidos")
     public ResponseEntity<List<PedidoResponseDTO>> findAll(
             @RequestParam(name = "consultor", required = false) String consultor,
-            @RequestParam(name = "consultorId", required = false) Integer consultorId) {
+            @RequestParam(name = "usuarioId", required = false) Long usuario) {
         return ResponseEntity
                 .ok(consultor == null ? pedidoService.findAll()
-                        : pedidoService.findByConsultor(consultor, consultorId));
+                        : pedidoService.findByConsultor(consultor, usuario));
     }
 
-    @PostMapping("/inserir-pedido")
-    public ResponseEntity<PedidoCompletoRequestDTO> save(@RequestBody PedidoCompletoRequestDTO pedidoCompleto) {
-        PedidoCompletoRequestDTO savedPedido = pedidoService.save(pedidoCompleto);
+    @PostMapping("/inserir-pedido/{usuarioId}")
+    public ResponseEntity<PedidoCompletoRequestDTO> save(@RequestBody PedidoCompletoRequestDTO pedidoCompleto,
+            @PathVariable @NonNull Long usuarioId) {
+        PedidoCompletoRequestDTO savedPedido = pedidoService.save(pedidoCompleto, usuarioId);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPedido);
     }
 
-    @PostMapping("/editar-pedido/{id}/{itemId}")
-    public ResponseEntity<PedidoCompletoRequestDTO> update(@PathVariable Long id, @PathVariable Long itemId,
-            @RequestBody PedidoCompletoRequestDTO pedido) {
-        PedidoCompletoRequestDTO updatePedido = pedidoService.update(pedido, id, itemId);
+    @PostMapping("/editar-pedido/{usuarioId}/{id}/{itemId}")
+    public ResponseEntity<PedidoCompletoRequestDTO> update(@RequestBody PedidoCompletoRequestDTO pedido,
+            @PathVariable @NonNull Long usuarioId, @PathVariable @NonNull Long id, @PathVariable @NonNull Long itemId) {
+        PedidoCompletoRequestDTO updatePedido = pedidoService.update(pedido, usuarioId, id, itemId);
         return ResponseEntity.ok(updatePedido);
     }
 

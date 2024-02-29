@@ -117,7 +117,6 @@ export interface IPedidoCompleto {
   previsaoEntrega?: string | null;
   numeroSerie?: string | null;
   codigoRastreio?: string | null;
-  consultorId?: number | null;
   itens: IItemPedidoRequest[];
   arquivos?: string[];
 }
@@ -143,7 +142,12 @@ export interface IUsuarioRequest {
 export interface IProduto {
   id: number;
   produto: string;
-  categoria: string;
+  categoria: number;
+}
+
+export interface IProdutoRequest {
+  produto: string;
+  categoria: number;
 }
 
 export interface ILogin {

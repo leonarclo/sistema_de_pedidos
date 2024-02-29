@@ -5,6 +5,7 @@ import {
   IPedido,
   IPedidoCompleto,
   IProduto,
+  IProdutoRequest,
   IQueryPedido,
 } from "../../types";
 
@@ -58,10 +59,13 @@ export const pedidoApi = createApi({
         };
       },
     }),
-    inserirPedido: builder.mutation<IPedido, IPedidoCompleto>({
-      query(body) {
+    inserirPedido: builder.mutation<
+      IPedido,
+      { body: IPedidoCompleto; usuarioId?: number }
+    >({
+      query({ body, usuarioId }) {
         return {
-          url: "/inserir-pedido",
+          url: `/inserir-pedido/${usuarioId}`,
           method: "POST",
           body,
           credentials: "include",
@@ -71,11 +75,11 @@ export const pedidoApi = createApi({
 
     editarPedido: builder.mutation<
       IPedido,
-      { body: IPedidoCompleto; id: number; itemId?: number }
+      { body: IPedidoCompleto; usuarioId?: number; id: number; itemId?: number }
     >({
-      query({ body, id, itemId }) {
+      query({ body, usuarioId, id, itemId }) {
         return {
-          url: `/editar-pedido/${id}/${itemId}`,
+          url: `/editar-pedido/${usuarioId}/${id}/${itemId}`,
           method: "POST",
           body,
           credentials: "include",
@@ -83,11 +87,47 @@ export const pedidoApi = createApi({
       },
       transformResponse: (response: { data: IPedido }) => response.data,
     }),
+
     buscarProdutos: builder.query<IProduto[], void>({
       query() {
         return {
           url: "/buscar-produtos",
           method: "GET",
+          credentials: "include",
+        };
+      },
+    }),
+
+    inserirProduto: builder.mutation<IProduto, IProdutoRequest>({
+      query(body) {
+        return {
+          url: "/inserir-produto",
+          method: "POST",
+          body,
+          credentials: "include",
+        };
+      },
+    }),
+
+    editarProduto: builder.mutation<
+      IProduto,
+      { body: IProdutoRequest; id: number }
+    >({
+      query({ body, id }) {
+        return {
+          url: `/editar-produto/${id}`,
+          method: "POST",
+          body,
+          credentials: "include",
+        };
+      },
+      transformResponse: (response: { data: IProduto }) => response.data,
+    }),
+    removerProduto: builder.mutation<IProduto, { id: number }>({
+      query({ id }) {
+        return {
+          url: `/inserir-produto/${id}`,
+          method: "POST",
           credentials: "include",
         };
       },
@@ -101,4 +141,8 @@ export const {
   useLazyBuscarArquivosQuery,
   useInserirPedidoMutation,
   useEditarPedidoMutation,
+  useBuscarProdutosQuery,
+  useEditarProdutoMutation,
+  useInserirProdutoMutation,
+  useRemoverProdutoMutation,
 } = pedidoApi;

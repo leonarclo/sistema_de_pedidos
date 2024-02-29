@@ -114,6 +114,10 @@ function FormNovoPedido() {
     });
 
     if (editar && editarItem) {
+      const name = usuario?.sub;
+      const formattedName = name
+        ? name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
+        : "";
       let observacoes;
       if (
         values.observacoes &&
@@ -121,7 +125,7 @@ function FormNovoPedido() {
         editar.observacoes &&
         editar.observacoes != ""
       ) {
-        observacoes = `${editar.observacoes} | ${usuario?.sub}: ${values.observacoes}`;
+        observacoes = `${editar.observacoes} | ${formattedName}: ${values.observacoes}`;
       } else if (
         values.observacoes == "" ||
         (values.observacoes == null &&
@@ -130,7 +134,7 @@ function FormNovoPedido() {
       ) {
         observacoes = editar.observacoes;
       } else {
-        observacoes = `${usuario?.sub}: ${values.observacoes}`;
+        observacoes = `${formattedName}: ${values.observacoes}`;
       }
 
       let itemId;
@@ -206,19 +210,23 @@ function FormNovoPedido() {
         numeroSerie: values.numeroSerie,
         codigoRastreio: values.codigoRastreio,
         emailLogin: values.emailLogin,
-        consultorId: usuario?.id,
         itens: editarItemPedido,
         arquivos: fileNames,
       };
       triggerEditarPedido({
         body: editarPedido,
+        usuarioId: usuario?.id,
         id: editar.id,
         itemId,
       });
     } else {
+      const name = usuario?.sub;
+      const formattedName = name
+        ? name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
+        : "";
       const observacoes =
         values.observacoes && values.observacoes != ""
-          ? `${usuario?.sub}: ${values.observacoes}`
+          ? `${formattedName}: ${values.observacoes}`
           : "";
       const itens: IItemPedidoRequest[] = [];
       values.itens.forEach((item) => {
@@ -288,11 +296,11 @@ function FormNovoPedido() {
         numeroSerie: values.numeroSerie,
         codigoRastreio: values.codigoRastreio,
         emailLogin: values.emailLogin,
-        consultorId: usuario?.id,
         itens,
         arquivos: fileNames,
       };
-      triggerInserirPedido(pedidoCompleto);
+      console.log(pedidoCompleto);
+      triggerInserirPedido({ body: pedidoCompleto, usuarioId: usuario?.id });
     }
   }
 

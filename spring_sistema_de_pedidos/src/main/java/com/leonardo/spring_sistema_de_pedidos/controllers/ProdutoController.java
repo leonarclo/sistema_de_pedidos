@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,13 +44,14 @@ public class ProdutoController {
     }
 
     @PostMapping("/inserir-produto")
-    public ResponseEntity<ProdutoDTO> save(@RequestBody ProdutoDTO novoProduto) {
+    public ResponseEntity<ProdutoDTO> save(@RequestBody @NonNull ProdutoDTO novoProduto) {
         ProdutoDTO produto = produtoService.save(novoProduto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produto);
     }
 
     @PostMapping("/editar-produto/{id}")
-    public ResponseEntity<ProdutoDTO> update(@RequestBody ProdutoDTO updateProduto, @PathVariable Long id) {
+    public ResponseEntity<ProdutoDTO> update(@RequestBody @NonNull ProdutoDTO updateProduto,
+            @PathVariable @NonNull Long id) {
         ProdutoDTO produto = produtoService.update(updateProduto, id);
         return ResponseEntity.ok(produto);
     }

@@ -1,10 +1,10 @@
 package com.leonardo.spring_sistema_de_pedidos.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
+import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,8 @@ public class UsuarioService {
         return UsuarioMapper.toUserList(usuarioRepository.findAllByOrderByIdDesc());
     }
 
-    public UsuarioResponseDTO update(UsuarioRequestDTO updateUser, Long id) {
+    @SuppressWarnings("null")
+    public UsuarioResponseDTO update(UsuarioRequestDTO updateUser, @NonNull Long id) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
         modelMapper.getConfiguration().setSkipNullEnabled(true);

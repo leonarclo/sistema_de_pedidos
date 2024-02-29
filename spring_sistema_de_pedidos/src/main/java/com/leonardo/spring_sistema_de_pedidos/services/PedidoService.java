@@ -1,5 +1,6 @@
 package com.leonardo.spring_sistema_de_pedidos.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -13,8 +14,10 @@ import com.leonardo.spring_sistema_de_pedidos.dto.PedidoCompletoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.mapper.PedidoMapper;
 import com.leonardo.spring_sistema_de_pedidos.entities.ItemPedido;
 import com.leonardo.spring_sistema_de_pedidos.entities.Pedido;
+import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
 import com.leonardo.spring_sistema_de_pedidos.repositories.ItemPedidoRepository;
 import com.leonardo.spring_sistema_de_pedidos.repositories.PedidoRepository;
+import com.leonardo.spring_sistema_de_pedidos.repositories.UsuarioRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -23,10 +26,13 @@ public class PedidoService {
 
     private final PedidoRepository pedidoRepository;
     private final ItemPedidoRepository itemPedidoRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public PedidoService(PedidoRepository pedidoRepository, ItemPedidoRepository itemPedidoRepository) {
+    public PedidoService(PedidoRepository pedidoRepository, ItemPedidoRepository itemPedidoRepository,
+            UsuarioRepository usuarioRepository) {
         this.pedidoRepository = pedidoRepository;
         this.itemPedidoRepository = itemPedidoRepository;
+        this.usuarioRepository = usuarioRepository;
 
     }
 
@@ -34,26 +40,34 @@ public class PedidoService {
         return PedidoMapper.toPedidoList(pedidoRepository.findAllByOrderByIdDesc());
     }
 
-    public List<PedidoResponseDTO> findByConsultor(String consultor, Integer consultorId) {
-        return PedidoMapper.toPedidoList(pedidoRepository.findByConsultorOrConsultorId(consultor, consultorId));
+    public List<PedidoResponseDTO> findByConsultor(String consultor, Long usuarioId) {
+        return PedidoMapper.toPedidoList(pedidoRepository.findByConsultorOrCriadoPorId(consultor, usuarioId));
     }
 
     @Transactional
-    public PedidoCompletoRequestDTO save(PedidoCompletoRequestDTO pedidoCompleto) {
+    public PedidoCompletoRequestDTO save(PedidoCompletoRequestDTO pedidoCompleto, @NonNull Long usuarioId) {
+        ModelMapper modelMapper = new ModelMapper();
+
         Pedido pedido = PedidoMapper.toPedidoCompletoResponse(pedidoCompleto);
         for (ItemPedido itemPedido : pedido.getItens()) {
             itemPedido.setPedido(pedido);
             itemPedidoRepository.save(itemPedido);
         }
 
-        pedido.setConsultorId(pedidoCompleto.getConsultorId());
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+
+        modelMapper.map(pedidoCompleto, pedido);
+        pedido.setCriadoPor(usuario);
 
         pedidoRepository.save(pedido);
         return PedidoMapper.toUpdate(pedido);
     }
 
+    @SuppressWarnings("null")
     @Transactional
-    public PedidoCompletoRequestDTO update(PedidoCompletoRequestDTO updatePedido, @NonNull Long id,
+    public PedidoCompletoRequestDTO update(PedidoCompletoRequestDTO updatePedido, @NonNull Long usuarioId,
+            @NonNull Long id,
             @NonNull Long itemId) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
@@ -62,7 +76,12 @@ public class PedidoService {
         Pedido findPedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pedido não encontrado!"));
 
-        findPedido.setEditadoPor(updatePedido.getConsultorId());
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+
+        updatePedido.setEditadoPor(usuario);
+        updatePedido.setEditadoEm(LocalDateTime.now());
+
         modelMapper.map(updatePedido, findPedido);
         for (ItemPedidoRequestDTO itemPedidoDto : updatePedido.getItens()) {
             Optional<ItemPedido> optionalItemPedido = findPedido.getItens().stream()

@@ -8,6 +8,7 @@ import pedidoReducer from "./features/pedidoSlice";
 import usuarioReducer from "./features/usuariosSlice";
 import itensPedidoReducer from "./features/itensPedidoSlice";
 import arquivosReducer from "./features/arquivosSlice";
+import produtoReducer from "./features/produtosSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,8 @@ export const store = configureStore({
     editarPedidoState: pedidoReducer,
     usuarioState: usuarioReducer,
     editarUsuarioState: usuarioReducer,
+    produtoState: produtoReducer,
+    editarProdutoState: produtoReducer,
     itensPedidoState: itensPedidoReducer,
     pedidoSelecionadoState: pedidoReducer,
     arquivosState: arquivosReducer,

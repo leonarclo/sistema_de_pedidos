@@ -212,12 +212,22 @@ function FormUsuario() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="bg-white ">
-                    <SelectItem value="1">Consultor</SelectItem>
-                    <SelectItem value="5">Editor</SelectItem>
-                    <SelectItem value="7">ADM</SelectItem>
-                    <SelectItem value="0">Inativo</SelectItem>
+                    <SelectItem value="1" className="cursor-pointer">
+                      Consultor
+                    </SelectItem>
+                    <SelectItem value="5" className="cursor-pointer">
+                      Editor
+                    </SelectItem>
+                    <SelectItem value="7" className="cursor-pointer">
+                      ADM
+                    </SelectItem>
+                    <SelectItem value="0" className="cursor-pointer">
+                      Inativo
+                    </SelectItem>
                     {estaEditando?.nivel == 9 ? (
-                      <SelectItem value="9">Master</SelectItem>
+                      <SelectItem value="9" className="cursor-pointer">
+                        Master
+                      </SelectItem>
                     ) : null}
                   </SelectContent>
                 </Select>
