@@ -17,10 +17,6 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Input } from "../ui/input";
-import {
-  produtoContratoOptions,
-  produtoVendaOptions,
-} from "@/constants/produtosOptions";
 import { InputBRL } from "../ui/input-brl";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
@@ -30,7 +26,8 @@ import { Calendar } from "../ui/calendar";
 import { useAppSelector } from "@/redux/store";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import moment from "moment";
-import { IItemPedido } from "@/types";
+import { IItemPedido, IProduto } from "@/types";
+import { useBuscarProdutosQuery } from "@/redux/api/pedidoApi";
 
 function InputsItem() {
   const form = useFormContext();
@@ -39,6 +36,19 @@ function InputsItem() {
 
   const { fields, append, remove } = useFieldArray({
     name: "itens",
+  });
+
+  const { data: produtoList } = useBuscarProdutosQuery();
+
+  const produtosVenda: IProduto[] = [];
+  const produtosContrato: IProduto[] = [];
+
+  produtoList?.map((produto) => {
+    if (produto.categoria == 1) {
+      produtosVenda.push(produto);
+    } else {
+      produtosContrato.push(produto);
+    }
   });
 
   useEffect(() => {
@@ -160,15 +170,15 @@ function InputsItem() {
                     <SelectContent className="bg-white">
                       {form.watch(`categoria-${index}`) === "Venda" ? (
                         <>
-                          {produtoVendaOptions.map((status) => (
-                            <SelectItem key={status.name} value={status.name}>
-                              {status.name}
+                          {produtosVenda.map((item) => (
+                            <SelectItem key={item.id} value={item.produto}>
+                              {item.produto}
                             </SelectItem>
                           ))}
                           {itens.map((item, index) => {
                             if (
-                              !produtoVendaOptions.some(
-                                (status) => status.name === item.produto
+                              !produtosVenda.some(
+                                (produto) => produto.produto === item.produto
                               )
                             ) {
                               return (
@@ -185,15 +195,15 @@ function InputsItem() {
                         </>
                       ) : (
                         <>
-                          {produtoContratoOptions.map((status) => (
-                            <SelectItem key={status.name} value={status.name}>
-                              {status.name}
+                          {produtosContrato.map((item) => (
+                            <SelectItem key={item.id} value={item.produto}>
+                              {item.produto}
                             </SelectItem>
                           ))}
                           {itens.map((item, index) => {
                             if (
-                              !produtoContratoOptions.some(
-                                (status) => status.name === item.produto
+                              !produtosContrato.some(
+                                (produto) => produto.produto === item.produto
                               )
                             ) {
                               return (
@@ -522,17 +532,17 @@ function InputsItem() {
                       <SelectContent className="bg-white">
                         {form.watch(`itens.${index}.categoria`) === "Venda" ? (
                           <>
-                            {produtoVendaOptions.map((status) => (
-                              <SelectItem key={status.name} value={status.name}>
-                                {status.name}
+                            {produtosVenda.map((item) => (
+                              <SelectItem key={item.id} value={item.produto}>
+                                {item.produto}
                               </SelectItem>
                             ))}
                           </>
                         ) : (
                           <>
-                            {produtoContratoOptions.map((status) => (
-                              <SelectItem key={status.name} value={status.name}>
-                                {status.name}
+                            {produtosContrato.map((item) => (
+                              <SelectItem key={item.id} value={item.produto}>
+                                {item.produto}
                               </SelectItem>
                             ))}
                           </>

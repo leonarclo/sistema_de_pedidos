@@ -56,4 +56,8 @@ ALTER TABLE co_pedidos
     MODIFY codigoRastreio VARCHAR(20) NULL,
     MODIFY obs TEXT NULL,
     MODIFY emailLogin VARCHAR(100) NULL;
+
+ALTER TABLE co_produtos
+    DROP COLUMN nivel;
+
 COMMIT;

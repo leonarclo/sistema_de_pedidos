@@ -41,6 +41,7 @@ function LogoutDialog() {
   };
 
   const handleYesClick = () => {
+    dispatch(closeModal("logout"));
     logout();
   };
 

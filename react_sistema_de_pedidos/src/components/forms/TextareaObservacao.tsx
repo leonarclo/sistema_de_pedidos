@@ -18,7 +18,7 @@ function TextareaObservacao() {
       render={({ field }) => (
         <FormItem>
           <FormLabel>Observações:</FormLabel>
-          <FormControl className="w-[40vw] h-[200px]">
+          <FormControl className="h-[250px]">
             <Textarea className="resize-none rounded" {...field} />
           </FormControl>
           <FormMessage />

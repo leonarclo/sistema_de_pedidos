@@ -342,26 +342,30 @@ function FormNovoPedido() {
             <div className="flex flex-wrap gap-6 justify-start items-center">
               <InputsItem />
             </div>
-            {editar ? (
-              <>
-                <hr />
-                <div className="flex flex-wrap gap-6 justify-start items-center">
-                  <InputsAdm />
-                </div>
-                <hr />
-              </>
-            ) : null}
             <h4>Adicionar arquivo(s):</h4>
             <div className="flex flex-wrap justify-start items-center">
               <InputArquivo />
             </div>
-            <div className="flex flex-col flex-wrap justify-center items-start w-[50%]">
-              {editar ? (
-                <div className="mb-4">
-                  <p>{editar.observacoes}</p>
+            <div className="flex flex-row gap-4">
+              <div className="flex-1">
+                <div className="flex flex-col flex-wrap justify-center items-start">
+                  {editar ? (
+                    <div className="mb-4">
+                      <p>{editar.observacoes}</p>
+                    </div>
+                  ) : null}
                 </div>
+                <TextareaObservacao />
+              </div>
+              {editar ? (
+                <>
+                  <hr />
+                  <div className="flex flex-wrap gap-6 justify-start items-center">
+                    <InputsAdm />
+                  </div>
+                  <hr />
+                </>
               ) : null}
-              <TextareaObservacao />
             </div>
           </div>
         </div>
@@ -370,8 +374,8 @@ function FormNovoPedido() {
             type="submit"
             className="bg-emerald-500 hover:bg-emerald-600 text-white rounded font-bold flex items-center gap-2"
           >
-            {inserindo || (editando && <LoadingSpinner />)}
-            {inserido || (editado && <Check />)}
+            {inserindo || editando ? <LoadingSpinner /> : ""}
+            {inserido || editado ? <Check /> : ""}
             Enviar
           </Button>
         </div>
