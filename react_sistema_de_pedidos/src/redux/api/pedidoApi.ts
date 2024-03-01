@@ -34,8 +34,9 @@ export const pedidoApi = createApi({
         const consultorIdParam = data?.consultorId
           ? `&consultorId=${data?.consultorId}`
           : "";
+        const cnpjParam = data?.cnpj ? `?cnpj=${data?.cnpj}` : "";
         return {
-          url: `/buscar-pedidos${consultorParam}${consultorIdParam}`,
+          url: `/buscar-pedidos${consultorParam}${consultorIdParam}${cnpjParam}`,
           method: "GET",
           credentials: "include",
         };
@@ -136,6 +137,7 @@ export const pedidoApi = createApi({
 });
 
 export const {
+  useLazyBuscarPedidosQuery,
   useBuscarPedidosQuery,
   useLazyBuscarItemQuery,
   useLazyBuscarArquivosQuery,

@@ -171,6 +171,7 @@ export interface ITokenResponse {
 }
 
 export interface IQueryPedido {
-  consultor: string;
-  consultorId: number;
+  consultor?: string;
+  consultorId?: number;
+  cnpj?: string;
 }

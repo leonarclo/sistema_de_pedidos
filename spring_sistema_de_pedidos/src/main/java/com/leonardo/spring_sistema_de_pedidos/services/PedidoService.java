@@ -8,6 +8,8 @@ import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+
+import com.leonardo.spring_sistema_de_pedidos.dto.ClientePedidoDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.ItemPedidoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoCompletoRequestDTO;
@@ -27,27 +29,33 @@ public class PedidoService {
     private final PedidoRepository pedidoRepository;
     private final ItemPedidoRepository itemPedidoRepository;
     private final UsuarioRepository usuarioRepository;
+    private static final ModelMapper modelMapper = new ModelMapper();
 
     public PedidoService(PedidoRepository pedidoRepository, ItemPedidoRepository itemPedidoRepository,
             UsuarioRepository usuarioRepository) {
         this.pedidoRepository = pedidoRepository;
         this.itemPedidoRepository = itemPedidoRepository;
         this.usuarioRepository = usuarioRepository;
-
     }
 
     public List<PedidoResponseDTO> findAll() {
         return PedidoMapper.toPedidoList(pedidoRepository.findAllByOrderByIdDesc());
     }
 
-    public List<PedidoResponseDTO> findByConsultor(String consultor, Long usuarioId) {
-        return PedidoMapper.toPedidoList(pedidoRepository.findByConsultorOrCriadoPorId(consultor, usuarioId));
+    public List<PedidoResponseDTO> findByCnpj(String cnpj) {
+        return PedidoMapper.toPedidoList(pedidoRepository.findFirstByCnpj(cnpj));
+    }
+
+    public List<PedidoResponseDTO> findByConsultor(String consultor) {
+        return PedidoMapper.toPedidoList(pedidoRepository.findByConsultorOrderByIdDesc(consultor));
+    }
+
+    public List<PedidoResponseDTO> findByConsultorId(Usuario consultorId) {
+        return PedidoMapper.toPedidoList(pedidoRepository.findByCriadoPorOrderByIdDesc(consultorId));
     }
 
     @Transactional
     public PedidoCompletoRequestDTO save(PedidoCompletoRequestDTO pedidoCompleto, @NonNull Long usuarioId) {
-        ModelMapper modelMapper = new ModelMapper();
-
         Pedido pedido = PedidoMapper.toPedidoCompletoResponse(pedidoCompleto);
         for (ItemPedido itemPedido : pedido.getItens()) {
             itemPedido.setPedido(pedido);
@@ -69,7 +77,6 @@ public class PedidoService {
     public PedidoCompletoRequestDTO update(PedidoCompletoRequestDTO updatePedido, @NonNull Long usuarioId,
             @NonNull Long id,
             @NonNull Long itemId) {
-        ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
         modelMapper.getConfiguration().setSkipNullEnabled(true);
 

@@ -8,8 +8,9 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
+import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
+import com.leonardo.spring_sistema_de_pedidos.repositories.UsuarioRepository;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoCompletoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.services.PedidoService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,18 +23,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class PedidoController {
 
     public final PedidoService pedidoService;
+    public final UsuarioRepository usuarioRepository;
 
-    public PedidoController(PedidoService pedidoService) {
+    public PedidoController(PedidoService pedidoService, UsuarioRepository usuarioRepository) {
         this.pedidoService = pedidoService;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @GetMapping("/buscar-pedidos")
     public ResponseEntity<List<PedidoResponseDTO>> findAll(
             @RequestParam(name = "consultor", required = false) String consultor,
-            @RequestParam(name = "usuarioId", required = false) Long usuario) {
-        return ResponseEntity
-                .ok(consultor == null ? pedidoService.findAll()
-                        : pedidoService.findByConsultor(consultor, usuario));
+            @RequestParam(name = "consultorId", required = false) Long consultorId,
+            @RequestParam(name = "cnpj", required = false) String cnpj) {
+        if (consultor != null) {
+            return ResponseEntity.ok(pedidoService.findByConsultor(consultor));
+        } else if (cnpj != null) {
+            return ResponseEntity.ok(pedidoService.findByCnpj(cnpj));
+        } else if (consultorId != null) {
+            Usuario usuario = usuarioRepository.findById(consultorId)
+                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+            return ResponseEntity.ok(pedidoService.findByConsultorId(usuario));
+        } else {
+            return ResponseEntity.ok(pedidoService.findAll());
+        }
+
     }
 
     @PostMapping("/inserir-pedido/{usuarioId}")

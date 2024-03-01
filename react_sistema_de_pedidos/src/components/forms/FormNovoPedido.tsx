@@ -27,6 +27,7 @@ import { LoadingSpinner } from "../ui/loading-spinner";
 import { Check } from "lucide-react";
 import { useToast } from "../ui/use-toast";
 import { closeModal } from "@/redux/features/modalSlice";
+import PreencherClientePedido from "../dialogs/PreencherClientePedido";
 
 function FormNovoPedido() {
   const dispatch = useAppDispatch();
@@ -331,6 +332,7 @@ function FormNovoPedido() {
               <InputsDetalhes />
             </div>
             <hr />
+            <PreencherClientePedido />
             <div className="flex flex-wrap gap-6 justify-start items-center">
               <InputsCliente />
             </div>

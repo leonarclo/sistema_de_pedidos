@@ -31,7 +31,7 @@ public class SpringSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/login/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/me").hasAuthority("1")
                         .requestMatchers(HttpMethod.POST, "/api/v1/registrar").hasAuthority("7")
                         .requestMatchers(HttpMethod.GET, "/api/v1/buscar-pedidos").hasAuthority("1")
@@ -41,7 +41,6 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/buscar-arquivos").hasAuthority("1")
                         .requestMatchers(HttpMethod.POST, "/api/v1/buscar-usuarios").hasAuthority("7")
                         .requestMatchers(HttpMethod.POST, "/api/v1/buscar-produtos").hasAuthority("7")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/editar-usuario").hasAuthority("7")
                         .requestMatchers(HttpMethod.POST, "/api/v1/editar-usuario").hasAuthority("7")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { columns } from "@/components/tabela-pedidos/Columns";
 import Navbar from "../components/Navbar";

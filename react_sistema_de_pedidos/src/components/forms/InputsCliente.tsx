@@ -18,7 +18,6 @@ import { cargoOptions } from "@/constants/cargoOptions";
 import { InputMasked } from "../ui/input-mask";
 import { InputPhone } from "../ui/input-phone";
 import { useFormContext } from "react-hook-form";
-
 function InputsCliente() {
   const form = useFormContext();
 
@@ -26,24 +25,14 @@ function InputsCliente() {
     <>
       <FormField
         control={form.control}
-        name="cargoCliente"
+        name="cnpj"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Cargo</FormLabel>
-            <Select value={field.value} onValueChange={field.onChange}>
-              <FormControl className="rounded w-64">
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecione..." />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent className="bg-white">
-                {cargoOptions.map((status) => (
-                  <SelectItem key={status} value={status}>
-                    {status}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <FormLabel>CNPJ</FormLabel>
+            <FormControl className="rounded">
+              <InputMasked mask="cnpj" {...field} />
+            </FormControl>
             <FormMessage />
           </FormItem>
         )}
@@ -64,14 +53,24 @@ function InputsCliente() {
       />
       <FormField
         control={form.control}
-        name="cnpj"
-        defaultValue=""
+        name="cargoCliente"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>CNPJ</FormLabel>
-            <FormControl className="rounded">
-              <InputMasked mask="cnpj" {...field} />
-            </FormControl>
+            <FormLabel>Cargo</FormLabel>
+            <Select value={field.value} onValueChange={field.onChange}>
+              <FormControl className="rounded w-64">
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione..." />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent className="bg-white">
+                {cargoOptions.map((status) => (
+                  <SelectItem key={status} value={status}>
+                    {status}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <FormMessage />
           </FormItem>
         )}
