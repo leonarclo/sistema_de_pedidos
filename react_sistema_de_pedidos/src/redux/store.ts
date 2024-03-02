@@ -10,11 +10,13 @@ import itensPedidoReducer from "./features/itensPedidoSlice";
 import arquivosReducer from "./features/arquivosSlice";
 import produtoReducer from "./features/produtosSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { filesApi } from "./api/filesApi";
 export const store = configureStore({
   reducer: {
     [pedidoApi.reducerPath]: pedidoApi.reducer,
     [usuariosApi.reducerPath]: usuariosApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
+    [filesApi.reducerPath]: filesApi.reducer,
     modalState: modalReducer,
     pedidoState: pedidoReducer,
     editarPedidoState: pedidoReducer,
@@ -32,7 +34,12 @@ export const store = configureStore({
     getDefaultMiddleware({
       immutableCheck: false,
       serializableCheck: false,
-    }).concat(pedidoApi.middleware, usuariosApi.middleware, authApi.middleware),
+    }).concat(
+      pedidoApi.middleware,
+      usuariosApi.middleware,
+      authApi.middleware,
+      filesApi.middleware
+    ),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

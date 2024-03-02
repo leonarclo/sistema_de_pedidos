@@ -8,6 +8,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.annotation.CreatedDate;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,7 +40,7 @@ public class Pedido implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "chave")
+    @Column(name = "chave", updatable = false)
     private String chave;
 
     @CreatedDate

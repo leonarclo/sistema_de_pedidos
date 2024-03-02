@@ -28,6 +28,7 @@ import { Check } from "lucide-react";
 import { useToast } from "../ui/use-toast";
 import { closeModal } from "@/redux/features/modalSlice";
 import PreencherClientePedido from "../dialogs/PreencherClientePedido";
+import { useUploadMutation } from "@/redux/api/filesApi";
 
 function FormNovoPedido() {
   const dispatch = useAppDispatch();
@@ -41,6 +42,8 @@ function FormNovoPedido() {
     { isLoading: editando, isSuccess: editado, isError: erroEditar },
   ] = useEditarPedidoMutation();
   const usuario = useAppSelector((state) => state.getUserState.usuario);
+
+  const [triggerUpload] = useUploadMutation();
 
   const fullSchema = z.object({
     ...schema.shape,
@@ -167,7 +170,7 @@ function FormNovoPedido() {
 
       const fileNames = [];
       arquivos.forEach((arquivo) => {
-        fileNames.push(arquivo.arquivo);
+        fileNames.push(arquivo);
       });
       if (values.arquivos) {
         for (let i = 0; i < values.arquivos.length; i++) {
@@ -220,6 +223,7 @@ function FormNovoPedido() {
         id: editar.id,
         itemId,
       });
+      triggerUpload(form.getValues("arquivos"));
     } else {
       const name = usuario?.sub;
       const formattedName = name
@@ -302,6 +306,7 @@ function FormNovoPedido() {
       };
       console.log(pedidoCompleto);
       triggerInserirPedido({ body: pedidoCompleto, usuarioId: usuario?.id });
+      triggerUpload(form.getValues("arquivos"));
     }
   }
 

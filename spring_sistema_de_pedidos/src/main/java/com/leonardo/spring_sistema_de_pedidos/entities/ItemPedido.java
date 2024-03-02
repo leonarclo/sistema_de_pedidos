@@ -37,7 +37,7 @@ public class ItemPedido {
     @Column(name = "chaveb")
     private String chave;
 
-    @Column(name = "categoria")
+    @Column(name = "categoria", updatable = false)
     private String categoria;
 
     @Column(name = "produto")

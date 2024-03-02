@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.leonardo.spring_sistema_de_pedidos.entities.Arquivo;
 import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
 
 import lombok.AllArgsConstructor;
