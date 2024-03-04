@@ -79,11 +79,15 @@ export const schema = z.object({
     .min(3, {
       message: "'Logradouro' precisa conter pelo menos 3 letras",
     }),
-  numeroEndereco: z
-    .string({
-      required_error: "Preencha o campo de 'Número'",
-    })
-    .min(1, { message: "Preencha o campo de 'Número'" }),
+  numeroEndereco: z.string().refine(
+    (value) => {
+      const number = value.replace(/\D/g, "");
+      const isValid = number;
+      const isSN = value.toUpperCase() === "S/N";
+      return isValid || isSN;
+    },
+    { message: "Preencha apenas números ou com 'S/N'" }
+  ),
   complemento: z
     .string({
       required_error: "Preencha o campo de 'Complemento'",

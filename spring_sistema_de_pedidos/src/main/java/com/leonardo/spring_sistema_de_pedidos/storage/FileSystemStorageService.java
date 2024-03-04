@@ -66,6 +66,7 @@ public class FileSystemStorageService {
         return rootLocation.resolve(filename);
     }
 
+    @SuppressWarnings("null")
     public Resource loadAsResource(String filename) {
         try {
             Path file = load(filename);

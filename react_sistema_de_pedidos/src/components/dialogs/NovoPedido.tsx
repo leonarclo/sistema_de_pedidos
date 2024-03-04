@@ -38,7 +38,10 @@ function NovoPedidoDialog() {
           <p>Novo Pedido</p>
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-white">
+      <DialogContent
+        className="bg-white"
+        onInteractOutside={(e) => e.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle className="pb-4">
             {editando?.chave ? "Editando Pedido" : "Novo Pedido"}

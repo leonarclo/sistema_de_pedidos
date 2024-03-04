@@ -29,19 +29,34 @@ export const pedidoApi = createApi({
     buscarPedidos: builder.query<IPedido[], IQueryPedido | undefined>({
       query(data) {
         const consultorParam = data?.consultor
-          ? `?consultor=${data?.consultor}`
+          ? `consultor=${data?.consultor}`
           : "";
         const consultorIdParam = data?.consultorId
-          ? `&consultorId=${data?.consultorId}`
+          ? `consultorId=${data?.consultorId}`
           : "";
-        const cnpjParam = data?.cnpj ? `?cnpj=${data?.cnpj}` : "";
+        const consultorNivel = data?.consultorNivel
+          ? `nivel=${data?.consultorNivel}`
+          : "";
+        const cnpjParam = data?.cnpj ? `cnpj=${data?.cnpj}` : "";
+
+        // Combine os parâmetros em uma string de consulta
+        const queryParams = [
+          consultorParam,
+          consultorIdParam,
+          consultorNivel,
+          cnpjParam,
+        ]
+          .filter((param) => param) // Remova parâmetros vazios
+          .join("&"); // Junte os parâmetros com "&"
+
         return {
-          url: `/buscar-pedidos${consultorParam}${consultorIdParam}${cnpjParam}`,
+          url: `/buscar-pedidos${queryParams ? `?${queryParams}` : ""}`, // Adicione "?" se houver parâmetros
           method: "GET",
           credentials: "include",
         };
       },
     }),
+
     buscarItem: builder.query<IItemPedidoRequest[], void>({
       query(chave) {
         return {
@@ -51,7 +66,7 @@ export const pedidoApi = createApi({
         };
       },
     }),
-    buscarArquivos: builder.query<IArquivo[], void>({
+    buscarArquivos: builder.query<IArquivo[], string>({
       query(chave) {
         return {
           url: `/buscar-arquivos?chave=${chave}`,
@@ -141,6 +156,7 @@ export const {
   useBuscarPedidosQuery,
   useLazyBuscarItemQuery,
   useLazyBuscarArquivosQuery,
+  useLazyBuscarProdutosQuery,
   useInserirPedidoMutation,
   useEditarPedidoMutation,
   useBuscarProdutosQuery,

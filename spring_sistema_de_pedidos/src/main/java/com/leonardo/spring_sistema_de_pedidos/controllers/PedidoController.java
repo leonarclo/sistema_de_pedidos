@@ -34,18 +34,23 @@ public class PedidoController {
     public ResponseEntity<List<PedidoResponseDTO>> findAll(
             @RequestParam(name = "consultor", required = false) String consultor,
             @RequestParam(name = "consultorId", required = false) Long consultorId,
+            @RequestParam(name = "nivel", required = false) Long nivel,
             @RequestParam(name = "cnpj", required = false) String cnpj) {
-        if (consultor != null) {
-            return ResponseEntity.ok(pedidoService.findByConsultor(consultor));
-        } else if (cnpj != null) {
-            return ResponseEntity.ok(pedidoService.findByCnpj(cnpj));
-        } else if (consultorId != null) {
+
+        if (consultor != null && consultorId != null && nivel <= 5) {
             Usuario usuario = usuarioRepository.findById(consultorId)
                     .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
-            return ResponseEntity.ok(pedidoService.findByConsultorId(usuario));
-        } else {
+            return ResponseEntity.ok(pedidoService.findByConsultor(consultor, usuario));
+        }
+        if (consultor != null && consultorId != null && nivel > 5) {
             return ResponseEntity.ok(pedidoService.findAll());
         }
+
+        if (cnpj != null) {
+            return ResponseEntity.ok(pedidoService.findByCnpj(cnpj));
+        }
+
+        return ResponseEntity.notFound().build();
 
     }
 

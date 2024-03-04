@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.leonardo.spring_sistema_de_pedidos.dto.UsuarioRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.UsuarioResponseDTO;
@@ -46,6 +47,26 @@ public class UsuarioService {
         modelMapper.map(updateUser, findUser);
         usuarioRepository.save(findUser);
         return userUpdated;
+    }
+
+    @Transactional
+    public void encryptAllPasswords() {
+        // Busca todos os usuários no banco de dados
+        Iterable<Usuario> usuarios = usuarioRepository.findAll();
+
+        // Instancia um codificador BCrypt
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        // Percorre todos os usuários
+        for (Usuario usuario : usuarios) {
+            // Verifica se a senha já está criptografada
+            if (!passwordEncoder.matches(usuario.getPassword(), usuario.getPassword())) {
+                // Se não estiver criptografada, criptografa e atualiza no banco de dados
+                String hashedPassword = passwordEncoder.encode(usuario.getPassword());
+                usuario.setPassword(hashedPassword);
+                usuarioRepository.save(usuario);
+            }
+        }
     }
 
 }

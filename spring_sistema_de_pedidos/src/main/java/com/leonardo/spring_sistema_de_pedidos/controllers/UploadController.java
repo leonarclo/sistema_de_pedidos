@@ -1,16 +1,13 @@
 package com.leonardo.spring_sistema_de_pedidos.controllers;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.tomcat.jni.FileInfo;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,11 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-
 import com.leonardo.spring_sistema_de_pedidos.dto.ArquivoDTO;
-import com.leonardo.spring_sistema_de_pedidos.entities.Arquivo;
-import com.leonardo.spring_sistema_de_pedidos.repositories.ArquivoRepository;
 import com.leonardo.spring_sistema_de_pedidos.storage.FileSystemStorageService;
 import com.leonardo.spring_sistema_de_pedidos.storage.StorageFileNotFoundException;
 
@@ -33,22 +26,22 @@ import com.leonardo.spring_sistema_de_pedidos.storage.StorageFileNotFoundExcepti
 public class UploadController {
 
     private final FileSystemStorageService storageService;
-    private final ArquivoRepository arquivoRepository;
 
-    public UploadController(FileSystemStorageService storageService, ArquivoRepository arquivoRepository) {
+    public UploadController(FileSystemStorageService storageService) {
         this.storageService = storageService;
-        this.arquivoRepository = arquivoRepository;
+
     }
 
     @GetMapping("/files")
     public ResponseEntity<List<ArquivoDTO>> getListFiles() {
         List<ArquivoDTO> fileInfos = storageService.loadAll().map(path -> {
             String filename = path.getFileName().toString();
-            String url = MvcUriComponentsBuilder
-                    .fromMethodName(UploadController.class, "serveFile", path.getFileName().toString()).build()
-                    .toString();
+            // String url = MvcUriComponentsBuilder
+            // .fromMethodName(UploadController.class, "serveFile",
+            // path.getFileName().toString()).build()
+            // .toString();
 
-            return new ArquivoDTO(filename, url);
+            return new ArquivoDTO(filename);
         }).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
@@ -73,9 +66,9 @@ public class UploadController {
 
         for (MultipartFile file : files) {
             fileNames.add(file.getOriginalFilename());
-            Arquivo arquivo = new Arquivo();
-            arquivo.setArquivo(file.getOriginalFilename());
-            arquivoRepository.save(arquivo);
+            // Arquivo arquivo = new Arquivo();
+            // arquivo.setArquivo(file.getOriginalFilename());
+            // arquivoRepository.save(arquivo);
             storageService.store(file);
         }
         return ResponseEntity.ok().body("You successfully uploaded " + fileNames + "!");

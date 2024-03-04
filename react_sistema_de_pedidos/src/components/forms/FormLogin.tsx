@@ -45,8 +45,9 @@ function FormLogin() {
     if (isSuccess && data) {
       localStorage.setItem("token", data.token);
       navigate("/");
+      return;
     }
-  }, [isSuccess, data, navigate]);
+  }, [isSuccess, data]);
 
   useEffect(() => {
     if (isError) {

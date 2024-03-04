@@ -14,7 +14,7 @@ public class ArquivoService {
         this.arquivoRepository = arquivoRepository;
     }
 
-    public List<Arquivo> findByChave(String chave) {
+    public List<Arquivo> findByPedido(String chave) {
         return arquivoRepository.findAllByChave(chave);
     }
 

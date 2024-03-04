@@ -36,4 +36,9 @@ public class UsuarioController {
         return ResponseEntity.ok(usuario);
     }
 
+    @PostMapping("/encrypt")
+    public void encryptAllPasswords() {
+        usuarioService.encryptAllPasswords();
+    }
+
 }

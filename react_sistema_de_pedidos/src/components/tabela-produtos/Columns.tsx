@@ -77,6 +77,9 @@ export const columns: ColumnDef<IProduto>[] = [
             variant: "success",
             description: "Sucesso!",
           });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         }
         if (isError) {
           toast({

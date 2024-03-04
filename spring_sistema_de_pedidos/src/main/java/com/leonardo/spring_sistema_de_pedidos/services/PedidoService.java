@@ -1,6 +1,7 @@
 package com.leonardo.spring_sistema_de_pedidos.services;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -9,7 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import com.leonardo.spring_sistema_de_pedidos.dto.ClientePedidoDTO;
+import com.leonardo.spring_sistema_de_pedidos.dto.ArquivoDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.ItemPedidoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoCompletoRequestDTO;
@@ -51,20 +52,23 @@ public class PedidoService {
         return PedidoMapper.toPedidoList(pedidoRepository.findFirstByCnpj(cnpj));
     }
 
-    public List<PedidoResponseDTO> findByConsultor(String consultor) {
-        return PedidoMapper.toPedidoList(pedidoRepository.findByConsultorOrderByIdDesc(consultor));
-    }
-
-    public List<PedidoResponseDTO> findByConsultorId(Usuario consultorId) {
-        return PedidoMapper.toPedidoList(pedidoRepository.findByCriadoPorOrderByIdDesc(consultorId));
+    public List<PedidoResponseDTO> findByConsultor(String consultor, Usuario consultorId) {
+        return PedidoMapper
+                .toPedidoList(pedidoRepository.findByConsultorOrCriadoPorOrderByIdDesc(consultor, consultorId));
     }
 
     @Transactional
     public PedidoCompletoRequestDTO save(PedidoCompletoRequestDTO pedidoCompleto, @NonNull Long usuarioId) {
         Pedido pedido = PedidoMapper.toPedidoCompletoResponse(pedidoCompleto);
+
         for (ItemPedido itemPedido : pedido.getItens()) {
             itemPedido.setPedido(pedido);
             itemPedidoRepository.save(itemPedido);
+        }
+
+        for (Arquivo arquivo : pedido.getArquivos()) {
+            arquivo.setPedido(pedido);
+            arquivoRepository.save(arquivo);
         }
 
         Usuario usuario = usuarioRepository.findById(usuarioId)
@@ -77,7 +81,6 @@ public class PedidoService {
         return PedidoMapper.toUpdate(pedido);
     }
 
-    @SuppressWarnings("null")
     @Transactional
     public PedidoCompletoRequestDTO update(PedidoCompletoRequestDTO updatePedido, @NonNull Long usuarioId,
             @NonNull Long id,
@@ -93,8 +96,8 @@ public class PedidoService {
 
         updatePedido.setEditadoPor(usuario);
         updatePedido.setEditadoEm(LocalDateTime.now());
-
         modelMapper.map(updatePedido, findPedido);
+
         for (ItemPedidoRequestDTO itemPedidoDto : updatePedido.getItens()) {
             Optional<ItemPedido> optionalItemPedido = findPedido.getItens().stream()
                     .filter(itemPedido -> Objects.equals(itemPedido.getId(), itemId))
@@ -109,7 +112,6 @@ public class PedidoService {
         }
 
         pedidoRepository.save(findPedido);
-
         return PedidoMapper.toUpdate(findPedido);
     }
 

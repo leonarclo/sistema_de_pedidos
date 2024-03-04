@@ -32,6 +32,7 @@ import {
   useLazyBuscarItemQuery,
 } from "@/redux/api/pedidoApi";
 import { getStatusColor } from "@/constants/statusColors";
+import DateFilter from "./DateFilter";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -50,7 +51,7 @@ function DataTable<TData, TValue>({
   const [triggerBuscarItens] = useLazyBuscarItemQuery();
   const [triggerBuscarArquivos] = useLazyBuscarArquivosQuery();
   const usuario = useAppSelector((state) => state.getUserState.usuario);
-  const userEdit = usuario?.nivel >= 7;
+  const userEdit = usuario && usuario?.nivel >= 7;
 
   const table = useReactTable({
     data,
@@ -65,30 +66,37 @@ function DataTable<TData, TValue>({
     onRowSelectionChange: setRowSelection,
     enableRowSelection: true,
     enableMultiRowSelection: true,
+    autoResetPageIndex: true,
     state: {
       sorting,
       columnFilters,
       rowSelection,
-      columnVisibility: { edit: userEdit },
+      columnVisibility: { edit: userEdit ? true : false },
     },
   });
 
   const handleTableRowClick = async (row: any) => {
     dispatch(pedidoState(row.original as IPedido));
     dispatch(openModal("info"));
+    console.log(row.original.chave);
     triggerBuscarItens(row.original.chave);
     triggerBuscarArquivos(row.original.chave);
   };
 
   return (
     <div className="rounded-md border">
+      {<DateFilter column={table.getColumn("data")} />}
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead
+                    key={header.id}
+                    colSpan={header.colSpan}
+                    style={{ width: `${header.getSize()}px` }}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -111,7 +119,7 @@ function DataTable<TData, TValue>({
             table.getRowModel().rows.map((row) => (
               <TableRow
                 onClick={() => handleTableRowClick(row)}
-                className={` hover:bg-zinc-200 cursor-pointer z-10 ${
+                className={`hover:bg-zinc-200 cursor-pointer z-10 ${
                   row.index % 2 == 0 ? "bg-zinc-100" : "bg-zinc-50"
                 }`}
                 key={row.id}
@@ -125,7 +133,7 @@ function DataTable<TData, TValue>({
                         cell.column.id === "status"
                           ? getStatusColor(cell.getValue() as string)
                           : ""
-                      } py-2`}
+                      } h-12`}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>

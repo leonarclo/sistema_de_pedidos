@@ -9,8 +9,7 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.data.annotation.CreatedDate;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,6 +20,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -157,11 +157,15 @@ public class Pedido implements Serializable {
     private Usuario editadoPor;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "criado_por", referencedColumnName = "id", nullable = true, updatable = false)
     private Usuario criadoPor;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens;
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    private List<Arquivo> arquivos;
 
     public Pedido() {
         this.chave = generateChave();

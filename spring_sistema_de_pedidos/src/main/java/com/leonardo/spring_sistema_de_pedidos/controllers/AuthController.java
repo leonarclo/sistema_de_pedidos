@@ -11,6 +11,9 @@ import com.leonardo.spring_sistema_de_pedidos.dto.mapper.UsuarioMapper;
 import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
 import com.leonardo.spring_sistema_de_pedidos.repositories.UsuarioRepository;
 import com.leonardo.spring_sistema_de_pedidos.security.TokenService;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,6 +39,7 @@ public class AuthController {
         this.tokenService = tokenService;
     }
 
+    @Transactional
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDTO> login(@RequestBody LoginDTO login) {
         Usuario findUser = usuarioRepository.findByUsuarioAndPassword(login.getUsuario(), login.getPassword());
@@ -44,13 +48,6 @@ public class AuthController {
             String hashedPassword = new BCryptPasswordEncoder().encode(findUser.getPassword());
             findUser.setPassword(hashedPassword);
             usuarioRepository.save(findUser);
-            UsernamePasswordAuthenticationToken loginPassword = new UsernamePasswordAuthenticationToken(
-                    findUser.getUsuario(),
-                    findUser.getPassword());
-            var auth = authenticationManager.authenticate(loginPassword);
-
-            var token = tokenService.generateToken((Usuario) auth.getPrincipal());
-            return ResponseEntity.ok(new TokenResponseDTO(token));
         }
         UsernamePasswordAuthenticationToken loginPassword = new UsernamePasswordAuthenticationToken(
                 login.getUsuario(),
@@ -59,6 +56,7 @@ public class AuthController {
 
         var token = tokenService.generateToken((Usuario) auth.getPrincipal());
         return ResponseEntity.ok(new TokenResponseDTO(token));
+
     }
 
     @PostMapping("/registrar")

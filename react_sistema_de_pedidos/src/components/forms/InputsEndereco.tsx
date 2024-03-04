@@ -93,7 +93,7 @@ function InputsEndereco() {
           <FormItem>
             <FormLabel>Número</FormLabel>
             <FormControl className="rounded">
-              <Input type="number" {...field} />
+              <Input {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

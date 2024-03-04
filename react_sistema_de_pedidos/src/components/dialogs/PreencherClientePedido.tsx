@@ -14,12 +14,41 @@ import { useFormContext } from "react-hook-form";
 import { useToast } from "../ui/use-toast";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { InputMasked } from "../ui/input-mask";
+import { useEffect } from "react";
 
 function PreencherClientePedido() {
   const form = useFormContext();
   const { toast } = useToast();
 
-  const [buscarPorCnpj, { data, isSuccess }] = useLazyBuscarPedidosQuery();
+  const [buscarPorCnpj, { data, isSuccess, isError }] =
+    useLazyBuscarPedidosQuery();
+
+  useEffect(() => {
+    if (isSuccess && data && data.length > 0) {
+      console.log(data);
+      form.setValue("cnpj", data && data[0].cnpj);
+      form.setValue("empresa", data && data[0].empresa);
+      form.setValue("cargoCliente", data && data[0].cargoCliente);
+      form.setValue("nomeCliente", data && data[0].nomeCliente);
+      form.setValue("cpfCliente", data && data[0].cpfCliente);
+      form.setValue("email", data && data[0].email);
+      form.setValue("telefone1", data && data[0].telefone1);
+      form.setValue("telefone2", data && data[0].telefone2);
+      form.setValue("emailLogin", data && data[0].emailLogin);
+
+      form.setValue("cep", data && data[0].cep);
+      form.setValue("logradouro", data && data[0].logradouro);
+      form.setValue("numeroEndereco", data && data[0].numeroEndereco);
+      form.setValue("bairro", data && data[0].bairro);
+      form.setValue("cidade", data && data[0].cidade);
+      form.setValue("estado", data && data[0].estado);
+    } else if (isError || (data && data?.length == 0)) {
+      toast({
+        variant: "error",
+        description: "Cliente não encontrado!",
+      });
+    }
+  }, [isSuccess]);
 
   const handleCnpjClick = async () => {
     const cnpjValue = (
@@ -28,27 +57,6 @@ function PreencherClientePedido() {
     const numCnpjValue = cnpjValue?.replace(/\D/g, "").trim();
     if (numCnpjValue?.length == 14) {
       buscarPorCnpj({ cnpj: cnpjValue });
-      if (isSuccess && data) {
-        form.setValue("empresa", data && data[0].empresa);
-        form.setValue("cargoCliente", data && data[0].cargoCliente);
-        form.setValue("nomeCliente", data && data[0].nomeCliente);
-        form.setValue("cpfCliente", data && data[0].cpfCliente);
-        form.setValue("email", data && data[0].email);
-        form.setValue("telefone1", data && data[0].telefone1);
-        form.setValue("telefone2", data && data[0].telefone2);
-        form.setValue("emailLogin", data && data[0].emailLogin);
-
-        form.setValue("cep", data && data[0].cep);
-        form.setValue("logradouro", data && data[0].logradouro);
-        form.setValue("bairro", data && data[0].bairro);
-        form.setValue("cidade", data && data[0].cidade);
-        form.setValue("estado", data && data[0].estado);
-      } else {
-        toast({
-          variant: "error",
-          description: "Cliente não encontrado!",
-        });
-      }
     } else {
       toast({
         variant: "error",

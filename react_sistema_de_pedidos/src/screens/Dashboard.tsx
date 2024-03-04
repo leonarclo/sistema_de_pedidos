@@ -1,25 +1,36 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { columns } from "@/components/tabela-pedidos/Columns";
+import { fetchPedidoColumns } from "@/components/tabela-pedidos/Columns";
 import Navbar from "../components/Navbar";
 import DataTable from "../components/tabela-pedidos/DataTable";
 import { useBuscarPedidosQuery } from "@/redux/api/pedidoApi";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import InfoPedido from "@/components/dialogs/InfoPedido";
 import { useAppSelector } from "@/redux/store";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { IPedido } from "@/types";
+import { ColumnDef } from "@tanstack/react-table";
 
 function Dashboard() {
+  const columns = React.useMemo<ColumnDef<IPedido>[]>(
+    () => fetchPedidoColumns(),
+    []
+  );
   const navigate = useNavigate();
   const usuario = useAppSelector((state) => state.getUserState.usuario);
 
   const usuarioSub = usuario?.sub;
   const usuarioId = usuario?.id;
+  const usuarioNivel = usuario?.nivel;
 
   const query =
-    usuarioSub && usuarioId && usuario?.nivel < 7
-      ? { consultor: usuarioSub, consultorId: usuarioId }
+    usuarioSub && usuarioId && usuarioNivel
+      ? {
+          consultor: usuarioSub,
+          consultorId: usuarioId,
+          consultorNivel: usuarioNivel,
+        }
       : undefined;
 
   const { data, isLoading, isError } = useBuscarPedidosQuery(query);
@@ -29,7 +40,7 @@ function Dashboard() {
       localStorage.removeItem("token");
       navigate("/login");
     }
-  }, [isError]);
+  }, [isError, navigate]);
 
   return (
     <>

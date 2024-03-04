@@ -23,7 +23,7 @@ export const filesApi = createApi({
           formData.append("file", files[i]);
         }
         return {
-          url: "/upload",
+          url: `/upload`,
           method: "POST",
           formData: true,
           body: formData,

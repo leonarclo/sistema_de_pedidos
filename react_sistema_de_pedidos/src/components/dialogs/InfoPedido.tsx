@@ -3,6 +3,7 @@ import { closeModal, openModal } from "@/redux/features/modalSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { itensPedidoState } from "@/redux/features/itensPedidoSlice";
 import { LoadingSpinner } from "../ui/loading-spinner";
+import { arquivosState } from "@/redux/features/arquivosSlice";
 
 function InfoPedido() {
   const dispatch = useAppDispatch();
@@ -17,6 +18,7 @@ function InfoPedido() {
     } else {
       dispatch(closeModal("info"));
       dispatch(itensPedidoState([]));
+      dispatch(arquivosState([]));
     }
   };
 
@@ -29,7 +31,7 @@ function InfoPedido() {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="bg-white min-w-[75vw] m-2 overflow-y-scroll">
+      <DialogContent className="bg-white min-w-[75vw] max-h-[90vh] m-2 overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>Pedido: {pedido?.id}</DialogTitle>
         </DialogHeader>
@@ -370,7 +372,7 @@ function InfoPedido() {
             <span className="text-blue-600 text-sm">Observações:</span>
             <br />
             {observacoesFmt(pedido?.observacoes)?.map((item: string) => {
-              return <p>{item}</p>;
+              return <p key={item}>{item}</p>;
             })}
           </p>
         </div>

@@ -4,15 +4,17 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -40,6 +42,11 @@ public class Arquivo implements Serializable {
 
     @Column(name = "url", nullable = true)
     private String url;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "pedido_id", referencedColumnName = "id", nullable = true)
+    private Pedido pedido;
 
     public Arquivo() {
         this.chave = generateChave();

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -63,6 +64,9 @@ function FormProdutos() {
         variant: "success",
         description: "Sucesso!",
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } else if (erroInserir || erroEditar) {
       toast({
         variant: "error",
