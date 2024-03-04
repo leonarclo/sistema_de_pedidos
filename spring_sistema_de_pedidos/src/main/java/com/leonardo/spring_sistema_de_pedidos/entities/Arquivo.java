@@ -3,8 +3,10 @@ package com.leonardo.spring_sistema_de_pedidos.entities;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

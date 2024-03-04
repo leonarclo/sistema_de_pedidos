@@ -9,7 +9,6 @@ import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-
 import com.leonardo.spring_sistema_de_pedidos.dto.ArquivoDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.ItemPedidoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
@@ -110,9 +109,8 @@ public class PedidoService {
                 itemPedidoRepository.save(itemPedido);
             }
         }
-
-        pedidoRepository.save(findPedido);
-        return PedidoMapper.toUpdate(findPedido);
+        Pedido savedPedido = pedidoRepository.save(findPedido);
+        return PedidoMapper.toUpdate(savedPedido);
     }
 
 }

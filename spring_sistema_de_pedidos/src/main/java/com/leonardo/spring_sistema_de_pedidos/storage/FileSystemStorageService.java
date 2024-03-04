@@ -34,6 +34,7 @@ public class FileSystemStorageService {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file.");
             }
+
             Path destinationFile = this.rootLocation.resolve(
                     Paths.get(file.getOriginalFilename()))
                     .normalize().toAbsolutePath();
@@ -74,9 +75,7 @@ public class FileSystemStorageService {
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                throw new StorageFileNotFoundException(
-                        "Could not read file: " + filename);
-
+                throw new StorageFileNotFoundException("Could not read file: " + filename);
             }
         } catch (MalformedURLException e) {
             throw new StorageFileNotFoundException("Could not read file: " + filename, e);

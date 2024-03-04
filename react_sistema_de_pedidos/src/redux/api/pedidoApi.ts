@@ -66,7 +66,7 @@ export const pedidoApi = createApi({
         };
       },
     }),
-    buscarArquivos: builder.query<IArquivo[], string>({
+    buscarArquivos: builder.query<IArquivo[], string | undefined>({
       query(chave) {
         return {
           url: `/buscar-arquivos?chave=${chave}`,
@@ -156,6 +156,7 @@ export const {
   useBuscarPedidosQuery,
   useLazyBuscarItemQuery,
   useLazyBuscarArquivosQuery,
+  useBuscarArquivosQuery,
   useLazyBuscarProdutosQuery,
   useInserirPedidoMutation,
   useEditarPedidoMutation,

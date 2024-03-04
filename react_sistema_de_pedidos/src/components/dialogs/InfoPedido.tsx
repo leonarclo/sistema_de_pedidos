@@ -4,6 +4,9 @@ import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { itensPedidoState } from "@/redux/features/itensPedidoSlice";
 import { LoadingSpinner } from "../ui/loading-spinner";
 import { arquivosState } from "@/redux/features/arquivosSlice";
+import { useLazyGetFileQuery } from "@/redux/api/filesApi";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function InfoPedido() {
   const dispatch = useAppDispatch();
@@ -11,6 +14,21 @@ function InfoPedido() {
   const pedido = useAppSelector((state) => state.pedidoState.pedido);
   const itensPedido = useAppSelector((state) => state.itensPedidoState.itens);
   const arquivos = useAppSelector((state) => state.arquivosState.arquivos);
+
+  const [fileState, setFileState] = useState<string>("");
+
+  const navigate = useNavigate();
+
+  const [
+    triggerGetFile,
+    {
+      data: dataFile,
+      isSuccess: successFile,
+      isLoading: loadingFile,
+      isError: errorFile,
+      error,
+    },
+  ] = useLazyGetFileQuery();
 
   const handleOpenChange = (newOpenState: boolean) => {
     if (newOpenState) {
@@ -21,6 +39,35 @@ function InfoPedido() {
       dispatch(arquivosState([]));
     }
   };
+
+  const handleGetfile = (filename: string) => {
+    setFileState(filename);
+    triggerGetFile(filename);
+  };
+
+  useEffect(() => {
+    if (!loadingFile && !errorFile && successFile) {
+      const lastDotIndex = fileState.lastIndexOf(".");
+      const extension =
+        lastDotIndex !== -1
+          ? fileState.slice(lastDotIndex + 1).toLowerCase()
+          : null;
+      let fileType = "application/octet-stream"; // Tipo padrão para outros tipos de arquivo
+
+      if (extension === "pdf") {
+        fileType = "application/pdf";
+      } else if (["jpg", "jpeg", "png", "gif"].includes(extension)) {
+        fileType = "image/" + extension;
+      }
+
+      const blob = new Blob([dataFile], { type: fileType });
+      const fileUrl = URL.createObjectURL(blob);
+      window.open(fileUrl);
+    }
+    if (errorFile) {
+      console.log(error);
+    }
+  }, [dataFile, successFile, errorFile, loadingFile, error]);
 
   function observacoesFmt(
     text: string | null | undefined
@@ -303,13 +350,13 @@ function InfoPedido() {
         <div className="mt-4">
           <p>Arquivos:</p>
           {arquivos.map((item) => (
-            <a
+            <button
               key={item.id}
-              href={item.arquivo}
+              onClick={() => handleGetfile(item.arquivo)}
               className="flex flex-col text-blue-500 hover:text-blue-700"
             >
-              {item.arquivo}
-            </a>
+              {loadingFile ? <LoadingSpinner /> : item.arquivo}
+            </button>
           ))}
         </div>
         <div className="mt-4">

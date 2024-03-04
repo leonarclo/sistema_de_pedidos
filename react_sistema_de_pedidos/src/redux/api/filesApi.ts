@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const filesApi = createApi({
@@ -17,20 +18,32 @@ export const filesApi = createApi({
   }),
   endpoints: (builder) => ({
     upload: builder.mutation({
-      query(files) {
+      query({ files: files, id: pedidoId }) {
         const formData = new FormData();
         for (let i = 0; i < files.length; i++) {
           formData.append("file", files[i]);
         }
         return {
-          url: `/upload`,
+          url: `/upload/${pedidoId}`,
           method: "POST",
           formData: true,
           body: formData,
         };
       },
     }),
+    getFile: builder.query({
+      query(filename) {
+        return {
+          url: `/${filename}`,
+          method: "GET",
+          responseHandler: (response: { blob: () => any }) => response.blob(),
+          transformResponse: (responseBlob: Blob) => {
+            return new Blob([responseBlob]);
+          },
+        };
+      },
+    }),
   }),
 });
 
-export const { useUploadMutation } = filesApi;
+export const { useUploadMutation, useLazyGetFileQuery } = filesApi;

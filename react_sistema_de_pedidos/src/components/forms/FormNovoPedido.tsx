@@ -19,6 +19,7 @@ import TextareaObservacao from "./TextareaObservacao";
 import {
   useInserirPedidoMutation,
   useEditarPedidoMutation,
+  useBuscarArquivosQuery,
 } from "@/redux/api/pedidoApi";
 import InputsHidden from "./InputsHidden";
 import { format } from "date-fns";
@@ -53,6 +54,8 @@ function FormNovoPedido() {
   const editar = useAppSelector(
     (state) => state.editarPedidoState.editarPedido
   );
+  const { data: arqData } = useBuscarArquivosQuery(editar?.chave);
+
   const editarItem = useAppSelector((state) => state.itensPedidoState.itens);
   const arquivos = useAppSelector((state) => state.arquivosState.arquivos);
 
@@ -74,9 +77,9 @@ function FormNovoPedido() {
         variant: "success",
         description: "Sucesso!",
       });
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 1000);
     } else if (erroInserir || erroEditar) {
       toast({
         variant: "error",
@@ -172,10 +175,12 @@ function FormNovoPedido() {
       });
 
       const fileNames = [];
-      arquivos.forEach((arquivo) => {
-        fileNames.push(arquivo);
+      arqData?.forEach((arquivo) => {
+        fileNames.push(arquivo.arquivo);
       });
       if (values.arquivos) {
+        console.log(values.arquivos);
+        console.log(arquivos);
         for (let i = 0; i < values.arquivos.length; i++) {
           fileNames.push(values.arquivos[i].name);
         }
@@ -220,13 +225,14 @@ function FormNovoPedido() {
         itens: editarItemPedido,
         arquivos: fileNames,
       };
+      console.log(fileNames);
       triggerEditarPedido({
         body: editarPedido,
         usuarioId: usuario?.id,
         id: editar.id,
         itemId,
       });
-      triggerUpload(form.getValues("arquivos"));
+      triggerUpload({ files: form.getValues("arquivos"), id: editar.id });
     } else {
       const name = usuario?.sub;
       const formattedName = name
@@ -307,9 +313,8 @@ function FormNovoPedido() {
         itens,
         arquivos: fileNames,
       };
-      console.log(pedidoCompleto);
       triggerInserirPedido({ body: pedidoCompleto, usuarioId: usuario?.id });
-      triggerUpload(form.getValues("arquivos"));
+      triggerUpload({ files: form.getValues("arquivos") });
     }
   }
 

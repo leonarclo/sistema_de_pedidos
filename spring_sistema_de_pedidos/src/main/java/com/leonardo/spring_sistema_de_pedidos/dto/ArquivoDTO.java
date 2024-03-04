@@ -11,5 +11,4 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ArquivoDTO {
     private String arquivo;
-
 }
