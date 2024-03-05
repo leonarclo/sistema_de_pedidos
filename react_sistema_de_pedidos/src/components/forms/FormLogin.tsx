@@ -47,7 +47,7 @@ function FormLogin() {
       navigate("/");
       return;
     }
-  }, [isSuccess, data]);
+  }, [isSuccess, data, navigate]);
 
   useEffect(() => {
     if (isError) {

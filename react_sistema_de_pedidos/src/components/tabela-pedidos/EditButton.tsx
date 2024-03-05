@@ -5,11 +5,15 @@ import { IPedido } from "@/types";
 import { openModal } from "@/redux/features/modalSlice";
 import { Pencil } from "lucide-react";
 import { useAppDispatch } from "@/redux/store";
-import { useLazyBuscarItemQuery } from "@/redux/api/pedidoApi";
+import {
+  useLazyBuscarArquivosQuery,
+  useLazyBuscarItemQuery,
+} from "@/redux/api/pedidoApi";
 
 function EditButton({ row }: any) {
   const dispatch = useAppDispatch();
   const [triggerBuscarItens] = useLazyBuscarItemQuery();
+  const [triggerBuscarArquivos] = useLazyBuscarArquivosQuery();
 
   const handleClickEditButton = async (e: any, row: any) => {
     e.stopPropagation();
@@ -17,6 +21,7 @@ function EditButton({ row }: any) {
     dispatch(openModal("edit"));
     dispatch(editarPedidoState(row.original as IPedido));
     triggerBuscarItens(row.original.chave);
+    triggerBuscarArquivos(row.original.chave);
     console.log("Valor da linha para editar:", row.original);
   };
   return (

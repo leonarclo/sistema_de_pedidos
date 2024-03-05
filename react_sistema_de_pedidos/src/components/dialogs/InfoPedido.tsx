@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { closeModal, openModal } from "@/redux/features/modalSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
@@ -5,7 +6,6 @@ import { itensPedidoState } from "@/redux/features/itensPedidoSlice";
 import { LoadingSpinner } from "../ui/loading-spinner";
 import { arquivosState } from "@/redux/features/arquivosSlice";
 import { useLazyGetFileQuery } from "@/redux/api/filesApi";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function InfoPedido() {
@@ -16,8 +16,6 @@ function InfoPedido() {
   const arquivos = useAppSelector((state) => state.arquivosState.arquivos);
 
   const [fileState, setFileState] = useState<string>("");
-
-  const navigate = useNavigate();
 
   const [
     triggerGetFile,
@@ -52,9 +50,11 @@ function InfoPedido() {
         lastDotIndex !== -1
           ? fileState.slice(lastDotIndex + 1).toLowerCase()
           : null;
-      let fileType = "application/octet-stream"; // Tipo padrão para outros tipos de arquivo
+      let fileType = "application/octet-stream";
 
-      if (extension === "pdf") {
+      if (extension === null) {
+        fileType = "";
+      } else if (extension === "pdf") {
         fileType = "application/pdf";
       } else if (["jpg", "jpeg", "png", "gif"].includes(extension)) {
         fileType = "image/" + extension;

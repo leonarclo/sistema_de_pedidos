@@ -1,6 +1,6 @@
 import { useFormContext } from "react-hook-form";
-import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
-import { Input } from "../ui/input";
+import { FormControl, FormField, FormItem, FormMessage } from "../../ui/form";
+import { Input } from "../../ui/input";
 
 function InputsHidden() {
   const form = useFormContext();

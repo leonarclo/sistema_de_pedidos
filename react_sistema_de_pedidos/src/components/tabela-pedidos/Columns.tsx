@@ -111,11 +111,22 @@ export function fetchPedidoColumns(): ColumnDef<IPedido>[] {
           </Button>
         );
       },
+      cell: ({ row }) => {
+        return (
+          <p className="max-w-[200px] truncate">{row.getValue("emailLogin")}</p>
+        );
+      },
     },
 
     {
       id: "edit",
-      cell: ({ row }) => <EditButton row={row} />,
+      cell: ({ row }) => {
+        return (
+          <div className="flex justify-end">
+            <EditButton row={row} />
+          </div>
+        );
+      },
     },
   ];
 }

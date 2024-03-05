@@ -5,17 +5,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Checkbox } from "../ui/checkbox";
-import { Input } from "../ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Button } from "../ui/button";
+} from "../../ui/form";
+import { Checkbox } from "../../ui/checkbox";
+import { Input } from "../../ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
+import { Button } from "../../ui/button";
 import { cn } from "@/lib/utils";
 import moment from "moment";
 import { CalendarIcon } from "lucide-react";
-import { Calendar } from "../ui/calendar";
+import { Calendar } from "../../ui/calendar";
 import { ptBR } from "date-fns/locale";
-import { Textarea } from "../ui/textarea";
+import { Textarea } from "../../ui/textarea";
 
 function InputsAdm() {
   const form = useFormContext();

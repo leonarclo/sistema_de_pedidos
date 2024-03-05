@@ -5,25 +5,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "../ui/form";
 import { Button } from "../ui/button";
-import InputsDetalhes from "./InputsDetalhes";
-import InputsCliente from "./InputsCliente";
+import InputsDetalhes from "./inputs-group/InputsDetalhes";
+import InputsCliente from "./inputs-group/InputsCliente";
 import { schema } from "./Schema";
-import InputsEndereco from "./InputsEndereco";
-import InputsItem from "./InputsItem";
+import InputsEndereco from "./inputs-group/InputsEndereco";
+import InputsItem from "./inputs-group/InputsItem";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect } from "react";
 import { IItemPedidoRequest, IPedido, IPedidoCompleto } from "@/types";
 import { schemaItem } from "./SchemaItem";
-import InputArquivo from "./InputArquivo";
+import InputArquivo from "./inputs-group/InputArquivo";
 import TextareaObservacao from "./TextareaObservacao";
 import {
   useInserirPedidoMutation,
   useEditarPedidoMutation,
   useBuscarArquivosQuery,
 } from "@/redux/api/pedidoApi";
-import InputsHidden from "./InputsHidden";
+import InputsHidden from "./inputs-group/InputsHidden";
 import { format } from "date-fns";
-import InputsAdm from "./InputsAdm";
+import InputsAdm from "./inputs-group/InputsAdm";
 import { LoadingSpinner } from "../ui/loading-spinner";
 import { Check } from "lucide-react";
 import { useToast } from "../ui/use-toast";
@@ -57,7 +57,6 @@ function FormNovoPedido() {
   const { data: arqData } = useBuscarArquivosQuery(editar?.chave);
 
   const editarItem = useAppSelector((state) => state.itensPedidoState.itens);
-  const arquivos = useAppSelector((state) => state.arquivosState.arquivos);
 
   const form = useForm<z.infer<typeof fullSchema>>({
     resolver: zodResolver(fullSchema),
@@ -179,8 +178,6 @@ function FormNovoPedido() {
         fileNames.push(arquivo.arquivo);
       });
       if (values.arquivos) {
-        console.log(values.arquivos);
-        console.log(arquivos);
         for (let i = 0; i < values.arquivos.length; i++) {
           fileNames.push(values.arquivos[i].name);
         }
@@ -225,7 +222,6 @@ function FormNovoPedido() {
         itens: editarItemPedido,
         arquivos: fileNames,
       };
-      console.log(fileNames);
       triggerEditarPedido({
         body: editarPedido,
         usuarioId: usuario?.id,
@@ -323,6 +319,8 @@ function FormNovoPedido() {
       Object.keys(editar).forEach((key: any) =>
         form.setValue(key, editar[key as keyof IPedido])
       );
+
+      form.setValue("estado", editar.estado);
       form.setValue("observacoes", "");
       form.setValue(
         "planilhaVendas",
