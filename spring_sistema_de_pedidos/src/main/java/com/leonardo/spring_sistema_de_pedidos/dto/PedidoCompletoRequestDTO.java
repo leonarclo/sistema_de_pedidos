@@ -1,9 +1,9 @@
 package com.leonardo.spring_sistema_de_pedidos.dto;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.leonardo.spring_sistema_de_pedidos.common.Formatters;
 import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
 
 import lombok.AllArgsConstructor;
@@ -51,20 +51,12 @@ public class PedidoCompletoRequestDTO {
         private String codigoRastreio;
         private String observacoes;
         private String emailLogin;
-        private Usuario criadoPor;
         private Usuario editadoPor;
         private LocalDateTime editadoEm;
         private List<ItemPedidoRequestDTO> itens;
         private List<ArquivoDTO> arquivos;
 
         public PedidoCompletoRequestDTO() {
-                this.data = getCurrentDateTimeAsString();
+                this.data = Formatters.currentDateTime();
         }
-
-        private static String getCurrentDateTimeAsString() {
-                LocalDateTime currentDateTime = LocalDateTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                return currentDateTime.format(formatter);
-        }
-
 }

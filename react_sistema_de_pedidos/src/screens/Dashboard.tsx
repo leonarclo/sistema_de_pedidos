@@ -6,11 +6,13 @@ import DataTable from "../components/tabela-pedidos/DataTable";
 import { useLazyBuscarPedidosQuery } from "@/redux/api/pedidoApi";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import InfoPedido from "@/components/dialogs/InfoPedido";
-import { useAppSelector } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IPedido } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
+import { useGetMeQuery } from "@/redux/api/authApi";
+import { getUserState } from "@/redux/features/authSlice";
 
 function Dashboard() {
   const columns = React.useMemo<ColumnDef<IPedido>[]>(
@@ -19,6 +21,26 @@ function Dashboard() {
   );
   const navigate = useNavigate();
   const usuario = useAppSelector((state) => state.getUserState.usuario);
+  const dispatch = useAppDispatch();
+
+  const {
+    data: userInfo,
+    isSuccess: successUser,
+    isLoading: loadingUser,
+    isError: errorUser,
+  } = useGetMeQuery();
+
+  const [triggerBuscarPedidos, { data, isLoading, isError }] =
+    useLazyBuscarPedidosQuery();
+
+  useEffect(() => {
+    if (successUser) {
+      dispatch(getUserState(userInfo));
+    }
+    if (errorUser) {
+      navigate("/login");
+    }
+  }, [successUser, errorUser]);
 
   const usuarioSub = usuario?.usuario;
   const usuarioId = usuario?.id;
@@ -33,9 +55,6 @@ function Dashboard() {
         }
       : undefined;
 
-  const [triggerBuscarPedidos, { data, isLoading, isError }] =
-    useLazyBuscarPedidosQuery();
-
   useEffect(() => {
     if (usuario) {
       triggerBuscarPedidos(query);
@@ -49,8 +68,12 @@ function Dashboard() {
     }
   }, [isError]);
 
-  return (
-    <>
+  return loadingUser ? (
+    <div className="h-screen w-screen">
+      <LoadingSpinner />
+    </div>
+  ) : successUser && !loadingUser ? (
+    <div>
       <Navbar />
       <div className="container bg-white mx-auto border rounded-md p-5 m-5 min-h-full">
         {isLoading ? (
@@ -60,8 +83,8 @@ function Dashboard() {
         )}
         <InfoPedido />
       </div>
-    </>
-  );
+    </div>
+  ) : null;
 }
 
 export default Dashboard;

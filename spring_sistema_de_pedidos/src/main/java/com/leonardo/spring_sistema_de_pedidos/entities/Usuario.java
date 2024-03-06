@@ -3,14 +3,13 @@ package com.leonardo.spring_sistema_de_pedidos.entities;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -59,15 +58,13 @@ public class Usuario implements UserDetails {
     @Column(name = "imagem", nullable = true)
     private String imagem;
 
-    @CreationTimestamp
+    @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "criado_em", updatable = false, nullable = true)
     private LocalDateTime criadoEm;
 
-    @UpdateTimestamp
+    @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "editado_em", nullable = true)
     private LocalDateTime editadoEm;
 

@@ -1,13 +1,10 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
+import org.springframework.data.annotation.CreatedBy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
-
+import com.leonardo.spring_sistema_de_pedidos.common.Formatters;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -45,17 +41,13 @@ public class Arquivo implements Serializable {
     @Column(name = "url", nullable = true)
     private String url;
 
-    @JsonIgnore
+    @CreatedBy
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "pedido_id", referencedColumnName = "id", nullable = true)
     private Pedido pedido;
 
     public Arquivo() {
-        this.chave = generateChave();
-    }
-
-    private String generateChave() {
-        LocalDateTime now = LocalDateTime.now();
-        return now.format(DateTimeFormatter.ofPattern("yyMMddHHmmss"));
+        this.chave = Formatters.generateChave();
     }
 }

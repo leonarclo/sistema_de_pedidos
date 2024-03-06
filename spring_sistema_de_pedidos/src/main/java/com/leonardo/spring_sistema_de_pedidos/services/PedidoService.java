@@ -107,6 +107,7 @@ public class PedidoService {
                 itemPedidoRepository.save(itemPedido);
             }
         }
+        @SuppressWarnings("null")
         Pedido savedPedido = pedidoRepository.save(findPedido);
         return PedidoMapper.toUpdate(savedPedido);
     }

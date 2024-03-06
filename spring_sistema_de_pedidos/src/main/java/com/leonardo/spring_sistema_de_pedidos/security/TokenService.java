@@ -26,10 +26,6 @@ public class TokenService {
                     .withIssuer("orders-system")
                     .withSubject(usuario.getUsuario())
                     .withClaim("id", usuario.getId())
-                    .withClaim("nomeCompleto", usuario.getNomeCompleto())
-                    .withClaim("email", usuario.getEmail())
-                    .withClaim("departamento", usuario.getDepartamento())
-                    .withClaim("nivel", usuario.getNivel())
                     .withExpiresAt(genExpirateDate(42))
                     .sign(algorithm);
             return token;

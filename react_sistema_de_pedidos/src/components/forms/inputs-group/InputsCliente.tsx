@@ -30,7 +30,7 @@ function InputsCliente() {
           <FormItem>
             <FormLabel>CNPJ</FormLabel>
             <FormControl className="rounded">
-              <InputMasked mask="cnpj" {...field} />
+              <InputMasked mask="cnpj" {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -43,7 +43,7 @@ function InputsCliente() {
           <FormItem>
             <FormLabel>Empresa</FormLabel>
             <FormControl className="rounded">
-              <Input type="text" {...field} />
+              <Input type="text" {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -80,7 +80,7 @@ function InputsCliente() {
           <FormItem>
             <FormLabel>Nome</FormLabel>
             <FormControl className="rounded">
-              <Input type="text" {...field} />
+              <Input type="text" {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -93,7 +93,7 @@ function InputsCliente() {
           <FormItem>
             <FormLabel>CPF</FormLabel>
             <FormControl className="rounded">
-              <InputMasked mask="cpf" {...field} />
+              <InputMasked mask="cpf" {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -106,7 +106,7 @@ function InputsCliente() {
           <FormItem>
             <FormLabel>Email</FormLabel>
             <FormControl className="rounded">
-              <Input type="email" {...field} />
+              <Input type="email" {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -119,7 +119,7 @@ function InputsCliente() {
           <FormItem>
             <FormLabel>Telefone 1</FormLabel>
             <FormControl className="rounded">
-              <InputPhone {...field} />
+              <InputPhone {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -132,7 +132,7 @@ function InputsCliente() {
           <FormItem>
             <FormLabel>Telefone 2</FormLabel>
             <FormControl className="rounded">
-              <InputPhone {...field} />
+              <InputPhone {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -145,7 +145,7 @@ function InputsCliente() {
           <FormItem>
             <FormLabel>Email Sistema</FormLabel>
             <FormControl className="rounded">
-              <Input type="email" {...field} />
+              <Input type="email" {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>

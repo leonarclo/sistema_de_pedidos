@@ -1,19 +1,23 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import org.springframework.data.annotation.CreatedDate;
+
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.leonardo.spring_sistema_de_pedidos.common.Formatters;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,6 +35,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
+@EnableJpaAuditing
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "co_pedidos")
 public class Pedido implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -43,7 +49,6 @@ public class Pedido implements Serializable {
     @Column(name = "chave", updatable = false)
     private String chave;
 
-    @CreatedDate
     @Column(name = "data", updatable = false)
     private String data;
 
@@ -149,21 +154,24 @@ public class Pedido implements Serializable {
     @Column(name = "emaillogin")
     private String emailLogin;
 
+    @LastModifiedDate
     @Column(name = "editado_em", nullable = true)
     private LocalDateTime editadoEm;
 
     @ManyToOne
+    @LastModifiedBy
     @JoinColumn(name = "editado_por", referencedColumnName = "id", nullable = true)
     private Usuario editadoPor;
 
     @ManyToOne
-    @JsonIgnore
+    @CreatedBy
     @JoinColumn(name = "criado_por", referencedColumnName = "id", nullable = true, updatable = false)
     private Usuario criadoPor;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "pedido")
     private List<Arquivo> arquivos;
 
@@ -175,13 +183,6 @@ public class Pedido implements Serializable {
     }
 
     public Pedido() {
-        this.chave = generateChave();
-    }
-
-    private static String generateChave() {
-        String patternChave = "yyMMddHHmmss";
-        DateFormat fmtChave = new SimpleDateFormat(patternChave);
-        Date today = Calendar.getInstance().getTime();
-        return fmtChave.format(today);
+        this.chave = Formatters.generateChave();
     }
 }

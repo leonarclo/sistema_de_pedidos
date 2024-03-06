@@ -130,7 +130,6 @@ function InputsItem() {
             <FormField
               control={form.control}
               name={`itens.${index}.categoria`}
-              defaultValue=""
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Categoria</FormLabel>
@@ -157,7 +156,6 @@ function InputsItem() {
             <FormField
               control={form.control}
               name={`itens.${index}.produto`}
-              defaultValue=""
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Produto</FormLabel>
@@ -228,12 +226,11 @@ function InputsItem() {
             <FormField
               control={form.control}
               name={`itens.${index}.preco`}
-              defaultValue=""
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Preço Unitário (R$)</FormLabel>
                   <FormControl className="rounded">
-                    <InputBRL {...field} />
+                    <InputBRL {...field} value={field.value || ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -242,12 +239,11 @@ function InputsItem() {
             <FormField
               control={form.control}
               name={`itens.${index}.quantidade`}
-              defaultValue=""
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Quantidade</FormLabel>
                   <FormControl className="rounded">
-                    <Input type="number" {...field} />
+                    <Input type="number" {...field} value={field.value || ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -256,12 +252,15 @@ function InputsItem() {
             <FormField
               control={form.control}
               name={`itens.${index}.precoTotal`}
-              defaultValue=""
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Preço Total (R$)</FormLabel>
                   <FormControl className="rounded">
-                    <InputBRL {...field} readOnly={true} />
+                    <InputBRL
+                      {...field}
+                      readOnly={true}
+                      value={field.value || ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -270,12 +269,11 @@ function InputsItem() {
             <FormField
               control={form.control}
               name={`itens.${index}.formaPagamento`}
-              defaultValue=""
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Forma de Pagamento</FormLabel>
                   <FormControl className="rounded">
-                    <Input {...field} />
+                    <Input {...field} value={field.value || ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -284,7 +282,6 @@ function InputsItem() {
             <FormField
               control={form.control}
               name={`itens.${index}.vencimento1Boleto`}
-              defaultValue=""
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel className="pb-[5px] mt-1">
@@ -354,12 +351,11 @@ function InputsItem() {
                 <FormField
                   control={form.control}
                   name={`itens.${index}.valorMensal`}
-                  defaultValue=""
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Valor Mensal (R$)</FormLabel>
                       <FormControl className="rounded">
-                        <InputBRL {...field} />
+                        <InputBRL {...field} value={field.value || ""} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -368,7 +364,6 @@ function InputsItem() {
                 <FormField
                   control={form.control}
                   name={`itens.${index}.duracaoContrato`}
-                  defaultValue=""
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Duração (Contrato)</FormLabel>
@@ -492,7 +487,6 @@ function InputsItem() {
               <FormField
                 control={form.control}
                 name={`itens.${index}.categoria` as const}
-                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Categoria</FormLabel>
@@ -519,7 +513,6 @@ function InputsItem() {
               <FormField
                 control={form.control}
                 name={`itens.${index}.produto`}
-                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Produto</FormLabel>
@@ -556,12 +549,11 @@ function InputsItem() {
               <FormField
                 control={form.control}
                 name={`itens.${index}.preco`}
-                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Preço Unitário (R$)</FormLabel>
                     <FormControl className="rounded">
-                      <InputBRL {...field} />
+                      <InputBRL {...field} value={field.value || ""} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -570,12 +562,15 @@ function InputsItem() {
               <FormField
                 control={form.control}
                 name={`itens.${index}.quantidade`}
-                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Quantidade</FormLabel>
                     <FormControl className="rounded">
-                      <Input type="number" {...field} />
+                      <Input
+                        type="number"
+                        {...field}
+                        value={field.value || ""}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -584,12 +579,15 @@ function InputsItem() {
               <FormField
                 control={form.control}
                 name={`itens.${index}.precoTotal`}
-                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Preço Total (R$)</FormLabel>
                     <FormControl className="rounded">
-                      <InputBRL {...field} readOnly={true} />
+                      <InputBRL
+                        {...field}
+                        readOnly={true}
+                        value={field.value || ""}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -598,12 +596,11 @@ function InputsItem() {
               <FormField
                 control={form.control}
                 name={`itens.${index}.formaPagamento`}
-                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Forma de Pagamento</FormLabel>
                     <FormControl className="rounded">
-                      <Input {...field} />
+                      <Input {...field} value={field.value || ""} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -657,7 +654,6 @@ function InputsItem() {
               <FormField
                 control={form.control}
                 name={`itens.${index}.tipoPagamento`}
-                defaultValue=""
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Pagamento</FormLabel>
@@ -685,7 +681,7 @@ function InputsItem() {
                       <FormItem>
                         <FormLabel>Valor Mensal (R$)</FormLabel>
                         <FormControl className="rounded">
-                          <InputBRL {...field} />
+                          <InputBRL {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -694,7 +690,6 @@ function InputsItem() {
                   <FormField
                     control={form.control}
                     name={`itens.${index}.duracaoContrato`}
-                    defaultValue=""
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Duração (Contrato)</FormLabel>

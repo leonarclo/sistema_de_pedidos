@@ -13,7 +13,7 @@ function InputsHidden() {
         render={({ field }) => (
           <FormItem hidden>
             <FormControl>
-              <Input {...field} />
+              <Input {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -25,7 +25,7 @@ function InputsHidden() {
         render={({ field }) => (
           <FormItem hidden>
             <FormControl>
-              <Input {...field} />
+              <Input {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>

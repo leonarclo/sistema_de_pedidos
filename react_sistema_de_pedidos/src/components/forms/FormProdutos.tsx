@@ -64,9 +64,6 @@ function FormProdutos() {
         variant: "success",
         description: "Sucesso!",
       });
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
     } else if (erroInserir || erroEditar) {
       toast({
         variant: "error",

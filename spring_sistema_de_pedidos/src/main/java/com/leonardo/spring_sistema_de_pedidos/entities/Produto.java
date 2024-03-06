@@ -30,6 +30,9 @@ public class Produto implements Serializable {
     @Column(name = "produto")
     private String produto;
 
+    @Column(name = "preco", nullable = true)
+    private String preco;
+
     @Column(name = "categoria")
     private Integer categoria;
 

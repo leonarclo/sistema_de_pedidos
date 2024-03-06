@@ -56,6 +56,7 @@ function InputsEndereco() {
                 type="text"
                 mask="cep"
                 {...field}
+                value={field.value || ""}
                 onChange={(event) => {
                   handleCepInputChange(event);
                   field.onChange(event);
@@ -73,7 +74,7 @@ function InputsEndereco() {
           <FormItem>
             <FormLabel>Logradouro</FormLabel>
             <FormControl className="rounded">
-              <Input type="text" {...field} />
+              <Input type="text" {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -86,7 +87,7 @@ function InputsEndereco() {
           <FormItem>
             <FormLabel>Número</FormLabel>
             <FormControl className="rounded">
-              <Input {...field} />
+              <Input {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -99,7 +100,7 @@ function InputsEndereco() {
           <FormItem>
             <FormLabel>Complemento</FormLabel>
             <FormControl className="rounded">
-              <Input type="text" {...field} />
+              <Input type="text" {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -112,7 +113,7 @@ function InputsEndereco() {
           <FormItem>
             <FormLabel>Bairro</FormLabel>
             <FormControl className="rounded">
-              <Input type="text" {...field} />
+              <Input type="text" {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -125,7 +126,7 @@ function InputsEndereco() {
           <FormItem>
             <FormLabel>Cidade</FormLabel>
             <FormControl className="rounded">
-              <Input type="text" {...field} />
+              <Input type="text" {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -162,7 +163,7 @@ function InputsEndereco() {
           <FormItem>
             <FormLabel>Frete (R$)</FormLabel>
             <FormControl className="rounded">
-              <InputBRL {...field} />
+              <InputBRL {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -175,7 +176,7 @@ function InputsEndereco() {
           <FormItem>
             <FormLabel>Transportadora</FormLabel>
             <FormControl className="rounded">
-              <Input type="text" {...field} />
+              <Input type="text" {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>

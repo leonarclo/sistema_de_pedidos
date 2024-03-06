@@ -20,7 +20,7 @@ public class SpringSistemaDePedidosApplication {
 	@Bean
 	CommandLineRunner init(FileSystemStorageService storageService) {
 		return (args) -> {
-			// storageService.deleteAll();
+			storageService.deleteAll();
 			storageService.init();
 		};
 	}

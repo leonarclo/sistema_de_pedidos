@@ -25,7 +25,6 @@ public class ArquivoController {
 
     @GetMapping("/buscar-arquivos")
     public ResponseEntity<List<Arquivo>> findByPedido(@RequestParam(name = "chave") String chave) {
-
         try {
             List<Arquivo> arquivos = arquivoService.findByPedido(chave);
             return ResponseEntity.ok(arquivos);

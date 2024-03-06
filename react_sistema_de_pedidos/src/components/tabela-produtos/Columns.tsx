@@ -18,6 +18,17 @@ import { useToast } from "../ui/use-toast";
 import { useEffect } from "react";
 import { DialogClose } from "@radix-ui/react-dialog";
 
+const converterCategoria = (nivel: unknown): string => {
+  switch (nivel) {
+    case 1:
+      return "Venda";
+    case 2:
+      return "Contrato";
+    default:
+      return "Desconhecido";
+  }
+};
+
 export const columns: ColumnDef<IProduto>[] = [
   {
     accessorKey: "id",
@@ -55,11 +66,12 @@ export const columns: ColumnDef<IProduto>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Nome
+          Categoria
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
+    cell: (props) => <>{converterCategoria(props.getValue())}</>,
   },
   {
     id: "edit",

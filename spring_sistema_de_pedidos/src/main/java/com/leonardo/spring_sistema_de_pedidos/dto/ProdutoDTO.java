@@ -13,4 +13,5 @@ public class ProdutoDTO {
     private Long id;
     private String produto;
     private Integer categoria;
+    private String preco;
 }

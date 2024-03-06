@@ -1,7 +1,8 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.leonardo.spring_sistema_de_pedidos.common.Formatters;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -61,6 +62,7 @@ public class ItemPedido {
     @Column(name = "forma_pgto")
     private String formaPagamento;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "venc_1_boleto")
     private String vencimento1Boleto;
 
@@ -70,18 +72,15 @@ public class ItemPedido {
     @Column(name = "duracao")
     private String duracaoContrato;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "vigenciain")
     private String vigenciaInicio;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "vigenciaout")
     private String vigenciaFim;
 
     public ItemPedido() {
-        this.chave = generateChave();
-    }
-
-    private String generateChave() {
-        LocalDateTime now = LocalDateTime.now();
-        return now.format(DateTimeFormatter.ofPattern("yyMMddHHmmss"));
+        this.chave = Formatters.generateChave();
     }
 }

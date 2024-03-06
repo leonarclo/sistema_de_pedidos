@@ -113,7 +113,6 @@ function InputsAdm() {
         <FormField
           control={form.control}
           name="notaFiscal"
-          defaultValue=""
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nota Fiscal:</FormLabel>
@@ -127,7 +126,6 @@ function InputsAdm() {
         <FormField
           control={form.control}
           name="unidadeNegocio"
-          defaultValue=""
           render={({ field }) => (
             <FormItem>
               <FormLabel>Unidade de Negócio:</FormLabel>
@@ -185,12 +183,11 @@ function InputsAdm() {
         <FormField
           control={form.control}
           name="codigoRastreio"
-          defaultValue=""
           render={({ field }) => (
             <FormItem>
               <FormLabel>Código de Rastreio:</FormLabel>
               <FormControl className="rounded">
-                <Input {...field} />
+                <Input {...field} value={field.value || ""} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -200,12 +197,15 @@ function InputsAdm() {
       <FormField
         control={form.control}
         name="numeroSerie"
-        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>Números de Série:</FormLabel>
             <FormControl className="w-[10vw] h-[200px]">
-              <Textarea className="resize-none rounded" {...field} />
+              <Textarea
+                className="resize-none rounded"
+                {...field}
+                value={field.value || ""}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

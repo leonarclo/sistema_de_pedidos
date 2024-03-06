@@ -127,7 +127,7 @@ export const schema = z.object({
   posVenda: z.coerce.boolean().nullable().default(false).optional(),
   notaFiscal: z.string({}).nullable().optional(),
   unidadeNegocio: z.string({}).nullable().optional(),
-  previsaoEntrega: z.coerce.string({}).nullable().optional(),
+  previsaoEntrega: z.coerce.date({}).nullable().optional(),
   numeroSerie: z.string({}).nullable().optional(),
   codigoRastreio: z.string({}).nullable().optional(),
 });

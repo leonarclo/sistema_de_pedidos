@@ -94,7 +94,9 @@ function DataTable<TData, TValue>({
                   <TableHead
                     key={header.id}
                     colSpan={header.colSpan}
-                    style={{ width: `${header.getSize()}px` }}
+                    style={{
+                      width: `${header.getSize()}px`,
+                    }}
                   >
                     {header.isPlaceholder
                       ? null
@@ -132,7 +134,7 @@ function DataTable<TData, TValue>({
                         cell.column.id === "status"
                           ? getStatusColor(cell.getValue() as string)
                           : ""
-                      } h-12`}
+                      } px-2 py-[1px]`}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>

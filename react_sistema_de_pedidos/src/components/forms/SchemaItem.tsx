@@ -49,6 +49,6 @@ export const schemaItem = z.object({
     })
     .nullable()
     .optional(),
-  vigenciaInicio: z.coerce.string({}).nullable().optional(),
-  vigenciaFim: z.coerce.string({}).nullable().optional(),
+  vigenciaInicio: z.coerce.date({}).nullable().optional(),
+  vigenciaFim: z.coerce.date({}).nullable().optional(),
 });

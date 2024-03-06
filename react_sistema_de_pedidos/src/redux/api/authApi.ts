@@ -18,6 +18,7 @@ export const authApi = createApi({
       return headers;
     },
   }),
+  tagTypes: ["ILogin", "ITokenResponse", "IUsuario", "IUsuarioRequest"],
   endpoints: (builder) => ({
     login: builder.mutation<ITokenResponse, ILogin>({
       query(body) {

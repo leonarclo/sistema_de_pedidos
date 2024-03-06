@@ -62,8 +62,56 @@ function FormNovoPedido() {
   const form = useForm<z.infer<typeof fullSchema>>({
     resolver: zodResolver(fullSchema),
     defaultValues: {
-      consultor: usuario?.sub,
-      itens: [],
+      consultor: usuario?.usuario,
+      //   arquivos: "",
+      //   assinatura: false,
+      //   bairro: "",
+      //   cargoCliente: "",
+      //   cep: "",
+      //   chat: false,
+      //   cidade: "",
+      //   cnpj: "",
+      //   codigoRastreio: "",
+      //   complemento: "",
+      //   cpfCliente: "",
+      //   email: "",
+      //   emailLogin: "",
+      //   empresa: "",
+      //   estado: "",
+      //   fretePreco: "",
+      //   leadData: undefined,
+      //   leadOrigem: "",
+      //   licencaGerada: false,
+      //   itens: [
+      //     {
+      //       categoria: "",
+      //       duracaoContrato: "",
+      //       formaPagamento: "",
+      //       preco: "",
+      //       precoTotal: "",
+      //       produto: "",
+      //       quantidade: "",
+      //       tipoPagamento: "",
+      //       valorMensal: "",
+      //       vencimento1Boleto: undefined,
+      //       vigenciaFim: undefined,
+      //       vigenciaInicio: undefined,
+      //     },
+      //   ],
+      //   logradouro: "",
+      //   nomeCliente: "",
+      //   notaFiscal: "",
+      //   numeroEndereco: "",
+      //   numeroSerie: "",
+      //   observacoes: "",
+      //   planilhaVendas: false,
+      //   posVenda: false,
+      //   previsaoEntrega: undefined,
+      //   status: "",
+      //   telefone1: "",
+      //   telefone2: "",
+      //   transportadora: "",
+      //   unidadeNegocio: "",
     },
     context: "pedido",
   });
@@ -77,9 +125,6 @@ function FormNovoPedido() {
         variant: "success",
         description: "Sucesso!",
       });
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 1000);
     } else if (erroInserir || erroEditar) {
       toast({
         variant: "error",
@@ -124,7 +169,7 @@ function FormNovoPedido() {
     });
 
     if (editar && editarItem) {
-      const name = usuario?.sub;
+      const name = usuario?.usuario;
       const formattedName = name
         ? name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
         : "";
@@ -234,7 +279,7 @@ function FormNovoPedido() {
         id: editar.id,
       });
     } else {
-      const name = usuario?.sub;
+      const name = usuario?.usuario;
       const formattedName = name
         ? name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
         : "";

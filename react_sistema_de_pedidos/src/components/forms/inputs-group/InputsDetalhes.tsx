@@ -59,7 +59,7 @@ function InputsDetalhes() {
           <FormItem>
             <FormLabel>Origem Lead</FormLabel>
             <FormControl className="rounded" autoFocus={true}>
-              <Input {...field} />
+              <Input {...field} value={field.value || ""} />
             </FormControl>
             <FormMessage />
           </FormItem>

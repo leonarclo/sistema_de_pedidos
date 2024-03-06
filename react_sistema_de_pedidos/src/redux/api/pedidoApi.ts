@@ -10,6 +10,7 @@ import {
 } from "../../types";
 
 export const pedidoApi = createApi({
+  tagTypes: ["Pedidos", "Produtos"],
   reducerPath: "pedidoApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8080/api/v1",
@@ -38,23 +39,21 @@ export const pedidoApi = createApi({
           ? `nivel=${data?.consultorNivel}`
           : "";
         const cnpjParam = data?.cnpj ? `cnpj=${data?.cnpj}` : "";
-
-        // Combine os parâmetros em uma string de consulta
         const queryParams = [
           consultorParam,
           consultorIdParam,
           consultorNivel,
           cnpjParam,
         ]
-          .filter((param) => param) // Remova parâmetros vazios
-          .join("&"); // Junte os parâmetros com "&"
-
+          .filter((param) => param)
+          .join("&");
         return {
           url: `/buscar-pedidos${queryParams ? `?${queryParams}` : ""}`, // Adicione "?" se houver parâmetros
           method: "GET",
           credentials: "include",
         };
       },
+      providesTags: ["Pedidos"],
     }),
 
     buscarItem: builder.query<IItemPedidoRequest[], void>({
@@ -87,6 +86,7 @@ export const pedidoApi = createApi({
           credentials: "include",
         };
       },
+      invalidatesTags: ["Pedidos"],
     }),
 
     editarPedido: builder.mutation<
@@ -102,6 +102,7 @@ export const pedidoApi = createApi({
         };
       },
       transformResponse: (response: { data: IPedido }) => response.data,
+      invalidatesTags: ["Pedidos"],
     }),
 
     buscarProdutos: builder.query<IProduto[], void>({
@@ -112,6 +113,7 @@ export const pedidoApi = createApi({
           credentials: "include",
         };
       },
+      providesTags: ["Produtos"],
     }),
 
     inserirProduto: builder.mutation<IProduto, IProdutoRequest>({
@@ -123,6 +125,7 @@ export const pedidoApi = createApi({
           credentials: "include",
         };
       },
+      invalidatesTags: ["Produtos"],
     }),
 
     editarProduto: builder.mutation<
@@ -137,6 +140,7 @@ export const pedidoApi = createApi({
           credentials: "include",
         };
       },
+      invalidatesTags: ["Produtos"],
       transformResponse: (response: { data: IProduto }) => response.data,
     }),
     removerProduto: builder.mutation<IProduto, { id: number }>({
@@ -147,6 +151,7 @@ export const pedidoApi = createApi({
           credentials: "include",
         };
       },
+      invalidatesTags: ["Produtos"],
     }),
   }),
 });
