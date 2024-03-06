@@ -1,5 +1,6 @@
 import { ILogin, ITokenResponse, IUsuario, IUsuarioRequest } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { getUserState } from "../features/authSlice";
 
 export const authApi = createApi({
   reducerPath: "authApi",
@@ -48,25 +49,29 @@ export const authApi = createApi({
       },
     }),
 
-    // getMe: builder.query<IUsuario, void>({
-    //   query() {
-    //     return {
-    //       url: "/me",
-    //       method: "GET",
-    //       credentials: "same-origin",
-    //     };
-    //   },
-    //   async onQueryStarted(_args, { dispatch, queryFulfilled }) {
-    //     try {
-    //       const { data } = await queryFulfilled;
-    //       dispatch(getUserState(data));
-    //     } catch (error) {
-    //       console.error(error);
-    //     }
-    //   },
-    // }),
+    getMe: builder.query<IUsuario, void>({
+      query() {
+        return {
+          url: "/me",
+          method: "GET",
+          credentials: "same-origin",
+        };
+      },
+      async onQueryStarted(_args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(getUserState(data));
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegistrarMutation, useLogoutMutation } =
-  authApi;
+export const {
+  useLoginMutation,
+  useRegistrarMutation,
+  useLogoutMutation,
+  useGetMeQuery,
+} = authApi;

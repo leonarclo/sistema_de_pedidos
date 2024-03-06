@@ -1,18 +1,18 @@
-import { ITokenPayload } from "@/types";
+import { IUsuario } from "@/types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 interface IUsuarioState {
-  usuario: ITokenPayload | null;
+  usuario: IUsuario | undefined;
 }
 
 const initialState: IUsuarioState = {
-  usuario: null,
+  usuario: undefined,
 };
 
 export const authSlice = createSlice({
   name: "authSlice",
   initialState,
   reducers: {
-    getUserState: (state, action: PayloadAction<ITokenPayload | null>) => {
+    getUserState: (state, action: PayloadAction<IUsuario | undefined>) => {
       state.usuario = action.payload;
     },
   },

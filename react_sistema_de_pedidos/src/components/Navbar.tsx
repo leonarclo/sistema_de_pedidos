@@ -9,19 +9,25 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { useLocation, useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { getUserState } from "@/redux/features/authSlice";
 import { useEffect } from "react";
-import { ITokenPayload } from "@/types";
 import LogoutDialog from "./dialogs/LogoutDialog";
+import { useGetMeQuery } from "@/redux/api/authApi";
+import { LoadingSpinner } from "./ui/loading-spinner";
 
 function Navbar() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const tokenString = localStorage.getItem("token");
-  const userInfo = tokenString ? jwtDecode(tokenString) : null;
+
+  const {
+    data: userInfo,
+    isSuccess: successUser,
+    isLoading: loadingUser,
+    isError: errorUser,
+  } = useGetMeQuery();
+
   const usuario = useAppSelector((state) => state.getUserState.usuario);
 
   const thisPage = location.pathname;
@@ -30,14 +36,13 @@ function Navbar() {
     "/login";
 
   useEffect(() => {
-    dispatch(getUserState(userInfo as ITokenPayload));
-  }, []);
-
-  useEffect(() => {
-    if (!userInfo) {
+    if (successUser) {
+      dispatch(getUserState(userInfo));
+    }
+    if (errorUser) {
       navigate(loginPage);
     }
-  }, []);
+  }, [successUser, errorUser]);
 
   let nivel;
   switch (usuario?.nivel) {
@@ -61,6 +66,14 @@ function Navbar() {
       break;
   }
 
+  if (loadingUser && !userInfo) {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="container bg-white mx-auto border rounded-md p-5 m-5">
@@ -68,7 +81,7 @@ function Navbar() {
           <h1 className="text-2xl">
             Olá,{" "}
             <span className="capitalize">
-              {userInfo?.sub}!{" "}
+              {userInfo?.usuario}!{" "}
               <sup className="text-sm text-orange-400 font-bold">{nivel}</sup>
             </span>
           </h1>
