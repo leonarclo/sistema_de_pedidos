@@ -1,7 +1,6 @@
 package com.leonardo.spring_sistema_de_pedidos.services;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -9,7 +8,6 @@ import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import com.leonardo.spring_sistema_de_pedidos.dto.ArquivoDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.ItemPedidoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoCompletoRequestDTO;

@@ -25,7 +25,6 @@ function PreencherClientePedido() {
 
   useEffect(() => {
     if (isSuccess && data && data.length > 0) {
-      console.log(data);
       form.setValue("cnpj", data && data[0].cnpj);
       form.setValue("empresa", data && data[0].empresa);
       form.setValue("cargoCliente", data && data[0].cargoCliente);
@@ -35,7 +34,6 @@ function PreencherClientePedido() {
       form.setValue("telefone1", data && data[0].telefone1);
       form.setValue("telefone2", data && data[0].telefone2);
       form.setValue("emailLogin", data && data[0].emailLogin);
-
       form.setValue("cep", data && data[0].cep);
       form.setValue("logradouro", data && data[0].logradouro);
       form.setValue("numeroEndereco", data && data[0].numeroEndereco);
@@ -48,7 +46,7 @@ function PreencherClientePedido() {
         description: "Cliente não encontrado!",
       });
     }
-  }, [isSuccess]);
+  }, [isSuccess, data]);
 
   const handleCnpjClick = async () => {
     const cnpjValue = (

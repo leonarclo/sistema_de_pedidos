@@ -43,28 +43,31 @@ function InfoPedido() {
     triggerGetFile(filename);
   };
 
+  const openWindowFile = () => {
+    const lastDotIndex = fileState.lastIndexOf(".");
+    const extension =
+      lastDotIndex !== -1
+        ? fileState.slice(lastDotIndex + 1).toLowerCase()
+        : null;
+    let fileType = "application/octet-stream";
+
+    if (extension === null) {
+      fileType = "";
+    } else if (extension === "pdf") {
+      fileType = "application/pdf";
+    } else if (["jpg", "jpeg", "png", "gif"].includes(extension)) {
+      fileType = "image/" + extension;
+    }
+
+    const blob = new Blob([dataFile], { type: fileType });
+    const fileUrl = URL.createObjectURL(blob);
+    window.open(fileUrl);
+  };
+
   useEffect(() => {
     if (!loadingFile && !errorFile && successFile) {
-      const lastDotIndex = fileState.lastIndexOf(".");
-      const extension =
-        lastDotIndex !== -1
-          ? fileState.slice(lastDotIndex + 1).toLowerCase()
-          : null;
-      let fileType = "application/octet-stream";
-
-      if (extension === null) {
-        fileType = "";
-      } else if (extension === "pdf") {
-        fileType = "application/pdf";
-      } else if (["jpg", "jpeg", "png", "gif"].includes(extension)) {
-        fileType = "image/" + extension;
-      }
-
-      const blob = new Blob([dataFile], { type: fileType });
-      const fileUrl = URL.createObjectURL(blob);
-      window.open(fileUrl);
-    }
-    if (errorFile) {
+      openWindowFile();
+    } else if (errorFile) {
       console.log(error);
     }
   }, [dataFile, successFile, errorFile, loadingFile, error]);

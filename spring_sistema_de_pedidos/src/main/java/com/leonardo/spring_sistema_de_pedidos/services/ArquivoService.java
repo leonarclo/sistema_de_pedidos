@@ -1,9 +1,6 @@
 package com.leonardo.spring_sistema_de_pedidos.services;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Service;
 
 import com.leonardo.spring_sistema_de_pedidos.entities.Arquivo;

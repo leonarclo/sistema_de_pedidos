@@ -19,12 +19,13 @@ export const filesApi = createApi({
   endpoints: (builder) => ({
     upload: builder.mutation({
       query({ files: files, id: pedidoId }) {
+        const idParam = pedidoId ? `?pedidoId=${pedidoId}` : "";
         const formData = new FormData();
         for (let i = 0; i < files.length; i++) {
           formData.append("file", files[i]);
         }
         return {
-          url: `/upload/${pedidoId}`,
+          url: `/upload${idParam}`,
           method: "POST",
           formData: true,
           body: formData,
@@ -43,7 +44,16 @@ export const filesApi = createApi({
         };
       },
     }),
+    delete: builder.mutation({
+      query(filename) {
+        return {
+          url: `/delete/${filename}`,
+          method: "POST",
+        };
+      },
+    }),
   }),
 });
 
-export const { useUploadMutation, useLazyGetFileQuery } = filesApi;
+export const { useUploadMutation, useLazyGetFileQuery, useDeleteMutation } =
+  filesApi;

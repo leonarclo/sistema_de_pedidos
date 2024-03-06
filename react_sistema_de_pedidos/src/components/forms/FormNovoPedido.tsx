@@ -30,6 +30,7 @@ import { useToast } from "../ui/use-toast";
 import { closeModal } from "@/redux/features/modalSlice";
 import PreencherClientePedido from "../dialogs/PreencherClientePedido";
 import { useUploadMutation } from "@/redux/api/filesApi";
+import { renameFiles } from "@/lib/renameFiles";
 
 function FormNovoPedido() {
   const dispatch = useAppDispatch();
@@ -173,15 +174,15 @@ function FormNovoPedido() {
         editarItemPedido.push(itemPedido);
       });
 
-      const fileNames = [];
-      arqData?.forEach((arquivo) => {
-        fileNames.push(arquivo.arquivo);
-      });
-      if (values.arquivos) {
-        for (let i = 0; i < values.arquivos.length; i++) {
-          fileNames.push(values.arquivos[i].name);
-        }
-      }
+      // const fileNames = [];
+      // arqData?.forEach((arquivo) => {
+      //   fileNames.push(arquivo.arquivo);
+      // });
+      // if (values.arquivos) {
+      //   for (let i = 0; i < values.arquivos.length; i++) {
+      //     fileNames.push(values.arquivos[i].name);
+      //   }
+      // }
 
       const editarPedido: IPedidoCompleto = {
         consultor: values.consultor,
@@ -220,7 +221,7 @@ function FormNovoPedido() {
         codigoRastreio: values.codigoRastreio,
         emailLogin: values.emailLogin,
         itens: editarItemPedido,
-        arquivos: fileNames,
+        // arquivos: fileNames,
       };
       triggerEditarPedido({
         body: editarPedido,
@@ -228,7 +229,10 @@ function FormNovoPedido() {
         id: editar.id,
         itemId,
       });
-      triggerUpload({ files: form.getValues("arquivos"), id: editar.id });
+      triggerUpload({
+        files: renameFiles(form.getValues("arquivos")),
+        id: editar.id,
+      });
     } else {
       const name = usuario?.sub;
       const formattedName = name
@@ -263,11 +267,13 @@ function FormNovoPedido() {
       });
 
       const fileNames = [];
-      if (values.arquivos) {
-        for (let i = 0; i < values.arquivos.length; i++) {
-          fileNames.push(values.arquivos[i].name);
-        }
+      const filesToUpdate = renameFiles(form.watch("arquivos"));
+      for (let i = 0; i < filesToUpdate.length; i++) {
+        fileNames.push(filesToUpdate[i].name);
       }
+      arqData?.forEach((arquivo) => {
+        fileNames.push(arquivo.arquivo);
+      });
 
       const pedidoCompleto: IPedidoCompleto = {
         consultor: values.consultor,
@@ -310,7 +316,7 @@ function FormNovoPedido() {
         arquivos: fileNames,
       };
       triggerInserirPedido({ body: pedidoCompleto, usuarioId: usuario?.id });
-      triggerUpload({ files: form.getValues("arquivos") });
+      triggerUpload({ files: renameFiles(form.getValues("arquivos")) });
     }
   }
 

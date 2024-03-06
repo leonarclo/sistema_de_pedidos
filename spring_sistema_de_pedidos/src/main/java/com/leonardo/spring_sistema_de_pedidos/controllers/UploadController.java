@@ -1,12 +1,9 @@
 package com.leonardo.spring_sistema_de_pedidos.controllers;
 
-import java.io.FileInputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -84,32 +81,61 @@ public class UploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/files/upload/{pedidoId}")
+    @PostMapping("/files/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") List<MultipartFile> files,
-            @PathVariable(name = "pedidoId", required = false) @NonNull Long pedidoId) {
+            @RequestParam(name = "pedidoId", required = false) Long pedidoId) {
         List<String> fileNames = new ArrayList<>();
 
-        Pedido findPedido = pedidoRepository.findById(pedidoId)
-                .orElseThrow(() -> new RuntimeException("Pedido não encontrado!"));
+        if (pedidoId != null) {
+            Pedido findPedido = pedidoRepository.findById(pedidoId)
+                    .orElseThrow(() -> new RuntimeException("Pedido não encontrado!"));
 
-        for (MultipartFile file : files) {
-            String fileName = file.getOriginalFilename();
-            fileNames.add(fileName);
-            storageService.store(file);
-        }
+            for (MultipartFile file : files) {
+                String fileName = file.getOriginalFilename();
+                fileNames.add(fileName);
+                storageService.store(file);
+            }
 
-        for (String arq : fileNames) {
-            boolean arquivoExistente = arquivoRepository.existsByPedidoAndArquivo(findPedido, arq);
-            if (!arquivoExistente) {
-                Arquivo arquivo = new Arquivo();
-                arquivo.setChave(findPedido.getChave());
-                arquivo.setArquivo(arq);
-                arquivo.setPedido(findPedido);
-                arquivoRepository.save(arquivo);
+            for (String arq : fileNames) {
+                boolean arquivoExistente = arquivoRepository.existsByPedidoAndArquivo(findPedido, arq);
+                if (!arquivoExistente) {
+                    Arquivo arquivo = new Arquivo();
+                    arquivo.setChave(findPedido.getChave());
+                    arquivo.setArquivo(arq);
+                    arquivo.setPedido(findPedido);
+                    arquivoRepository.save(arquivo);
+                }
+            }
+        } else {
+            for (MultipartFile file : files) {
+                String fileName = file.getOriginalFilename();
+                fileNames.add(fileName);
+                storageService.store(file);
             }
         }
 
         return ResponseEntity.ok().body("You successfully uploaded " + fileNames + "!");
+    }
+
+    @PostMapping("/files/delete/{filename:.+}")
+    public ResponseEntity<String> delete(@PathVariable String filename) {
+        try {
+            boolean existed = storageService.delete(filename);
+            if (existed) {
+                Long deletedArquivo = arquivoRepository.deleteByArquivo(filename);
+
+                if (deletedArquivo != null) {
+                    return ResponseEntity.status(HttpStatus.OK).body("Excluído com sucesso!");
+                } else {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body("Falha ao excluir arquivo do banco de dados.");
+                }
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Este arquivo não existe!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Houve um erro interno ao tentar excluir");
+        }
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

@@ -78,7 +78,6 @@ function DataTable<TData, TValue>({
   const handleTableRowClick = async (row: any) => {
     dispatch(pedidoState(row.original as IPedido));
     dispatch(openModal("info"));
-    console.log(row.original.chave);
     triggerBuscarItens(row.original.chave);
     triggerBuscarArquivos(row.original.chave);
   };

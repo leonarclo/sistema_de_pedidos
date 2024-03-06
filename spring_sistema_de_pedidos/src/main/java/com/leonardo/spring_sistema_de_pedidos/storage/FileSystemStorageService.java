@@ -39,7 +39,6 @@ public class FileSystemStorageService {
                     Paths.get(file.getOriginalFilename()))
                     .normalize().toAbsolutePath();
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
-                // This is a security check
                 throw new StorageException(
                         "Cannot store file outside current directory.");
             }
@@ -84,6 +83,15 @@ public class FileSystemStorageService {
 
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
+    }
+
+    public boolean delete(String filename) {
+        try {
+            Path file = rootLocation.resolve(filename);
+            return Files.deleteIfExists(file);
+        } catch (IOException e) {
+            throw new RuntimeException("Erro: " + e.getMessage());
+        }
     }
 
     public void init() {

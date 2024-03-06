@@ -6,6 +6,17 @@ import { FileCheck2Icon, XIcon } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { IArquivo } from "@/types";
 import { useEffect, useMemo, useState } from "react";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { useDeleteMutation } from "@/redux/api/filesApi";
 
 interface FileListProps {
   files: (File | IArquivo)[];
@@ -20,6 +31,8 @@ function InputArquivo() {
   );
 
   const [filesToShow, setFilesToShow] = useState<(File | IArquivo)[]>([]);
+
+  const [triggerDelete] = useDeleteMutation();
 
   useEffect(() => {
     if (editar) {
@@ -37,7 +50,9 @@ function InputArquivo() {
 
   const filesToUpdate = filesToShow.filter((file) => file instanceof File);
 
-  form.setValue("arquivos", filesToUpdate);
+  useEffect(() => {
+    form.setValue("arquivos", filesToUpdate);
+  }, [filesToUpdate]);
 
   function handleOnDrop(acceptedFiles: FileList | null) {
     if (!acceptedFiles || acceptedFiles.length === 0) {
@@ -82,14 +97,15 @@ function InputArquivo() {
   }
 
   function removeFile(index: number) {
-    const currentFiles = form.getValues("arquivos") || [];
-    const updatedFiles = [...currentFiles];
-    updatedFiles.splice(index, 1);
-    form.setValue("arquivos", updatedFiles);
+    const updatedFilesToShow = [...filesToShow];
+    updatedFilesToShow.splice(index, 1);
+    setFilesToShow(updatedFilesToShow);
 
     if (editar) {
       const updatedFilesToShow = [...filesToShow];
+      const filename = updatedFilesToShow[index];
       updatedFilesToShow.splice(index, 1);
+      triggerDelete((filename as IArquivo).arquivo);
       setFilesToShow(updatedFilesToShow);
     }
   }
@@ -126,31 +142,60 @@ function FileList({ files, onRemove }: FileListProps) {
   );
 
   return (
-    <div className="mt-4 space-y-2">
-      {files.map((file, index) => (
-        <div
-          key={index}
-          className="flex items-center justify-between p-2 bg-gray-100"
-        >
-          <div className="flex items-center gap-3">
-            <FileCheck2Icon className="h-4 w-4" />
-            {editar ? (
-              <p className="text-sm font-medium">
-                {(file as IArquivo).arquivo}
-              </p>
-            ) : null}
-            <p className="text-sm font-medium">{(file as File).name}</p>
-          </div>
-          <button
-            type="button"
-            onClick={() => onRemove(index)}
-            className="text-red-500 hover:text-red-700 focus:outline-none"
+    <>
+      <div className="mt-4 space-y-2">
+        {files.map((file, index) => (
+          <div
+            key={index}
+            className="flex items-center justify-between p-2 bg-gray-100"
           >
-            <XIcon className="h-4 w-4" />
-          </button>
-        </div>
-      ))}
-    </div>
+            <div className="flex items-center gap-3">
+              <FileCheck2Icon className="h-4 w-4" />
+              {editar ? (
+                <p className="text-sm font-medium">
+                  {(file as IArquivo).arquivo}
+                </p>
+              ) : null}
+              <p className="text-sm font-medium">{(file as File).name}</p>
+            </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <button
+                  type="button"
+                  className="text-red-500 hover:text-red-700 focus:outline-none"
+                >
+                  <XIcon className="h-4 w-4" />
+                </button>
+              </DialogTrigger>
+              <DialogContent className="bg-white">
+                <DialogHeader>
+                  <DialogTitle className="flex flex-col gap-3 p-4 pb-10">
+                    Tem certeza que deseja remover este arquivo?
+                  </DialogTitle>
+                </DialogHeader>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button
+                      type="submit"
+                      variant={"default"}
+                      className="bg-green-500 hover:bg-green-600"
+                      onClick={() => onRemove(index)}
+                    >
+                      Sim
+                    </Button>
+                  </DialogClose>
+                  <DialogClose asChild>
+                    <Button variant={"outline"} className="hover:bg-slate-200">
+                      Não
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 

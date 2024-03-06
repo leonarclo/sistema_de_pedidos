@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -165,6 +166,13 @@ public class Pedido implements Serializable {
 
     @OneToMany(mappedBy = "pedido")
     private List<Arquivo> arquivos;
+
+    public List<Arquivo> getArquivos() {
+        if (this.arquivos == null) {
+            return new ArrayList<>();
+        }
+        return this.arquivos;
+    }
 
     public Pedido() {
         this.chave = generateChave();

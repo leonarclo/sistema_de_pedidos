@@ -118,7 +118,7 @@ export interface IPedidoCompleto {
   numeroSerie?: string | null;
   codigoRastreio?: string | null;
   itens: IItemPedidoRequest[];
-  arquivos?: IArquivoRequest[];
+  arquivos?: string[];
 }
 
 export interface IUsuario {
