@@ -46,6 +46,7 @@ public class SpringSecurityConfig {
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout
                         .logoutUrl("/api/v1/logout")
+                        .clearAuthentication(true)
                         .permitAll()
                         .logoutSuccessHandler(customLogoutHandler));
         return http.build();

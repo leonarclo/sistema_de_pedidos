@@ -6,13 +6,11 @@ import DataTable from "../components/tabela-pedidos/DataTable";
 import { useLazyBuscarPedidosQuery } from "@/redux/api/pedidoApi";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import InfoPedido from "@/components/dialogs/InfoPedido";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IPedido } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { useGetMeQuery } from "@/redux/api/authApi";
-import { getUserState } from "@/redux/features/authSlice";
 
 function Dashboard() {
   const columns = React.useMemo<ColumnDef<IPedido>[]>(
@@ -20,8 +18,6 @@ function Dashboard() {
     []
   );
   const navigate = useNavigate();
-  const usuario = useAppSelector((state) => state.getUserState.usuario);
-  const dispatch = useAppDispatch();
 
   const {
     data: userInfo,
@@ -34,17 +30,14 @@ function Dashboard() {
     useLazyBuscarPedidosQuery();
 
   useEffect(() => {
-    if (successUser) {
-      dispatch(getUserState(userInfo));
-    }
     if (errorUser) {
       navigate("/login");
     }
   }, [successUser, errorUser]);
 
-  const usuarioSub = usuario?.usuario;
-  const usuarioId = usuario?.id;
-  const usuarioNivel = usuario?.nivel;
+  const usuarioSub = userInfo?.usuario;
+  const usuarioId = userInfo?.id;
+  const usuarioNivel = userInfo?.nivel;
 
   const query =
     usuarioSub && usuarioId && usuarioNivel
@@ -56,10 +49,10 @@ function Dashboard() {
       : undefined;
 
   useEffect(() => {
-    if (usuario) {
+    if (successUser) {
       triggerBuscarPedidos(query);
     }
-  }, [data, usuario]);
+  }, [userInfo]);
 
   useEffect(() => {
     if (isError) {

@@ -134,7 +134,7 @@ function DataTable<TData, TValue>({
                         cell.column.id === "status"
                           ? getStatusColor(cell.getValue() as string)
                           : ""
-                      } px-2 py-[1px]`}
+                      } px-2 py-2`}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>

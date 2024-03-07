@@ -8,15 +8,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { useAppSelector } from "@/redux/store";
 import LogoutDialog from "./dialogs/LogoutDialog";
+import { useGetMeQuery } from "@/redux/api/authApi";
 
 function Navbar() {
-  const usuario = useAppSelector((state) => state.getUserState.usuario);
   const thisPage = location.pathname;
+  const { data: userInfo } = useGetMeQuery();
 
   let nivel;
-  switch (usuario?.nivel) {
+  switch (userInfo?.nivel) {
     case 9:
       nivel = "Master";
       break;
@@ -44,7 +44,7 @@ function Navbar() {
           <h1 className="text-2xl">
             Olá,{" "}
             <span className="capitalize">
-              {usuario && usuario.usuario}!{" "}
+              {userInfo && userInfo.usuario}!{" "}
               <sup className="text-sm text-orange-400 font-bold">{nivel}</sup>
             </span>
           </h1>
@@ -62,7 +62,7 @@ function Navbar() {
                 </Button>
               </a>
             )}
-            {usuario && usuario.nivel >= 7 ? (
+            {userInfo && userInfo.nivel >= 7 ? (
               <DropdownMenu>
                 <DropdownMenuTrigger className="bg-cyan-500 hover:bg-cyan-700 rounded text-white font-bold flex items-center gap-2 px-5 focus:outline-none">
                   Admin
