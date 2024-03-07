@@ -32,21 +32,22 @@ public class SpringSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/registrar").hasAuthority("7")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/editar-pedido").hasAuthority("7")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/buscar-usuarios").hasAuthority("7")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/editar-usuario").hasAuthority("7")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/registrar").hasAuthority("9")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/editar-pedido").hasAuthority("5")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/buscar-usuarios").hasAuthority("9")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/editar-usuario").hasAuthority("9")
                         .requestMatchers(HttpMethod.POST, "/api/v1/encrypt").hasAuthority("9")
                         .requestMatchers(HttpMethod.POST, "/api/v1/inserir-produto").hasAuthority("7")
                         .requestMatchers(HttpMethod.POST, "/api/v1/editar-produto").hasAuthority("7")
                         .requestMatchers(HttpMethod.POST, "/api/v1/remover-produto").hasAuthority("7")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/editar-usuario").hasAuthority("7")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/editar-usuario").hasAuthority("9")
                         .requestMatchers(HttpMethod.POST, "/api/v1/files/delete").hasAuthority("7")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout
                         .logoutUrl("/api/v1/logout")
                         .clearAuthentication(true)
+                        .deleteCookies("access_token")
                         .permitAll()
                         .logoutSuccessHandler(customLogoutHandler));
         return http.build();

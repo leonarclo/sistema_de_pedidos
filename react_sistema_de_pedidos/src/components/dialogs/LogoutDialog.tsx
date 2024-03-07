@@ -24,7 +24,6 @@ function LogoutDialog() {
 
   useEffect(() => {
     if (isSuccess) {
-      localStorage.removeItem("token");
       navigate("/login");
     }
     if (isError) {

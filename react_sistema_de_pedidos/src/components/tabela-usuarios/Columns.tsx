@@ -4,23 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
 import { ArrowUpDown } from "lucide-react";
 import EditButton from "./EditButton";
-
-const converterNivelAcesso = (nivel: any): string => {
-  switch (nivel) {
-    case 0:
-      return "Inativo";
-    case 1:
-      return "Consultor";
-    case 5:
-      return "Editor";
-    case 7:
-      return "Administrador";
-    case 9:
-      return "Master";
-    default:
-      return "Desconhecido";
-  }
-};
+import { nivelAcessoString } from "@/lib/nivelAcessoString";
 
 export const columns: ColumnDef<IUsuario>[] = [
   {
@@ -93,7 +77,7 @@ export const columns: ColumnDef<IUsuario>[] = [
         </Button>
       );
     },
-    cell: (props) => <>{converterNivelAcesso(props.getValue())}</>,
+    cell: (props) => <>{nivelAcessoString(props.getValue())}</>,
   },
 
   {

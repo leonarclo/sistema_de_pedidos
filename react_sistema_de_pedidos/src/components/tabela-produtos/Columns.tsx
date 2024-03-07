@@ -17,17 +17,7 @@ import { useRemoverProdutoMutation } from "@/redux/api/pedidoApi";
 import { useToast } from "../ui/use-toast";
 import { useEffect } from "react";
 import { DialogClose } from "@radix-ui/react-dialog";
-
-const converterCategoria = (nivel: unknown): string => {
-  switch (nivel) {
-    case 1:
-      return "Venda";
-    case 2:
-      return "Contrato";
-    default:
-      return "Desconhecido";
-  }
-};
+import { categoriaString } from "@/lib/categoriaString";
 
 export const columns: ColumnDef<IProduto>[] = [
   {
@@ -71,7 +61,7 @@ export const columns: ColumnDef<IProduto>[] = [
         </Button>
       );
     },
-    cell: (props) => <>{converterCategoria(props.getValue())}</>,
+    cell: (props) => <>{categoriaString(props.getValue())}</>,
   },
   {
     id: "edit",

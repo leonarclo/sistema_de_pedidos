@@ -12,6 +12,7 @@ export function fetchPedidoColumns(): ColumnDef<IPedido>[] {
     {
       accessorKey: "status",
       id: "status",
+      maxSize: 150,
       header: ({ column }) => {
         return (
           <Button
@@ -21,6 +22,26 @@ export function fetchPedidoColumns(): ColumnDef<IPedido>[] {
             Status
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
+        );
+      },
+    },
+    {
+      accessorKey: "consultor",
+      id: "consultor",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Consultor(a)
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <p className="truncate text-center">{row.getValue("consultor")}</p>
         );
       },
     },
@@ -41,7 +62,7 @@ export function fetchPedidoColumns(): ColumnDef<IPedido>[] {
       },
       cell: ({ row }) => {
         return (
-          <p className="text-center">
+          <p className="w-[120px] text-center">
             {moment(row.getValue("data")).format("DD-MM-YYYY HH:mm")}
           </p>
         );
@@ -59,6 +80,9 @@ export function fetchPedidoColumns(): ColumnDef<IPedido>[] {
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
+      },
+      cell: ({ row }) => {
+        return <p className="w-[160px] text-center">{row.getValue("cnpj")}</p>;
       },
     },
     {
@@ -117,7 +141,6 @@ export function fetchPedidoColumns(): ColumnDef<IPedido>[] {
         );
       },
     },
-
     {
       id: "edit",
       cell: ({ row }) => {

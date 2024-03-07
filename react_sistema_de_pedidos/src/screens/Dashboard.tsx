@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { IPedido } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { useGetMeQuery } from "@/redux/api/authApi";
+import Cookies from "js-cookie";
 
 function Dashboard() {
   const columns = React.useMemo<ColumnDef<IPedido>[]>(
@@ -56,7 +57,7 @@ function Dashboard() {
 
   useEffect(() => {
     if (isError) {
-      localStorage.removeItem("token");
+      Cookies.remove("access_token");
       navigate("/login");
     }
   }, [isError]);

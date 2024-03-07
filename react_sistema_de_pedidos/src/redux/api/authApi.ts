@@ -1,6 +1,7 @@
 import { ILogin, ITokenResponse, IUsuario, IUsuarioRequest } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getUserState } from "../features/authSlice";
+import Cookies from "js-cookie";
 
 export const authApi = createApi({
   reducerPath: "authApi",
@@ -9,7 +10,7 @@ export const authApi = createApi({
     mode: "cors",
     credentials: "same-origin",
     prepareHeaders: (headers) => {
-      const accessToken = localStorage.getItem("token");
+      const accessToken = Cookies.get("access_token");
       if (accessToken) {
         headers.set("authorization", `Bearer ${accessToken}`);
         headers.set("Content-Type", "application/json; charset-utf=8");

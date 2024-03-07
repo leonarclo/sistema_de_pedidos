@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IUsuario, IUsuarioRequest } from "../../types";
+import Cookies from "js-cookie";
 
 export const usuariosApi = createApi({
   reducerPath: "usuariosApi",
@@ -8,7 +9,7 @@ export const usuariosApi = createApi({
     mode: "cors",
     credentials: "same-origin",
     prepareHeaders: (headers) => {
-      const accessToken = localStorage.getItem("token");
+      const accessToken = Cookies.get("access_token");
       if (accessToken) {
         headers.set("authorization", `Bearer ${accessToken}`);
         headers.set("Content-Type", "application/json; charset-utf=8");

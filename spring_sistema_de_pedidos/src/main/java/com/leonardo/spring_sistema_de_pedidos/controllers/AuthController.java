@@ -14,6 +14,8 @@ import com.leonardo.spring_sistema_de_pedidos.security.TokenService;
 
 import jakarta.transaction.Transactional;
 
+import java.time.LocalDateTime;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -72,6 +74,7 @@ public class AuthController {
         usuario.setEmail(novoUsuario.getEmail());
         usuario.setPassword(hashedPassword);
         usuario.setNivel(novoUsuario.getNivel());
+        usuario.setCriadoEm(LocalDateTime.now());
         usuarioRepository.save(usuario);
         return ResponseEntity.ok().build();
     }

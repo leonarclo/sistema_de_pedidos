@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import Cookies from "js-cookie";
 
 export const filesApi = createApi({
   reducerPath: "filesApi",
@@ -8,7 +9,7 @@ export const filesApi = createApi({
     mode: "cors",
     credentials: "same-origin",
     prepareHeaders: (headers) => {
-      const accessToken = localStorage.getItem("token");
+      const accessToken = Cookies.get("access_token");
       if (accessToken) {
         headers.set("authorization", `Bearer ${accessToken}`);
       }

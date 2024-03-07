@@ -10,6 +10,7 @@ import { getUserState } from "@/redux/features/authSlice";
 import { useAppDispatch } from "@/redux/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 function AdmUsuarios() {
   const navigate = useNavigate();
@@ -27,17 +28,11 @@ function AdmUsuarios() {
     if (successUser) {
       dispatch(getUserState(userInfo));
     }
-    if (errorUser) {
+    if (errorUser || isError) {
+      Cookies.remove("access_token");
       navigate("/login");
     }
-  }, [successUser, errorUser]);
-
-  useEffect(() => {
-    if (isError) {
-      localStorage.removeItem("token");
-      navigate("/login");
-    }
-  }, [isError]);
+  }, [successUser, errorUser, isError]);
 
   return loadingUser ? (
     <div className="h-screen w-screen">

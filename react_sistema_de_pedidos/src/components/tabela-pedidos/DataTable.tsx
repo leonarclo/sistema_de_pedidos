@@ -51,7 +51,8 @@ function DataTable<TData, TValue>({
   const [triggerBuscarItens] = useLazyBuscarItemQuery();
   const [triggerBuscarArquivos] = useLazyBuscarArquivosQuery();
   const usuario = useAppSelector((state) => state.getUserState.usuario);
-  const userEdit = usuario && usuario?.nivel >= 7;
+  const userEdit = usuario && usuario?.nivel >= 5;
+  const userAdm = usuario && usuario?.nivel >= 7;
 
   const table = useReactTable({
     data,
@@ -71,7 +72,10 @@ function DataTable<TData, TValue>({
       sorting,
       columnFilters,
       rowSelection,
-      columnVisibility: { edit: userEdit ? true : false },
+      columnVisibility: {
+        edit: userEdit ? true : false,
+        consultor: userAdm ? true : false,
+      },
     },
   });
 
@@ -134,7 +138,7 @@ function DataTable<TData, TValue>({
                         cell.column.id === "status"
                           ? getStatusColor(cell.getValue() as string)
                           : ""
-                      } px-2 py-2`}
+                      } h-[46px]`}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>

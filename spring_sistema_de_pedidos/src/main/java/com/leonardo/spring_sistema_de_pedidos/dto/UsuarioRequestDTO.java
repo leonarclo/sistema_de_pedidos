@@ -1,5 +1,7 @@
 package com.leonardo.spring_sistema_de_pedidos.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +18,6 @@ public class UsuarioRequestDTO {
     private String email;
     private String password;
     private Integer nivel;
+    private LocalDateTime criadoEm;
+    private LocalDateTime editadoEm;
 }

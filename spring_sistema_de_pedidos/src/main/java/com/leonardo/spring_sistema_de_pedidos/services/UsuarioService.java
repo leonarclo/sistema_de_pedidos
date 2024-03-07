@@ -1,5 +1,6 @@
 package com.leonardo.spring_sistema_de_pedidos.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.modelmapper.Conditions;
@@ -28,7 +29,6 @@ public class UsuarioService {
         return UsuarioMapper.toUserList(usuarioRepository.findAllByOrderByIdDesc());
     }
 
-    @SuppressWarnings("null")
     public UsuarioResponseDTO update(UsuarioRequestDTO updateUser, @NonNull Long id) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
@@ -38,6 +38,8 @@ public class UsuarioService {
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
 
         String hashedPassword = new BCryptPasswordEncoder().encode(updateUser.getPassword());
+
+        findUser.setEditadoEm(LocalDateTime.now());
         UsuarioResponseDTO userUpdated = UsuarioMapper.toUserResponse(findUser);
         if (updateUser.getPassword() == "" || updateUser.getPassword() == null) {
             updateUser.setPassword(findUser.getPassword());
@@ -51,22 +53,14 @@ public class UsuarioService {
 
     @Transactional
     public void encryptAllPasswords() {
-        // Busca todos os usuários no banco de dados
         Iterable<Usuario> usuarios = usuarioRepository.findAll();
-
-        // Instancia um codificador BCrypt
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-        // Percorre todos os usuários
         for (Usuario usuario : usuarios) {
-            // Verifica se a senha já está criptografada
             if (!passwordEncoder.matches(usuario.getPassword(), usuario.getPassword())) {
-                // Se não estiver criptografada, criptografa e atualiza no banco de dados
                 String hashedPassword = passwordEncoder.encode(usuario.getPassword());
                 usuario.setPassword(hashedPassword);
                 usuarioRepository.save(usuario);
             }
         }
     }
-
 }

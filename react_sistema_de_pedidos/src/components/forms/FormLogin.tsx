@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { LoadingSpinner } from "../ui/loading-spinner";
 import { useToast } from "../ui/use-toast";
+import Cookies from "js-cookie";
 
 const loginSchema = z.object({
   usuario: z.string().min(3, {
@@ -43,19 +43,17 @@ function FormLogin() {
 
   useEffect(() => {
     if (isSuccess && data) {
-      localStorage.setItem("token", data.token);
+      Cookies.set("access_token", data.token, { expires: 2 });
       navigate("/");
     }
-  }, [isSuccess, data, navigate]);
-
-  useEffect(() => {
     if (isError) {
       toast({
         variant: "error",
         description: "Credenciais inválidas ou usuário inexistente!",
       });
     }
-  }, [isError, toast]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess, data, isError]);
 
   function onSubmit(values: z.infer<typeof loginSchema>) {
     login(values);

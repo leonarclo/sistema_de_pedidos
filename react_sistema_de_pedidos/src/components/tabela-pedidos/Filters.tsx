@@ -27,7 +27,7 @@ export function Filters({ column }: { column: Column<any, unknown> }) {
         value={(columnFilterValue as string) ?? ""}
         onChange={(value) => column.setFilterValue(value)}
         placeholder={`Buscar... (${column.getFacetedUniqueValues().size})`}
-        className="w-36 border-gray-200 rounded text-gray-400"
+        className="border-gray-200 rounded text-gray-400"
         list={column.id + "list"}
       />
     </div>

@@ -19,7 +19,7 @@ function DateFilter<TData>({ column }: DateFilterProps<TData>) {
   const endDate = values?.[1];
 
   return (
-    <div className="flex items-center gap-2 justify-end p-6 mb-4">
+    <div className="flex items-center gap-2 justify-end p-6">
       <div className="flex gap-2">
         <DebouncedInput
           className="rounded p-4"

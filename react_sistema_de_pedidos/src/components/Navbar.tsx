@@ -10,32 +10,12 @@ import {
 } from "./ui/dropdown-menu";
 import LogoutDialog from "./dialogs/LogoutDialog";
 import { useGetMeQuery } from "@/redux/api/authApi";
+import { LoadingSpinner } from "./ui/loading-spinner";
+import { nivelAcessoString } from "@/lib/nivelAcessoString";
 
 function Navbar() {
   const thisPage = location.pathname;
-  const { data: userInfo } = useGetMeQuery();
-
-  let nivel;
-  switch (userInfo?.nivel) {
-    case 9:
-      nivel = "Master";
-      break;
-    case 7:
-      nivel = "ADM";
-      break;
-    case 5:
-      nivel = "Editor";
-      break;
-    case 1:
-      nivel = "Consultor";
-      break;
-    case 0:
-      nivel = "Inativo";
-      break;
-    default:
-      nivel = "Desconhecido";
-      break;
-  }
+  const { data: userInfo, isLoading } = useGetMeQuery();
 
   return (
     <>
@@ -43,10 +23,16 @@ function Navbar() {
         <div className="flex items-center justify-between">
           <h1 className="text-2xl">
             Olá,{" "}
-            <span className="capitalize">
-              {userInfo && userInfo.usuario}!{" "}
-              <sup className="text-sm text-orange-400 font-bold">{nivel}</sup>
-            </span>
+            {userInfo && !isLoading ? (
+              <span className="capitalize">
+                {userInfo && userInfo.usuario}!{" "}
+                <sup className="text-sm text-orange-400 font-bold">
+                  {nivelAcessoString(userInfo.nivel)}
+                </sup>
+              </span>
+            ) : (
+              <LoadingSpinner />
+            )}
           </h1>
           <div className="flex gap-10">
             {thisPage === "/" ? (

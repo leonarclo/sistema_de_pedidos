@@ -8,6 +8,7 @@ import {
   IProdutoRequest,
   IQueryPedido,
 } from "../../types";
+import Cookies from "js-cookie";
 
 export const pedidoApi = createApi({
   tagTypes: ["Pedidos", "Produtos"],
@@ -17,7 +18,7 @@ export const pedidoApi = createApi({
     mode: "cors",
     credentials: "same-origin",
     prepareHeaders: (headers) => {
-      const accessToken = localStorage.getItem("token");
+      const accessToken = Cookies.get("access_token");
       if (accessToken) {
         headers.set("authorization", `Bearer ${accessToken}`);
         headers.set("Content-Type", "application/json; charset-utf=8");

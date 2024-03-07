@@ -53,9 +53,6 @@ function FormUsuario() {
         variant: "success",
         description: "Sucesso!",
       });
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
     } else if (erroInserir || erroEditar) {
       toast({
         variant: "error",
@@ -101,7 +98,7 @@ function FormUsuario() {
       nomeCompleto: "",
       email: "",
       departamento: "",
-      nivel: 0,
+      nivel: 1,
     },
   });
 
