@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -36,7 +37,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 @EnableJpaAuditing
-@EntityListeners(AuditingEntityListener.class)
+@Audited
 @Table(name = "co_pedidos")
 public class Pedido implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -158,15 +159,17 @@ public class Pedido implements Serializable {
     @Column(name = "editado_em", nullable = true)
     private LocalDateTime editadoEm;
 
-    @ManyToOne
-    @LastModifiedBy
-    @JoinColumn(name = "editado_por", referencedColumnName = "id", nullable = true)
-    private Usuario editadoPor;
+    // @ManyToOne
+    // @LastModifiedBy
+    // @JoinColumn(name = "editado_por", referencedColumnName = "id", nullable =
+    // true)
+    // private Usuario editadoPor;
 
-    @ManyToOne
-    @CreatedBy
-    @JoinColumn(name = "criado_por", referencedColumnName = "id", nullable = true, updatable = false)
-    private Usuario criadoPor;
+    // @ManyToOne
+    // @CreatedBy
+    // @JoinColumn(name = "criado_por", referencedColumnName = "id", nullable =
+    // true, updatable = false)
+    // private Usuario criadoPor;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens;

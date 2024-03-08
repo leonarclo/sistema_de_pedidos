@@ -278,6 +278,7 @@ function FormNovoPedido() {
         id: editar.id,
         itemId,
       });
+
       triggerUpload({
         files: renameFiles(form.getValues("arquivos")),
         id: editar.id,
@@ -365,7 +366,6 @@ function FormNovoPedido() {
         arquivos: fileNames,
       };
       triggerInserirPedido({ body: pedidoCompleto, usuarioId: usuario?.id });
-      triggerUpload({ files: renameFiles(form.getValues("arquivos")) });
     }
   }
 

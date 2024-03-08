@@ -41,7 +41,7 @@ public class PedidoController {
         if (consultor != null && consultorId != null && nivel <= 5) {
             Usuario usuario = usuarioRepository.findById(consultorId)
                     .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
-            return ResponseEntity.ok(pedidoService.findByConsultor(consultor, usuario));
+            return ResponseEntity.ok(pedidoService.findByConsultor(consultor));
         }
         if (consultor != null && consultorId != null && nivel > 5) {
             return ResponseEntity.ok(pedidoService.findAll());
@@ -69,14 +69,14 @@ public class PedidoController {
         return ResponseEntity.ok(updatePedido);
     }
 
-    @GetMapping("/buscar-editados")
-    public ResponseEntity<List<PedidoResponseDTO>> findUpdated() {
-        try {
-            List<PedidoResponseDTO> pedidos = pedidoService.findUpdated();
-            return ResponseEntity.ok(pedidos);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
+    // @GetMapping("/buscar-editados")
+    // public ResponseEntity<List<PedidoResponseDTO>> findUpdated() {
+    // try {
+    // List<PedidoResponseDTO> pedidos = pedidoService.findUpdated();
+    // return ResponseEntity.ok(pedidos);
+    // } catch (Exception e) {
+    // return ResponseEntity.badRequest().build();
+    // }
+    // }
 
 }

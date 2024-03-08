@@ -49,14 +49,14 @@ public class PedidoService {
         return PedidoMapper.toPedidoList(pedidoRepository.findFirstByCnpj(cnpj));
     }
 
-    public List<PedidoResponseDTO> findUpdated() {
-        return PedidoMapper
-                .toPedidoList(pedidoRepository.findByEditadoEmNotNullOrCriadoPorNotNullOrderByEditadoEmDesc());
-    }
+    // public List<PedidoResponseDTO> findUpdated() {
+    // return PedidoMapper
+    // .toPedidoList(pedidoRepository.findByEditadoEmNotNullOrCriadoPorNotNullOrderByEditadoEmDesc());
+    // }
 
-    public List<PedidoResponseDTO> findByConsultor(String consultor, Usuario consultorId) {
+    public List<PedidoResponseDTO> findByConsultor(String consultor) {
         return PedidoMapper
-                .toPedidoList(pedidoRepository.findByConsultorOrCriadoPorOrderByIdDesc(consultor, consultorId));
+                .toPedidoList(pedidoRepository.findByConsultorOrderByIdDesc(consultor));
     }
 
     @Transactional
@@ -77,7 +77,7 @@ public class PedidoService {
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
 
         modelMapper.map(pedidoCompleto, pedido);
-        pedido.setCriadoPor(usuario);
+        // pedido.setCriadoPor(usuario);
 
         pedidoRepository.save(pedido);
         return PedidoMapper.toUpdate(pedido);
@@ -96,8 +96,8 @@ public class PedidoService {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
 
-        updatePedido.setEditadoPor(usuario);
-        updatePedido.setEditadoEm(LocalDateTime.now());
+        // updatePedido.setEditadoPor(usuario);
+        // updatePedido.setEditadoEm(LocalDateTime.now());
         modelMapper.map(updatePedido, findPedido);
 
         for (ItemPedidoRequestDTO itemPedidoDto : updatePedido.getItens()) {

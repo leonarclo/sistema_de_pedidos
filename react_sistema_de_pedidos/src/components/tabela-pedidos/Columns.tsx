@@ -139,7 +139,9 @@ export function fetchPedidoColumns(): ColumnDef<IPedido>[] {
         );
       },
       cell: ({ row }) => {
-        return <p className="truncate">{row.getValue("emailLogin")}</p>;
+        return (
+          <p className="w-[160px] truncate">{row.getValue("emailLogin")}</p>
+        );
       },
     },
     {

@@ -9,7 +9,7 @@ export const schema = z.object({
       required_error: "Preencha o campo de 'Origem do Lead'",
     })
     .min(1, { message: "Preencha o campo de 'Origem do Lead'" }),
-  leadData: z.coerce.date({
+  leadData: z.coerce.string({
     errorMap: (issue, { defaultError }) => ({
       message:
         issue.code === "invalid_date"
@@ -127,7 +127,7 @@ export const schema = z.object({
   posVenda: z.coerce.boolean().nullable().default(false).optional(),
   notaFiscal: z.string({}).nullable().optional(),
   unidadeNegocio: z.string({}).nullable().optional(),
-  previsaoEntrega: z.coerce.date({}).nullable().optional(),
+  previsaoEntrega: z.coerce.string({}).nullable().optional(),
   numeroSerie: z.string({}).nullable().optional(),
   codigoRastreio: z.string({}).nullable().optional(),
 });

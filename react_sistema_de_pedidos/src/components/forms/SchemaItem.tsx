@@ -30,7 +30,7 @@ export const schemaItem = z.object({
       required_error: "Preencha o campo de 'Forma de Pagamento'",
     })
     .min(1, "Preencha o campo de 'Forma de Pagamento'"),
-  vencimento1Boleto: z.coerce.date({
+  vencimento1Boleto: z.coerce.string({
     errorMap: (issue, { defaultError }) => ({
       message:
         issue.code === "invalid_date"
@@ -49,6 +49,6 @@ export const schemaItem = z.object({
     })
     .nullable()
     .optional(),
-  vigenciaInicio: z.coerce.date({}).nullable().optional(),
-  vigenciaFim: z.coerce.date({}).nullable().optional(),
+  vigenciaInicio: z.coerce.string({}).nullable().optional(),
+  vigenciaFim: z.coerce.string({}).nullable().optional(),
 });
