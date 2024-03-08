@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
 import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
 import com.leonardo.spring_sistema_de_pedidos.repositories.UsuarioRepository;
+import com.leonardo.spring_sistema_de_pedidos.dto.ItemPedidoResponseDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoCompletoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.services.PedidoService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,6 +67,16 @@ public class PedidoController {
             @PathVariable @NonNull Long usuarioId, @PathVariable @NonNull Long id, @PathVariable @NonNull Long itemId) {
         PedidoCompletoRequestDTO updatePedido = pedidoService.update(pedido, usuarioId, id, itemId);
         return ResponseEntity.ok(updatePedido);
+    }
+
+    @GetMapping("/buscar-editados")
+    public ResponseEntity<List<PedidoResponseDTO>> findUpdated() {
+        try {
+            List<PedidoResponseDTO> pedidos = pedidoService.findUpdated();
+            return ResponseEntity.ok(pedidos);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }

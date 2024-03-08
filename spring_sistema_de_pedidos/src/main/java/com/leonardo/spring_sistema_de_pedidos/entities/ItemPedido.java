@@ -1,11 +1,13 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.leonardo.spring_sistema_de_pedidos.common.Formatters;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +25,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "co_itens")
 public class ItemPedido {
 

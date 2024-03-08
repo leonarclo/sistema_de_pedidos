@@ -17,6 +17,8 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
     List<Pedido> findByConsultorOrCriadoPorOrderByIdDesc(String consultor, Usuario consultorId);
 
+    List<Pedido> findByEditadoEmNotNullOrCriadoPorNotNullOrderByEditadoEmDesc();
+
     @Query("select e from Pedido e where trim(e.cnpj) like concat(:cnpj,'%')")
     List<Pedido> findFirstByCnpj(@Param("cnpj") String cnpj);
 }

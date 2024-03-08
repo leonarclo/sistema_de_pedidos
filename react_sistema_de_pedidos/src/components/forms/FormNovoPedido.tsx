@@ -31,6 +31,8 @@ import { closeModal } from "@/redux/features/modalSlice";
 import PreencherClientePedido from "../dialogs/PreencherClientePedido";
 import { useUploadMutation } from "@/redux/api/filesApi";
 import { renameFiles } from "@/lib/renameFiles";
+import { editarPedidoState } from "@/redux/features/pedidoSlice";
+import { itensPedidoState } from "@/redux/features/itensPedidoSlice";
 
 function FormNovoPedido() {
   const dispatch = useAppDispatch();
@@ -121,6 +123,8 @@ function FormNovoPedido() {
   useEffect(() => {
     if (inserido || editado) {
       dispatch(closeModal("edit"));
+      dispatch(editarPedidoState(null));
+      dispatch(itensPedidoState([]));
       toast({
         variant: "success",
         description: "Sucesso!",

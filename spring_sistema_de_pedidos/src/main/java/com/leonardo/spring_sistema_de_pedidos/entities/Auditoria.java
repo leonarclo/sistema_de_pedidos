@@ -1,43 +1,53 @@
-// package com.leonardo.spring_sistema_de_pedidos.entities;
+package com.leonardo.spring_sistema_de_pedidos.entities;
 
-// import java.time.LocalDateTime;
+import java.time.LocalDateTime;
 
-// import jakarta.persistence.Column;
-// import jakarta.persistence.Entity;
-// import jakarta.persistence.GeneratedValue;
-// import jakarta.persistence.GenerationType;
-// import jakarta.persistence.Id;
-// import jakarta.persistence.Table;
-// import lombok.AllArgsConstructor;
-// import lombok.Getter;
-// import lombok.NoArgsConstructor;
-// import lombok.Setter;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-// @Entity
-// @Getter
-// @Setter
-// @AllArgsConstructor
-// @NoArgsConstructor
-// @Table(name = "pedidos_auditoria")
-// public class Auditoria {
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "co_auditoria")
+public class Auditoria {
 
-// @Id
-// @GeneratedValue(strategy = GenerationType.IDENTITY)
-// @Column(name = "id")
-// private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-// @Column
-// private String action;
+    @Column
+    private String entidade;
 
-// @Column
-// private LocalDateTime action_date;
+    @Column(name = "entidade_id")
+    private String entidadeName;
 
-// @Column
-// private Integer user_id;
+    @Column
+    private String acao;
 
-// @Column
-// private String prev_value;
+    @Column
+    private String propriedade;
 
-// @Column
-// private String new_value;
-// }
+    @Column(name = "valor_previo")
+    private String valorPrevio;
+
+    @Column(name = "valor_atual")
+    private String valorAtual;
+
+    @Column
+    private String usuario;
+
+    @Column(name = "data_hora")
+    private LocalDateTime dataHora;
+
+}

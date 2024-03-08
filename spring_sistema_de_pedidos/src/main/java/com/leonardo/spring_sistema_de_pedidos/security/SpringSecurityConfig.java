@@ -34,12 +34,18 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/registrar").hasAuthority("9")
                         .requestMatchers(HttpMethod.GET, "/api/v1/editar-pedido").hasAuthority("5")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/buscar-usuarios").hasAuthority("9")
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/v1/buscar-usuarios")
+                        .hasAuthority("9")
                         .requestMatchers(HttpMethod.POST, "/api/v1/editar-usuario").hasAuthority("9")
                         .requestMatchers(HttpMethod.POST, "/api/v1/encrypt").hasAuthority("9")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/inserir-produto").hasAuthority("7")
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/v1/inserir-produto")
+                        .hasAuthority("7")
                         .requestMatchers(HttpMethod.POST, "/api/v1/editar-produto").hasAuthority("7")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/remover-produto").hasAuthority("7")
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/v1/remover-produto")
+                        .hasAuthority("7")
                         .requestMatchers(HttpMethod.POST, "/api/v1/editar-usuario").hasAuthority("9")
                         .requestMatchers(HttpMethod.POST, "/api/v1/files/delete").hasAuthority("7")
                         .anyRequest().authenticated())

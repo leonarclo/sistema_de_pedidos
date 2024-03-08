@@ -24,6 +24,9 @@ export function fetchPedidoColumns(): ColumnDef<IPedido>[] {
           </Button>
         );
       },
+      cell: ({ row }) => {
+        return <p className="w-[120px] text-start">{row.getValue("status")}</p>;
+      },
     },
     {
       accessorKey: "consultor",
@@ -62,7 +65,7 @@ export function fetchPedidoColumns(): ColumnDef<IPedido>[] {
       },
       cell: ({ row }) => {
         return (
-          <p className="w-[120px] text-center">
+          <p className="w-[130px] text-center">
             {moment(row.getValue("data")).format("DD-MM-YYYY HH:mm")}
           </p>
         );
@@ -130,22 +133,20 @@ export function fetchPedidoColumns(): ColumnDef<IPedido>[] {
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Email Login Sistema
+            Email Login
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
       cell: ({ row }) => {
-        return (
-          <p className="max-w-[200px] truncate">{row.getValue("emailLogin")}</p>
-        );
+        return <p className="truncate">{row.getValue("emailLogin")}</p>;
       },
     },
     {
       id: "edit",
       cell: ({ row }) => {
         return (
-          <div className="flex justify-end">
+          <div className="w-[60px] flex justify-end">
             <EditButton row={row} />
           </div>
         );

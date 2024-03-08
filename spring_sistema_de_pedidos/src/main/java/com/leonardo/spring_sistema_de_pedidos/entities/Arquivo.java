@@ -2,11 +2,13 @@ package com.leonardo.spring_sistema_de_pedidos.entities;
 
 import java.io.Serializable;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.leonardo.spring_sistema_de_pedidos.common.Formatters;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,6 +25,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "co_arquivos")
 public class Arquivo implements Serializable {
     private static final long serialVersionUID = 1L;

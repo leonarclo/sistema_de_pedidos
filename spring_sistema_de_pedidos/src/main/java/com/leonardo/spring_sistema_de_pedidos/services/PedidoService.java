@@ -49,6 +49,11 @@ public class PedidoService {
         return PedidoMapper.toPedidoList(pedidoRepository.findFirstByCnpj(cnpj));
     }
 
+    public List<PedidoResponseDTO> findUpdated() {
+        return PedidoMapper
+                .toPedidoList(pedidoRepository.findByEditadoEmNotNullOrCriadoPorNotNullOrderByEditadoEmDesc());
+    }
+
     public List<PedidoResponseDTO> findByConsultor(String consultor, Usuario consultorId) {
         return PedidoMapper
                 .toPedidoList(pedidoRepository.findByConsultorOrCriadoPorOrderByIdDesc(consultor, consultorId));

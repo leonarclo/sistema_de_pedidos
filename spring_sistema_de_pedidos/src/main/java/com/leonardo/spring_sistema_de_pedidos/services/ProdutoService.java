@@ -2,7 +2,6 @@ package com.leonardo.spring_sistema_de_pedidos.services;
 
 import java.util.List;
 
-import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -37,8 +36,6 @@ public class ProdutoService {
     @SuppressWarnings("null")
     public ProdutoDTO update(@NonNull ProdutoDTO updateProduto, @NonNull Long id) {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
-        modelMapper.getConfiguration().setSkipNullEnabled(true);
 
         Produto findProduto = produtoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));

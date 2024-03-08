@@ -1,5 +1,9 @@
 package com.leonardo.spring_sistema_de_pedidos.dto;
 
+import java.time.LocalDateTime;
+
+import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,4 +54,7 @@ public class PedidoResponseDTO {
         private String codigoRastreio;
         private String observacoes;
         private String emailLogin;
+        private LocalDateTime editadoEm;
+        private UsuarioResponseDTO editadoPor;
+        private UsuarioResponseDTO criadoPor;
 }
