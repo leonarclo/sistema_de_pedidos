@@ -12,6 +12,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.leonardo.spring_sistema_de_pedidos.common.Formatters;
 
 import jakarta.persistence.CascadeType;
@@ -25,7 +26,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,9 +33,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@EqualsAndHashCode
 @EnableJpaAuditing
 @Audited
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name = "co_pedidos")
 public class Pedido implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -63,7 +63,7 @@ public class Pedido implements Serializable {
     @Column(name = "lead_origem")
     private String leadOrigem;
 
-    @Column(name = "lead_data")
+    @Column(name = "lead_data", nullable = true)
     private String leadData;
 
     @Column(name = "cnpj")
@@ -105,10 +105,10 @@ public class Pedido implements Serializable {
     @Column(name = "transportadora")
     private String transportadora;
 
-    @Column(name = "frete")
+    @Column(name = "frete", nullable = true)
     private String fretePreco;
 
-    @Column(name = "responsavel_nome")
+    @Column(name = "responsavel_nome", nullable = true)
     private String nomeCliente;
 
     @Column(name = "responsavel_cpf")
@@ -147,10 +147,10 @@ public class Pedido implements Serializable {
     @Column(name = "codigorastreio")
     private String codigoRastreio;
 
-    @Column(name = "obs")
+    @Column(name = "obs", nullable = true)
     private String observacoes;
 
-    @Column(name = "emaillogin")
+    @Column(name = "emaillogin", nullable = true)
     private String emailLogin;
 
     @LastModifiedDate

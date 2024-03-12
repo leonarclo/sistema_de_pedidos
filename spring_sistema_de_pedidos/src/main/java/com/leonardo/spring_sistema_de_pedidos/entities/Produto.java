@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import org.hibernate.envers.Audited;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +23,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name = "co_produtos")
 public class Produto implements Serializable {
     private static final long serialVersionUID = 1L;

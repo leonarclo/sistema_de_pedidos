@@ -60,7 +60,6 @@ public class PedidoService {
 
         for (ItemPedido itemPedido : pedido.getItens()) {
             itemPedido.setPedido(pedido);
-            itemPedido.setChave(pedido.getChave());
             itemPedidoRepository.save(itemPedido);
         }
 
@@ -104,6 +103,7 @@ public class PedidoService {
             if (optionalItemPedido.isPresent()) {
                 ItemPedido itemPedido = optionalItemPedido.get();
                 itemPedido.setPedido(findPedido);
+
                 modelMapper.map(itemPedidoDto, itemPedido);
                 itemPedidoRepository.save(itemPedido);
             }

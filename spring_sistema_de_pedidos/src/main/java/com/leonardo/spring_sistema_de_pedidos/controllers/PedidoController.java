@@ -1,7 +1,6 @@
 package com.leonardo.spring_sistema_de_pedidos.controllers;
 
 import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -10,11 +9,11 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
-import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
+import com.leonardo.spring_sistema_de_pedidos.repositories.PedidoRepository;
 import com.leonardo.spring_sistema_de_pedidos.repositories.UsuarioRepository;
-import com.leonardo.spring_sistema_de_pedidos.dto.ItemPedidoResponseDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoCompletoRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.services.PedidoService;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,11 +24,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class PedidoController {
 
     public final PedidoService pedidoService;
+    public final PedidoRepository pedidoRepository;
     public final UsuarioRepository usuarioRepository;
 
-    public PedidoController(PedidoService pedidoService, UsuarioRepository usuarioRepository) {
+    public PedidoController(PedidoService pedidoService, UsuarioRepository usuarioRepository,
+            PedidoRepository pedidoRepository) {
         this.pedidoService = pedidoService;
         this.usuarioRepository = usuarioRepository;
+        this.pedidoRepository = pedidoRepository;
     }
 
     @GetMapping("/buscar-pedidos")
@@ -40,8 +42,6 @@ public class PedidoController {
             @RequestParam(name = "cnpj", required = false) String cnpj) {
 
         if (consultor != null && consultorId != null && nivel <= 5) {
-            // Usuario usuario = usuarioRepository.findById(consultorId)
-            // .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
             return ResponseEntity.ok(pedidoService.findByConsultor(consultor));
         }
         if (consultor != null && consultorId != null && nivel > 5) {
@@ -51,9 +51,7 @@ public class PedidoController {
         if (cnpj != null) {
             return ResponseEntity.ok(pedidoService.findByCnpj(cnpj));
         }
-
         return ResponseEntity.notFound().build();
-
     }
 
     @PostMapping("/inserir-pedido/{usuarioId}")
@@ -69,15 +67,4 @@ public class PedidoController {
         PedidoCompletoRequestDTO updatePedido = pedidoService.update(pedido, usuarioId, id, itemId);
         return ResponseEntity.ok(updatePedido);
     }
-
-    // @GetMapping("/buscar-editados")
-    // public ResponseEntity<List<PedidoResponseDTO>> findUpdated() {
-    // try {
-    // List<PedidoResponseDTO> pedidos = pedidoService.findUpdated();
-    // return ResponseEntity.ok(pedidos);
-    // } catch (Exception e) {
-    // return ResponseEntity.badRequest().build();
-    // }
-    // }
-
 }
