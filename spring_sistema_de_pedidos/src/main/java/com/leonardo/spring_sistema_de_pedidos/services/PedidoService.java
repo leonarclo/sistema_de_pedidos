@@ -49,11 +49,6 @@ public class PedidoService {
         return PedidoMapper.toPedidoList(pedidoRepository.findFirstByCnpj(cnpj));
     }
 
-    // public List<PedidoResponseDTO> findUpdated() {
-    // return PedidoMapper
-    // .toPedidoList(pedidoRepository.findByEditadoEmNotNullOrCriadoPorNotNullOrderByEditadoEmDesc());
-    // }
-
     public List<PedidoResponseDTO> findByConsultor(String consultor) {
         return PedidoMapper
                 .toPedidoList(pedidoRepository.findByConsultorOrderByIdDesc(consultor));
@@ -65,6 +60,7 @@ public class PedidoService {
 
         for (ItemPedido itemPedido : pedido.getItens()) {
             itemPedido.setPedido(pedido);
+            itemPedido.setChave(pedido.getChave());
             itemPedidoRepository.save(itemPedido);
         }
 
@@ -77,7 +73,7 @@ public class PedidoService {
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
 
         modelMapper.map(pedidoCompleto, pedido);
-        // pedido.setCriadoPor(usuario);
+        pedido.setCriadoPor(usuario);
 
         pedidoRepository.save(pedido);
         return PedidoMapper.toUpdate(pedido);
@@ -96,8 +92,8 @@ public class PedidoService {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
 
-        // updatePedido.setEditadoPor(usuario);
-        // updatePedido.setEditadoEm(LocalDateTime.now());
+        updatePedido.setEditadoPor(usuario);
+        updatePedido.setEditadoEm(LocalDateTime.now());
         modelMapper.map(updatePedido, findPedido);
 
         for (ItemPedidoRequestDTO itemPedidoDto : updatePedido.getItens()) {
@@ -107,8 +103,8 @@ public class PedidoService {
 
             if (optionalItemPedido.isPresent()) {
                 ItemPedido itemPedido = optionalItemPedido.get();
-                modelMapper.map(itemPedidoDto, itemPedido);
                 itemPedido.setPedido(findPedido);
+                modelMapper.map(itemPedidoDto, itemPedido);
                 itemPedidoRepository.save(itemPedido);
             }
         }

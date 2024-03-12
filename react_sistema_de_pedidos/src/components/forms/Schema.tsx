@@ -9,14 +9,17 @@ export const schema = z.object({
       required_error: "Preencha o campo de 'Origem do Lead'",
     })
     .min(1, { message: "Preencha o campo de 'Origem do Lead'" }),
-  leadData: z.coerce.string({
-    errorMap: (issue, { defaultError }) => ({
-      message:
-        issue.code === "invalid_date"
-          ? "Selecione uma data válida"
-          : defaultError,
-    }),
-  }),
+  leadData: z.coerce
+    .date({
+      errorMap: (issue, { defaultError }) => ({
+        message:
+          issue.code === "invalid_date"
+            ? "Selecione uma data válida"
+            : defaultError,
+      }),
+    })
+    .nullable()
+    .optional(),
   cargoCliente: z
     .string({
       required_error: "Selecione uma opção de cargo",
@@ -127,7 +130,17 @@ export const schema = z.object({
   posVenda: z.coerce.boolean().nullable().default(false).optional(),
   notaFiscal: z.string({}).nullable().optional(),
   unidadeNegocio: z.string({}).nullable().optional(),
-  previsaoEntrega: z.coerce.string({}).nullable().optional(),
+  previsaoEntrega: z.coerce
+    .date({
+      errorMap: (issue, { defaultError }) => ({
+        message:
+          issue.code === "invalid_date"
+            ? "Selecione uma data válida"
+            : defaultError,
+      }),
+    })
+    .nullable()
+    .optional(),
   numeroSerie: z.string({}).nullable().optional(),
   codigoRastreio: z.string({}).nullable().optional(),
 });

@@ -2,6 +2,8 @@ package com.leonardo.spring_sistema_de_pedidos.entities;
 
 import java.io.Serializable;
 
+import org.hibernate.envers.Audited;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,6 +20,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Audited
 @Table(name = "co_produtos")
 public class Produto implements Serializable {
     private static final long serialVersionUID = 1L;

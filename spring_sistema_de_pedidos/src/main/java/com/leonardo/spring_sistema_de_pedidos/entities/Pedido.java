@@ -9,7 +9,6 @@ import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,7 +17,6 @@ import com.leonardo.spring_sistema_de_pedidos.common.Formatters;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -159,18 +157,17 @@ public class Pedido implements Serializable {
     @Column(name = "editado_em", nullable = true)
     private LocalDateTime editadoEm;
 
-    // @ManyToOne
-    // @LastModifiedBy
-    // @JoinColumn(name = "editado_por", referencedColumnName = "id", nullable =
-    // true)
-    // private Usuario editadoPor;
+    @ManyToOne
+    @LastModifiedBy
+    @JoinColumn(name = "editado_por", referencedColumnName = "id", nullable = true)
+    private Usuario editadoPor;
 
-    // @ManyToOne
-    // @CreatedBy
-    // @JoinColumn(name = "criado_por", referencedColumnName = "id", nullable =
-    // true, updatable = false)
-    // private Usuario criadoPor;
+    @ManyToOne
+    @CreatedBy
+    @JoinColumn(name = "criado_por", referencedColumnName = "id", nullable = true, updatable = false)
+    private Usuario criadoPor;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens;
 

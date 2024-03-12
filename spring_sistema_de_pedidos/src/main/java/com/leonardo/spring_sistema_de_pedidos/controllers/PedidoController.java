@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import com.leonardo.spring_sistema_de_pedidos.dto.PedidoResponseDTO;
@@ -39,8 +40,8 @@ public class PedidoController {
             @RequestParam(name = "cnpj", required = false) String cnpj) {
 
         if (consultor != null && consultorId != null && nivel <= 5) {
-            Usuario usuario = usuarioRepository.findById(consultorId)
-                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+            // Usuario usuario = usuarioRepository.findById(consultorId)
+            // .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
             return ResponseEntity.ok(pedidoService.findByConsultor(consultor));
         }
         if (consultor != null && consultorId != null && nivel > 5) {
@@ -62,7 +63,7 @@ public class PedidoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPedido);
     }
 
-    @PostMapping("/editar-pedido/{usuarioId}/{id}/{itemId}")
+    @PatchMapping("/editar-pedido/{usuarioId}/{id}/{itemId}")
     public ResponseEntity<PedidoCompletoRequestDTO> update(@RequestBody PedidoCompletoRequestDTO pedido,
             @PathVariable @NonNull Long usuarioId, @PathVariable @NonNull Long id, @PathVariable @NonNull Long itemId) {
         PedidoCompletoRequestDTO updatePedido = pedidoService.update(pedido, usuarioId, id, itemId);

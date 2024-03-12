@@ -23,6 +23,7 @@ ALTER TABLE co_itens
 
 -- ALTER TABLE for co_pedidos table
 ALTER TABLE co_pedidos
+    MODIFY lead_data VARCHAR(30) NULL,
     MODIFY fone1 VARCHAR(20),    
     MODIFY fone2 VARCHAR(20) NULL,
     MODIFY bairro VARCHAR(100),

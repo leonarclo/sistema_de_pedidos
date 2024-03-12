@@ -3,6 +3,8 @@ package com.leonardo.spring_sistema_de_pedidos.entities;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+
+import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -32,6 +34,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 @EnableJpaAuditing
+@Audited
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "co_acesso")
 public class Usuario implements UserDetails {

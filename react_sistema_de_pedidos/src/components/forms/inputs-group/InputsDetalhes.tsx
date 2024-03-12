@@ -82,7 +82,7 @@ function InputsDetalhes() {
                     )}
                   >
                     {field.value ? (
-                      moment(field.value).format("YYYY-MM-DD")
+                      moment(field.value).format("DD-MM-YYYY")
                     ) : (
                       <span>Selecione uma data</span>
                     )}

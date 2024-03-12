@@ -22,7 +22,6 @@ import {
   useBuscarArquivosQuery,
 } from "@/redux/api/pedidoApi";
 import InputsHidden from "./inputs-group/InputsHidden";
-import { format } from "date-fns";
 import InputsAdm from "./inputs-group/InputsAdm";
 import { LoadingSpinner } from "../ui/loading-spinner";
 import { Check } from "lucide-react";
@@ -33,6 +32,7 @@ import { useUploadMutation } from "@/redux/api/filesApi";
 import { renameFiles } from "@/lib/renameFiles";
 import { editarPedidoState } from "@/redux/features/pedidoSlice";
 import { itensPedidoState } from "@/redux/features/itensPedidoSlice";
+import moment from "moment";
 
 function FormNovoPedido() {
   const dispatch = useAppDispatch();
@@ -65,55 +65,6 @@ function FormNovoPedido() {
     resolver: zodResolver(fullSchema),
     defaultValues: {
       consultor: usuario?.usuario,
-      //   arquivos: "",
-      //   assinatura: false,
-      //   bairro: "",
-      //   cargoCliente: "",
-      //   cep: "",
-      //   chat: false,
-      //   cidade: "",
-      //   cnpj: "",
-      //   codigoRastreio: "",
-      //   complemento: "",
-      //   cpfCliente: "",
-      //   email: "",
-      //   emailLogin: "",
-      //   empresa: "",
-      //   estado: "",
-      //   fretePreco: "",
-      //   leadData: "",
-      //   leadOrigem: "",
-      //   licencaGerada: false,
-      //   itens: [
-      //     {
-      //       categoria: "",
-      //       duracaoContrato: "",
-      //       formaPagamento: "",
-      //       preco: "",
-      //       precoTotal: "",
-      //       produto: "",
-      //       quantidade: "",
-      //       tipoPagamento: "",
-      //       valorMensal: "",
-      //       vencimento1Boleto: "",
-      //       vigenciaFim: "",
-      //       vigenciaInicio: "",
-      //     },
-      //   ],
-      //   logradouro: "",
-      //   nomeCliente: "",
-      //   notaFiscal: "",
-      //   numeroEndereco: "",
-      //   numeroSerie: "",
-      //   observacoes: "",
-      //   planilhaVendas: false,
-      //   posVenda: false,
-      //   previsaoEntrega: "",
-      //   status: "",
-      //   telefone1: "",
-      //   telefone2: "",
-      //   transportadora: "",
-      //   unidadeNegocio: "",
     },
     context: "pedido",
   });
@@ -210,14 +161,16 @@ function FormNovoPedido() {
           numeroFuncionarios: funcionariosId,
           valorMensal: item.valorMensal,
           formaPagamento: item.formaPagamento,
-          vencimento1Boleto: format(item.vencimento1Boleto, "yyyy-MM-dd"),
+          vencimento1Boleto: moment(item.vencimento1Boleto).format(
+            "YYYY-MM-DD HH:mm"
+          ),
           tipoPagamento: item.tipoPagamento,
           duracaoContrato: item.duracaoContrato,
           vigenciaInicio: item.vigenciaInicio
-            ? format(item.vigenciaInicio, "yyyy-MM-dd")
+            ? moment(item.vigenciaInicio).format("YYYY-MM-DD HH:mm")
             : undefined,
           vigenciaFim: item.vigenciaFim
-            ? format(item.vigenciaFim, "yyyy-MM-dd")
+            ? moment(item.vigenciaFim).format("YYYY-MM-DD HH:mm")
             : undefined,
         };
         editarItemPedido.push(itemPedido);
@@ -238,7 +191,7 @@ function FormNovoPedido() {
         empresa: values.empresa,
         cargoCliente: values.cargoCliente,
         leadOrigem: values.leadOrigem,
-        leadData: format(values.leadData, "yyyy-MM-dd"),
+        leadData: moment(values.leadData).format("YYYY-MM-DD HH:mm"),
         cnpj: values.cnpj,
         email: values.email,
         status: values.status,
@@ -264,7 +217,7 @@ function FormNovoPedido() {
         notaFiscal: values.notaFiscal,
         unidadeNegocio: values.unidadeNegocio,
         previsaoEntrega: values.previsaoEntrega
-          ? format(values.previsaoEntrega, "yyyy-MM-dd")
+          ? moment(values.previsaoEntrega).format("YYYY-MM-DD HH:mm")
           : undefined,
         numeroSerie: values.numeroSerie,
         codigoRastreio: values.codigoRastreio,
@@ -302,14 +255,16 @@ function FormNovoPedido() {
           precoTotal: item.precoTotal,
           valorMensal: item.valorMensal,
           formaPagamento: item.formaPagamento,
-          vencimento1Boleto: format(item.vencimento1Boleto, "yyyy-MM-dd"),
+          vencimento1Boleto: moment(item.vencimento1Boleto).format(
+            "YYYY-MM-DD HH:mm"
+          ),
           tipoPagamento: item.tipoPagamento,
           duracaoContrato: item.duracaoContrato,
           vigenciaInicio: item.vigenciaInicio
-            ? format(item.vigenciaInicio, "yyyy-MM-dd")
+            ? moment(item.vigenciaInicio).format("YYYY-MM-DD HH:mm")
             : undefined,
           vigenciaFim: item.vigenciaFim
-            ? format(item.vigenciaFim, "yyyy-MM-dd")
+            ? moment(item.vigenciaFim).format("YYYY-MM-DD HH:mm")
             : undefined,
         };
 
@@ -330,7 +285,7 @@ function FormNovoPedido() {
         empresa: values.empresa,
         cargoCliente: values.cargoCliente,
         leadOrigem: values.leadOrigem,
-        leadData: format(values.leadData, "yyyy-MM-dd"),
+        leadData: moment(values.leadData).format("YYYY-MM-DD HH:mm"),
         cnpj: values.cnpj,
         email: values.email,
         status: values.status,
@@ -357,7 +312,7 @@ function FormNovoPedido() {
         notaFiscal: values.notaFiscal,
         unidadeNegocio: values.unidadeNegocio,
         previsaoEntrega: values.previsaoEntrega
-          ? format(values.previsaoEntrega, "yyyy-MM-dd")
+          ? moment(values.previsaoEntrega).format("YYYY-MM-DD HH:mm")
           : undefined,
         numeroSerie: values.numeroSerie,
         codigoRastreio: values.codigoRastreio,

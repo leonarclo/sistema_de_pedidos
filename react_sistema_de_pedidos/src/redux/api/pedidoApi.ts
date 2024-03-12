@@ -97,7 +97,7 @@ export const pedidoApi = createApi({
       query({ body, usuarioId, id, itemId }) {
         return {
           url: `/editar-pedido/${usuarioId}/${id}/${itemId}`,
-          method: "POST",
+          method: "PATCH",
           body,
           credentials: "include",
         };

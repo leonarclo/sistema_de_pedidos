@@ -1,6 +1,8 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
 import java.io.Serializable;
+
+import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -25,6 +27,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
+@Audited
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "co_arquivos")
 public class Arquivo implements Serializable {
@@ -44,7 +47,6 @@ public class Arquivo implements Serializable {
     @Column(name = "url", nullable = true)
     private String url;
 
-    @CreatedBy
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "pedido_id", referencedColumnName = "id", nullable = true)
