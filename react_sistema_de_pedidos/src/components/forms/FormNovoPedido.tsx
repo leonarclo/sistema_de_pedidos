@@ -125,6 +125,7 @@ function FormNovoPedido() {
 
     if (editar && editarItem) {
       const name = usuario?.usuario;
+      const currentDate = moment(Date.now()).format("YYYY-MM-DD HH:mm");
       const formattedName = name
         ? name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
         : "";
@@ -135,7 +136,7 @@ function FormNovoPedido() {
         editar.observacoes &&
         editar.observacoes != ""
       ) {
-        observacoes = `${editar.observacoes} | ${formattedName}: ${values.observacoes}`;
+        observacoes = `${editar.observacoes} | (${currentDate}) ${formattedName}: ${values.observacoes}`;
       } else if (
         values.observacoes == "" ||
         (values.observacoes == null &&
@@ -144,7 +145,7 @@ function FormNovoPedido() {
       ) {
         observacoes = editar.observacoes;
       } else {
-        observacoes = `${formattedName}: ${values.observacoes}`;
+        observacoes = `(${currentDate}) ${formattedName}: ${values.observacoes}`;
       }
 
       let itemId;
@@ -176,17 +177,8 @@ function FormNovoPedido() {
         editarItemPedido.push(itemPedido);
       });
 
-      // const fileNames = [];
-      // arqData?.forEach((arquivo) => {
-      //   fileNames.push(arquivo.arquivo);
-      // });
-      // if (values.arquivos) {
-      //   for (let i = 0; i < values.arquivos.length; i++) {
-      //     fileNames.push(values.arquivos[i].name);
-      //   }
-      // }
-
       const editarPedido: IPedidoCompleto = {
+        chave: editar.chave,
         consultor: values.consultor,
         empresa: values.empresa,
         cargoCliente: values.cargoCliente,
@@ -208,7 +200,8 @@ function FormNovoPedido() {
         fretePreco: values.fretePreco,
         nomeCliente: values.nomeCliente,
         cpfCliente: values.cpfCliente,
-        observacoes: observacoes,
+        categoriaGrupo,
+        observacoes,
         planilhaVendas: values.planilhaVendas == true ? "1" : "0",
         licencaGerada: values.licencaGerada == true ? 1 : 0,
         assinatura: values.assinatura == true ? 1 : 0,
@@ -236,6 +229,7 @@ function FormNovoPedido() {
         files: renameFiles(form.getValues("arquivos")),
         id: editar.id,
       });
+      console.log(form.getValues("arquivos"));
     } else {
       const name = usuario?.usuario;
       const formattedName = name

@@ -46,6 +46,8 @@ function FormUsuario() {
     (state) => state.editarUsuarioState.editarUsuario
   );
 
+  const usuario = useAppSelector((state) => state.getUserState.usuario);
+
   useEffect(() => {
     if (inserido || editado) {
       dispatch(closeModal("user"));
@@ -224,7 +226,7 @@ function FormUsuario() {
                     <SelectItem value="0" className="cursor-pointer">
                       Inativo
                     </SelectItem>
-                    {estaEditando?.nivel == 9 ? (
+                    {usuario?.nivel == 9 ? (
                       <SelectItem value="9" className="cursor-pointer">
                         Master
                       </SelectItem>

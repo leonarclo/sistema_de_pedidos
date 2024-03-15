@@ -28,6 +28,7 @@ function AdmUsuarios() {
     if (successUser) {
       dispatch(getUserState(userInfo));
     }
+
     if (errorUser || isError) {
       Cookies.remove("access_token");
       navigate("/login");

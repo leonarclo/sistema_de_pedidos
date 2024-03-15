@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 export const logApi = createApi({
   reducerPath: "logApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api/v1",
+    baseUrl: `${import.meta.env.VITE_APP_BASE_URL_API}`,
     mode: "cors",
     credentials: "same-origin",
     prepareHeaders: (headers) => {

@@ -11,6 +11,13 @@ ALTER TABLE co_acesso
     DROP COLUMN resp_insercao,
     MODIFY fator INT DEFAULT 0;
 
+
+-- UPDATE TABLE for co_acesso table
+UPDATE co_acesso
+    SET adm = 9 WHERE id = 1;
+
+
+
 -- ALTER TABLE for co_itens table
 ALTER TABLE co_itens
     MODIFY nfuncionarios VARCHAR(30) NULL,
@@ -21,10 +28,11 @@ ALTER TABLE co_itens
     MODIFY vigenciaOut VARCHAR(20) NULL;
 
 
+
 -- ALTER TABLE for co_pedidos table
 ALTER TABLE co_pedidos
     MODIFY lead_data VARCHAR(30) NULL,
-    MODIFY fone1 VARCHAR(20),    
+    MODIFY fone1 VARCHAR(20) NOT NULL,    
     MODIFY fone2 VARCHAR(20) NULL,
     MODIFY bairro VARCHAR(100),
     MODIFY complemento VARCHAR(100) NULL,
@@ -55,7 +63,7 @@ ALTER TABLE co_pedidos
     MODIFY PrevisaoEntrega VARCHAR(30) NULL,
     MODIFY NumeroSerie TEXT NULL,
     MODIFY codigoRastreio VARCHAR(20) NULL,
-    MODIFY obs TEXT NULL,
+    MODIFY obs LONGTEXT NULL,
     MODIFY emailLogin VARCHAR(100) NULL;
 
 ALTER TABLE co_produtos

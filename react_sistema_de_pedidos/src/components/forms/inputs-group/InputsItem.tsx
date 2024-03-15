@@ -26,7 +26,7 @@ import { Calendar } from "../../ui/calendar";
 import { useAppSelector } from "@/redux/store";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import moment from "moment";
-import { IItemPedido, IProduto } from "@/types";
+import { IItemPedido } from "@/types";
 import { useBuscarProdutosQuery } from "@/redux/api/pedidoApi";
 
 function InputsItem() {
@@ -39,17 +39,6 @@ function InputsItem() {
   });
 
   const { data: produtoList } = useBuscarProdutosQuery();
-
-  const produtosVenda: IProduto[] = [];
-  const produtosContrato: IProduto[] = [];
-
-  produtoList?.map((produto) => {
-    if (produto.categoria == 1) {
-      produtosVenda.push(produto);
-    } else {
-      produtosContrato.push(produto);
-    }
-  });
 
   useEffect(() => {
     if (itens && itens.length < 1) append({});
@@ -93,11 +82,12 @@ function InputsItem() {
   }, [fields, itens, form]);
 
   useEffect(() => {
-    if (editando) {
+    if (editando && itens) {
       itens.forEach((item: any, index: number) => {
         Object.keys(item).forEach((key) => {
           const typedKey = key as keyof IItemPedido;
           form.setValue(`itens.${index}.${typedKey}`, item[key]);
+          console.log(`itens.${index}.${typedKey} : ${item[key]}`);
         });
       });
     }
@@ -122,6 +112,7 @@ function InputsItem() {
       ) : null}
 
       {editando &&
+        produtoList &&
         itens.map((_, index) => (
           <div
             key={index}
@@ -166,16 +157,18 @@ function InputsItem() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="bg-white">
-                      {form.watch(`categoria-${index}`) === "Venda" ? (
+                      {form.watch(`itens.${index}.categoria`) === "Venda" ? (
                         <>
-                          {produtosVenda.map((item) => (
-                            <SelectItem key={item.id} value={item.produto}>
-                              {item.produto}
-                            </SelectItem>
-                          ))}
-                          {itens.map((item, index) => {
+                          {produtoList
+                            .filter((item) => item.categoria === 1)
+                            .map((item) => (
+                              <SelectItem key={item.id} value={item.produto}>
+                                {item.produto}
+                              </SelectItem>
+                            ))}
+                          {/* {itens.map((item, index) => {
                             if (
-                              !produtosVenda.some(
+                              !produtoList.some(
                                 (produto) => produto.produto === item.produto
                               )
                             ) {
@@ -189,19 +182,21 @@ function InputsItem() {
                               );
                             }
                             return null;
-                          })}
+                          })} */}
                         </>
                       ) : (
                         <>
-                          {produtosContrato.map((item) => (
-                            <SelectItem key={item.id} value={item.produto}>
-                              {item.produto}
-                            </SelectItem>
-                          ))}
-                          {itens.map((item, index) => {
+                          {produtoList
+                            .filter((item) => item.categoria == 2)
+                            .map((item) => (
+                              <SelectItem key={item.id} value={item.produto}>
+                                {item.produto}
+                              </SelectItem>
+                            ))}
+                          {/* {itens.map((item, index) => {
                             if (
-                              !produtosContrato.some(
-                                (produto) => produto.produto === item.produto
+                              !produtoList.some(
+                                (produto) => produto.produto == item.produto
                               )
                             ) {
                               return (
@@ -214,7 +209,7 @@ function InputsItem() {
                               );
                             }
                             return null;
-                          })}
+                          })} */}
                         </>
                       )}
                     </SelectContent>
@@ -230,7 +225,7 @@ function InputsItem() {
                 <FormItem>
                   <FormLabel>Preço Unitário (R$)</FormLabel>
                   <FormControl className="rounded">
-                    <InputBRL {...field} value={field.value || ""} />
+                    <InputBRL {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -283,43 +278,19 @@ function InputsItem() {
               control={form.control}
               name={`itens.${index}.vencimento1Boleto`}
               render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel className="pb-[5px] mt-1">
-                    Vencimento do 1 Boleto
-                  </FormLabel>
-                  <Popover modal={true}>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "min-w-[200px] flex h-8 w-full border border-zinc-400 bg-background px-3 py-2",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            moment(field.value).format("DD-MM-YYYY")
-                          ) : (
-                            <span>Selecione uma data</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent
-                      className="w-auto p-0 bg-white"
-                      align="start"
-                    >
-                      <Calendar
-                        mode="single"
-                        locale={ptBR}
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) => date < new Date()}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
+                <FormItem>
+                  <FormLabel>Vencimento do 1 Boleto</FormLabel>
+                  <FormControl className="rounded">
+                    <Input
+                      {...field}
+                      value={
+                        field.value
+                          ? moment(field.value).format("YYYY-MM-DD")
+                          : "" || ""
+                      }
+                      type="date"
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -389,43 +360,19 @@ function InputsItem() {
                   control={form.control}
                   name={`itens.${index}.vigenciaInicio`}
                   render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel className="pb-[5px] mt-1">
-                        Vigência (Início)
-                      </FormLabel>
-                      <Popover modal={true}>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "min-w-[200px] flex h-8 w-full border border-zinc-400 bg-background px-3 py-2",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value ? (
-                                moment(field.value).format("DD-MM-YYYY")
-                              ) : (
-                                <span>Selecione uma data</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent
-                          className="w-auto p-0 bg-white"
-                          align="start"
-                        >
-                          <Calendar
-                            mode="single"
-                            locale={ptBR}
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) => date < new Date()}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
+                    <FormItem>
+                      <FormLabel> Vigência (Início)</FormLabel>
+                      <FormControl className="rounded">
+                        <Input
+                          {...field}
+                          value={
+                            field.value
+                              ? moment(field.value).format("YYYY-MM-DD")
+                              : "" || ""
+                          }
+                          type="date"
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -434,43 +381,19 @@ function InputsItem() {
                   control={form.control}
                   name={`itens.${index}.vigenciaFim`}
                   render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel className="pb-[5px] mt-1">
-                        Vigência (Fim)
-                      </FormLabel>
-                      <Popover modal={true}>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "min-w-[200px] flex h-8 w-full border border-zinc-400 bg-background px-3 py-2",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value ? (
-                                moment(field.value).format("DD-MM-YYYY")
-                              ) : (
-                                <span>Selecione uma data</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent
-                          className="w-auto p-0 bg-white"
-                          align="start"
-                        >
-                          <Calendar
-                            mode="single"
-                            locale={ptBR}
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) => date < new Date()}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
+                    <FormItem>
+                      <FormLabel> Vigência (Fim)</FormLabel>
+                      <FormControl className="rounded">
+                        <Input
+                          {...field}
+                          value={
+                            field.value
+                              ? moment(field.value).format("YYYY-MM-DD")
+                              : "" || ""
+                          }
+                          type="date"
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -525,19 +448,31 @@ function InputsItem() {
                       <SelectContent className="bg-white">
                         {form.watch(`itens.${index}.categoria`) === "Venda" ? (
                           <>
-                            {produtosVenda.map((item) => (
-                              <SelectItem key={item.id} value={item.produto}>
-                                {item.produto}
-                              </SelectItem>
-                            ))}
+                            {produtoList &&
+                              produtoList
+                                .filter((item) => item.categoria == 1)
+                                .map((item) => (
+                                  <SelectItem
+                                    key={item.id}
+                                    value={item.produto}
+                                  >
+                                    {item.produto}
+                                  </SelectItem>
+                                ))}
                           </>
                         ) : (
                           <>
-                            {produtosContrato.map((item) => (
-                              <SelectItem key={item.id} value={item.produto}>
-                                {item.produto}
-                              </SelectItem>
-                            ))}
+                            {produtoList &&
+                              produtoList
+                                .filter((item) => item.categoria == 2)
+                                .map((item) => (
+                                  <SelectItem
+                                    key={item.id}
+                                    value={item.produto}
+                                  >
+                                    {item.produto}
+                                  </SelectItem>
+                                ))}
                           </>
                         )}
                       </SelectContent>

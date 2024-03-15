@@ -83,6 +83,7 @@ export interface IItemPedidoRequest {
 }
 
 export interface IPedidoCompleto {
+  chave?: string;
   consultor: string;
   empresa: string;
   cargoCliente: string;
@@ -143,9 +144,16 @@ export interface IProduto {
   id: number;
   produto: string;
   categoria: number;
+  preco: string;
 }
 
 export interface IProdutoRequest {
+  produto: string;
+  categoria: number;
+}
+
+export interface IProdutoResponse {
+  id: number;
   produto: string;
   categoria: number;
 }
@@ -171,8 +179,6 @@ export interface ITokenResponse {
 }
 
 export interface IQueryPedido {
-  consultor?: string;
   consultorId?: number;
-  consultorNivel?: number;
   cnpj?: string;
 }

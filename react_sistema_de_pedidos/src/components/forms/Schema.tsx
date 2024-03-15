@@ -18,8 +18,7 @@ export const schema = z.object({
             : defaultError,
       }),
     })
-    .nullable()
-    .optional(),
+    .nullable(),
   cargoCliente: z
     .string({
       required_error: "Selecione uma opção de cargo",
@@ -130,17 +129,7 @@ export const schema = z.object({
   posVenda: z.coerce.boolean().nullable().default(false).optional(),
   notaFiscal: z.string({}).nullable().optional(),
   unidadeNegocio: z.string({}).nullable().optional(),
-  previsaoEntrega: z.coerce
-    .date({
-      errorMap: (issue, { defaultError }) => ({
-        message:
-          issue.code === "invalid_date"
-            ? "Selecione uma data válida"
-            : defaultError,
-      }),
-    })
-    .nullable()
-    .optional(),
+  previsaoEntrega: z.coerce.string({}).nullable().optional(),
   numeroSerie: z.string({}).nullable().optional(),
   codigoRastreio: z.string({}).nullable().optional(),
 });

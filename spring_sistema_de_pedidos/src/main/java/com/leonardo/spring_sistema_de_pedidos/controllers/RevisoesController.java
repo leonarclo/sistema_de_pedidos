@@ -7,7 +7,6 @@ import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.RevisionType;
 import org.hibernate.envers.query.AuditEntity;
 import org.hibernate.envers.query.AuditQuery;
-import org.springframework.data.history.Revisions;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +17,6 @@ import com.leonardo.spring_sistema_de_pedidos.entities.ItemPedido;
 import com.leonardo.spring_sistema_de_pedidos.entities.Pedido;
 import com.leonardo.spring_sistema_de_pedidos.entities.Produto;
 import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
-import com.leonardo.spring_sistema_de_pedidos.repositories.ArquivoRepository;
 import com.leonardo.spring_sistema_de_pedidos.repositories.PedidoRepository;
 
 import jakarta.persistence.EntityManager;
@@ -29,11 +27,9 @@ import jakarta.persistence.PersistenceContext;
 public class RevisoesController {
 
     private final PedidoRepository pedidoRepository;
-    private final ArquivoRepository arquivoRepository;
 
-    public RevisoesController(PedidoRepository pedidoRepository, ArquivoRepository arquivoRepository) {
+    public RevisoesController(PedidoRepository pedidoRepository) {
         this.pedidoRepository = pedidoRepository;
-        this.arquivoRepository = arquivoRepository;
     }
 
     @PersistenceContext

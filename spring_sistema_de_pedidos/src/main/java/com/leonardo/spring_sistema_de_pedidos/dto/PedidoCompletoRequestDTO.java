@@ -3,7 +3,9 @@ package com.leonardo.spring_sistema_de_pedidos.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.leonardo.spring_sistema_de_pedidos.common.Formatters;
+import com.leonardo.spring_sistema_de_pedidos.entities.ItemPedido;
 import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
 
 import lombok.AllArgsConstructor;
@@ -15,6 +17,7 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PedidoCompletoRequestDTO {
         private String data;
         private String empresa;
@@ -58,5 +61,7 @@ public class PedidoCompletoRequestDTO {
 
         public PedidoCompletoRequestDTO() {
                 this.data = Formatters.currentDateTime();
+
         }
+
 }

@@ -55,11 +55,13 @@ function Navbar() {
                   <ChevronDown size={18} color="white" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-white p-3 flex flex-col gap-2">
-                  <a href="/usuarios">
-                    <DropdownMenuItem className="cursor-pointer">
-                      Gerenciar usuários
-                    </DropdownMenuItem>
-                  </a>
+                  {userInfo.nivel == 9 && (
+                    <a href="/usuarios">
+                      <DropdownMenuItem className="cursor-pointer">
+                        Gerenciar usuários
+                      </DropdownMenuItem>
+                    </a>
+                  )}
 
                   <a href="/produtos">
                     <DropdownMenuItem className="cursor-pointer ">

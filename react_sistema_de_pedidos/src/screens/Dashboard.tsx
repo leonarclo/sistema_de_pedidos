@@ -36,18 +36,8 @@ function Dashboard() {
     }
   }, [successUser, errorUser]);
 
-  const usuarioSub = userInfo?.usuario;
   const usuarioId = userInfo?.id;
-  const usuarioNivel = userInfo?.nivel;
-
-  const query =
-    usuarioSub && usuarioId && usuarioNivel
-      ? {
-          consultor: usuarioSub,
-          consultorId: usuarioId,
-          consultorNivel: usuarioNivel,
-        }
-      : undefined;
+  const query = usuarioId ? { consultorId: usuarioId } : undefined;
 
   useEffect(() => {
     if (successUser) {

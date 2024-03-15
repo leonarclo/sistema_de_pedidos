@@ -3,7 +3,6 @@ package com.leonardo.spring_sistema_de_pedidos.entities;
 import org.hibernate.envers.Audited;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.leonardo.spring_sistema_de_pedidos.common.Formatters;
 
@@ -26,7 +25,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Audited
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" }, ignoreUnknown = true)
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "co_itens")
 public class ItemPedido {
@@ -86,6 +85,8 @@ public class ItemPedido {
     private String vigenciaFim;
 
     public ItemPedido() {
-        this.chave = Formatters.generateChave();
+        if (this.chave == null || this.chave.isEmpty()) {
+            this.chave = Formatters.generateChave();
+        }
     }
 }

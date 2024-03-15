@@ -25,6 +25,7 @@ function PreencherClientePedido() {
 
   useEffect(() => {
     if (isSuccess && data && data.length > 0) {
+      form.setValue("leadOrigem", "Já é cliente");
       form.setValue("cnpj", data && data[0].cnpj);
       form.setValue("empresa", data && data[0].empresa);
       form.setValue("cargoCliente", data && data[0].cargoCliente);
@@ -36,7 +37,10 @@ function PreencherClientePedido() {
       form.setValue("emailLogin", data && data[0].emailLogin);
       form.setValue("cep", data && data[0].cep);
       form.setValue("logradouro", data && data[0].logradouro);
-      form.setValue("numeroEndereco", data && data[0].numeroEndereco);
+      form.setValue(
+        "numeroEndereco",
+        data && data[0].numeroEndereco.toUpperCase()
+      );
       form.setValue("bairro", data && data[0].bairro);
       form.setValue("cidade", data && data[0].cidade);
       form.setValue("estado", data && data[0].estado);

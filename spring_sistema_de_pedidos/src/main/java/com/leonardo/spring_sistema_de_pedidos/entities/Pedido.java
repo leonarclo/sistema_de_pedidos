@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -35,7 +36,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @EnableJpaAuditing
 @Audited
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" }, ignoreUnknown = true)
 @Table(name = "co_pedidos")
 public class Pedido implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -153,24 +154,29 @@ public class Pedido implements Serializable {
     @Column(name = "emaillogin", nullable = true)
     private String emailLogin;
 
+    @NotAudited
     @LastModifiedDate
     @Column(name = "editado_em", nullable = true)
     private LocalDateTime editadoEm;
 
+    @NotAudited
     @ManyToOne
     @LastModifiedBy
     @JoinColumn(name = "editado_por", referencedColumnName = "id", nullable = true)
     private Usuario editadoPor;
 
+    @NotAudited
     @ManyToOne
     @CreatedBy
     @JoinColumn(name = "criado_por", referencedColumnName = "id", nullable = true, updatable = false)
     private Usuario criadoPor;
 
+    @NotAudited
     @JsonIgnore
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens;
 
+    @NotAudited
     @JsonIgnore
     @OneToMany(mappedBy = "pedido")
     private List<Arquivo> arquivos;

@@ -14,7 +14,7 @@ export const pedidoApi = createApi({
   tagTypes: ["Pedidos", "Produtos"],
   reducerPath: "pedidoApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api/v1",
+    baseUrl: `${import.meta.env.VITE_APP_BASE_URL_API}`,
     mode: "cors",
     credentials: "same-origin",
     prepareHeaders: (headers) => {
@@ -30,26 +30,14 @@ export const pedidoApi = createApi({
   endpoints: (builder) => ({
     buscarPedidos: builder.query<IPedido[], IQueryPedido | undefined>({
       query(data) {
-        const consultorParam = data?.consultor
-          ? `consultor=${data?.consultor}`
-          : "";
         const consultorIdParam = data?.consultorId
           ? `consultorId=${data?.consultorId}`
           : "";
-        const consultorNivel = data?.consultorNivel
-          ? `nivel=${data?.consultorNivel}`
-          : "";
         const cnpjParam = data?.cnpj ? `cnpj=${data?.cnpj}` : "";
-        const queryParams = [
-          consultorParam,
-          consultorIdParam,
-          consultorNivel,
-          cnpjParam,
-        ]
-          .filter((param) => param)
-          .join("&");
         return {
-          url: `/buscar-pedidos${queryParams ? `?${queryParams}` : ""}`, // Adicione "?" se houver parâmetros
+          url: `/buscar-pedidos${
+            consultorIdParam ? `?${consultorIdParam}` : `?${cnpjParam}`
+          }`,
           method: "GET",
           credentials: "include",
         };
@@ -106,7 +94,7 @@ export const pedidoApi = createApi({
       invalidatesTags: ["Pedidos"],
     }),
 
-    buscarProdutos: builder.query<IProduto[], void>({
+    buscarProdutos: builder.query<IProduto[], void | boolean>({
       query() {
         return {
           url: "/buscar-produtos",

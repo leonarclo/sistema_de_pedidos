@@ -3,9 +3,10 @@ import { IUsuario, IUsuarioRequest } from "../../types";
 import Cookies from "js-cookie";
 
 export const usuariosApi = createApi({
+  tagTypes: ["Usuario"],
   reducerPath: "usuariosApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api/v1",
+    baseUrl: `${import.meta.env.VITE_APP_BASE_URL_API}`,
     mode: "cors",
     credentials: "same-origin",
     prepareHeaders: (headers) => {
@@ -27,6 +28,7 @@ export const usuariosApi = createApi({
           credentials: "include",
         };
       },
+      providesTags: ["Usuario"],
     }),
     editarUsuario: builder.mutation<
       IUsuario,
@@ -40,6 +42,7 @@ export const usuariosApi = createApi({
           credentials: "include",
         };
       },
+      invalidatesTags: ["Usuario"],
       transformResponse: (response: { data: IUsuario }) => response.data,
     }),
   }),

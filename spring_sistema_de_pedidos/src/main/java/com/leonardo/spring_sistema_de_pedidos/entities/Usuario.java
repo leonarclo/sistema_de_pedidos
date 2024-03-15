@@ -67,11 +67,13 @@ public class Usuario implements UserDetails {
     @Column(name = "imagem", nullable = true)
     private String imagem;
 
+    @NotAudited
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "criado_em", updatable = false, nullable = true)
     private LocalDateTime criadoEm;
 
+    @NotAudited
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "editado_em", nullable = true)

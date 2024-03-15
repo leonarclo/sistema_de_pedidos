@@ -75,8 +75,8 @@ function InfoPedido() {
   function observacoesFmt(
     text: string | null | undefined
   ): string[] | undefined {
-    const comments = text?.split(" | ");
-    return comments;
+    const observacoes = text?.split(" | ");
+    return observacoes;
   }
 
   return (

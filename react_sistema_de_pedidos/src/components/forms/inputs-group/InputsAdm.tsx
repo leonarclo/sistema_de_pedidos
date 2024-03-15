@@ -8,13 +8,7 @@ import {
 } from "../../ui/form";
 import { Checkbox } from "../../ui/checkbox";
 import { Input } from "../../ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
-import { Button } from "../../ui/button";
-import { cn } from "@/lib/utils";
 import moment from "moment";
-import { CalendarIcon } from "lucide-react";
-import { Calendar } from "../../ui/calendar";
-import { ptBR } from "date-fns/locale";
 import { Textarea } from "../../ui/textarea";
 
 function InputsAdm() {
@@ -142,40 +136,19 @@ function InputsAdm() {
           control={form.control}
           name="previsaoEntrega"
           render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel className="pb-[5px] mt-1">
-                Previsão de Entrega:
-              </FormLabel>
-              <Popover modal={true}>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "min-w-[200px] flex h-8 w-full border border-zinc-400 bg-background px-3 py-2",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        moment(field.value).format("DD-MM-YYYY")
-                      ) : (
-                        <span>Selecione uma data</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0 bg-white" align="start">
-                  <Calendar
-                    locale={ptBR}
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) => date <= new Date()}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+            <FormItem>
+              <FormLabel>Previsão de Entrega:</FormLabel>
+              <FormControl className="rounded">
+                <Input
+                  {...field}
+                  value={
+                    field.value
+                      ? moment(field.value).format("YYYY-MM-DD")
+                      : "" || ""
+                  }
+                  type="date"
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

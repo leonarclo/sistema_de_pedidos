@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api/v1",
+    baseUrl: `${import.meta.env.VITE_APP_BASE_URL_API}`,
     mode: "cors",
     credentials: "same-origin",
     prepareHeaders: (headers) => {
