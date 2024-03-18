@@ -36,7 +36,6 @@ public class UsuarioService {
 
         String hashedPassword = new BCryptPasswordEncoder().encode(updateUser.getPassword());
 
-        findUser.setEditadoEm(LocalDateTime.now());
         UsuarioResponseDTO userUpdated = UsuarioMapper.toUserResponse(findUser);
         if (updateUser.getPassword() == "" || updateUser.getPassword() == null) {
             updateUser.setPassword(findUser.getPassword());

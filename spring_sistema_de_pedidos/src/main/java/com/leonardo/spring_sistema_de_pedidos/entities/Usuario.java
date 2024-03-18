@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,6 +29,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
@@ -34,10 +37,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
+@ToString(callSuper = true)
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "co_acesso")
-public class Usuario implements UserDetails {
+public class Usuario extends Audit implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -67,17 +71,23 @@ public class Usuario implements UserDetails {
     @Column(name = "imagem", nullable = true)
     private String imagem;
 
-    @NotAudited
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "criado_em", updatable = false, nullable = true)
-    private LocalDateTime criadoEm;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
-    @NotAudited
+    @CreatedBy
+    @Column(name = "created_by", length = 50)
+    private Long createdBy;
+
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "editado_em", nullable = true)
-    private LocalDateTime editadoEm;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @LastModifiedBy
+    @Column(name = "updated_by", length = 50)
+    private Long updatedBy;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

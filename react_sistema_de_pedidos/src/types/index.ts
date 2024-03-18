@@ -141,10 +141,10 @@ export interface IUsuarioRequest {
 }
 
 export interface IProduto {
-  id: number;
+  id?: number;
   produto: string;
   categoria: number;
-  preco: string;
+  preco?: string;
 }
 
 export interface IProdutoRequest {

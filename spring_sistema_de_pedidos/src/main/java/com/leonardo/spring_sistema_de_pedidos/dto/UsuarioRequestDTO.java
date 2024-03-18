@@ -18,6 +18,4 @@ public class UsuarioRequestDTO {
     private String email;
     private String password;
     private Integer nivel;
-    private LocalDateTime criadoEm;
-    private LocalDateTime editadoEm;
 }

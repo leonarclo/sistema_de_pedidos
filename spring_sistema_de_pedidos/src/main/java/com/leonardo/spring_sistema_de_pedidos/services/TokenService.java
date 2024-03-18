@@ -1,4 +1,4 @@
-package com.leonardo.spring_sistema_de_pedidos.security;
+package com.leonardo.spring_sistema_de_pedidos.services;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -19,6 +19,10 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
+    // Número de expiração em HORAS
+    @Value("${api.security.token.secret.expires}")
+    private Integer expires;
+
     public String generateToken(Usuario usuario) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -26,7 +30,7 @@ public class TokenService {
                     .withIssuer("orders-system")
                     .withSubject(usuario.getUsuario())
                     .withClaim("id", usuario.getId())
-                    .withExpiresAt(genExpirateDate(42))
+                    .withExpiresAt(genExpirateDate(expires))
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException e) {

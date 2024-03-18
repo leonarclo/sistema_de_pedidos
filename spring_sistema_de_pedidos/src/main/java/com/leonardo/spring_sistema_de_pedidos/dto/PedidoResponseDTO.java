@@ -51,7 +51,4 @@ public class PedidoResponseDTO {
         private String codigoRastreio;
         private String observacoes;
         private String emailLogin;
-        private LocalDateTime editadoEm;
-        private UsuarioResponseDTO editadoPor;
-        private UsuarioResponseDTO criadoPor;
 }

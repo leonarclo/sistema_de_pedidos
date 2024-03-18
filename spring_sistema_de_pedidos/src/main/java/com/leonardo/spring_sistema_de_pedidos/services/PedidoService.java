@@ -51,7 +51,7 @@ public class PedidoService {
 
     public List<PedidoResponseDTO> findByConsultor(Usuario criadoPor) {
         return PedidoMapper
-                .toPedidoList(pedidoRepository.findByCriadoPorOrderByIdDesc(criadoPor));
+                .toPedidoList(pedidoRepository.findByCreatedByOrderByIdDesc(criadoPor));
     }
 
     @Transactional
@@ -68,12 +68,7 @@ public class PedidoService {
             arquivoRepository.save(arquivo);
         }
 
-        Usuario usuario = usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
-
         modelMapper.map(pedidoCompleto, pedido);
-        pedido.setCriadoPor(usuario);
-
         pedidoRepository.save(pedido);
         return PedidoMapper.toUpdate(pedido);
     }
@@ -88,11 +83,6 @@ public class PedidoService {
         Pedido findPedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pedido não encontrado!"));
 
-        Usuario usuario = usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
-
-        updatePedido.setEditadoPor(usuario);
-        updatePedido.setEditadoEm(LocalDateTime.now());
         modelMapper.map(updatePedido, findPedido);
 
         for (ItemPedidoRequestDTO itemPedidoDto : updatePedido.getItens()) {

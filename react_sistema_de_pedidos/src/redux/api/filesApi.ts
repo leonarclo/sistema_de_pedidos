@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 export const filesApi = createApi({
   reducerPath: "filesApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_APP_BASE_URL_API}`,
+    baseUrl: `${import.meta.env.VITE_APP_BASE_URL_API}/files`,
     mode: "cors",
     credentials: "same-origin",
     prepareHeaders: (headers) => {

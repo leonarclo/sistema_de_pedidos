@@ -54,8 +54,6 @@ public class PedidoCompletoRequestDTO {
         private String codigoRastreio;
         private String observacoes;
         private String emailLogin;
-        private Usuario editadoPor;
-        private LocalDateTime editadoEm;
         private List<ItemPedidoRequestDTO> itens;
         private List<ArquivoDTO> arquivos;
 

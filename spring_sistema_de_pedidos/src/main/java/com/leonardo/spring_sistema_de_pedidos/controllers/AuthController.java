@@ -10,7 +10,7 @@ import com.leonardo.spring_sistema_de_pedidos.dto.UsuarioResponseDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.mapper.UsuarioMapper;
 import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
 import com.leonardo.spring_sistema_de_pedidos.repositories.UsuarioRepository;
-import com.leonardo.spring_sistema_de_pedidos.security.TokenService;
+import com.leonardo.spring_sistema_de_pedidos.services.TokenService;
 
 import jakarta.transaction.Transactional;
 
@@ -74,7 +74,6 @@ public class AuthController {
         usuario.setEmail(novoUsuario.getEmail());
         usuario.setPassword(hashedPassword);
         usuario.setNivel(novoUsuario.getNivel());
-        usuario.setCriadoEm(LocalDateTime.now());
         usuarioRepository.save(usuario);
         return ResponseEntity.ok().build();
     }

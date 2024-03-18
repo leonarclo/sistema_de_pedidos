@@ -81,6 +81,7 @@ public class RevisoesController {
         AuditReader auditReader = AuditReaderFactory.get(entityManager);
         AuditQuery auditQuery = auditReader.createQuery().forRevisionsOfEntity(Produto.class, false, false)
                 .add(AuditEntity.revisionType().eq(RevisionType.MOD))
+                .add(AuditEntity.revisionType().eq(RevisionType.DEL))
                 .addOrder(AuditEntity.revisionNumber().desc())
                 .setMaxResults(5);
         return auditQuery.getResultList();

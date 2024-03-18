@@ -87,7 +87,6 @@ function InputsItem() {
         Object.keys(item).forEach((key) => {
           const typedKey = key as keyof IItemPedido;
           form.setValue(`itens.${index}.${typedKey}`, item[key]);
-          console.log(`itens.${index}.${typedKey} : ${item[key]}`);
         });
       });
     }
@@ -166,23 +165,6 @@ function InputsItem() {
                                 {item.produto}
                               </SelectItem>
                             ))}
-                          {/* {itens.map((item, index) => {
-                            if (
-                              !produtoList.some(
-                                (produto) => produto.produto === item.produto
-                              )
-                            ) {
-                              return (
-                                <SelectItem
-                                  key={`custom-venda--${index}`}
-                                  value={item.produto}
-                                >
-                                  {item.produto}
-                                </SelectItem>
-                              );
-                            }
-                            return null;
-                          })} */}
                         </>
                       ) : (
                         <>
@@ -193,23 +175,6 @@ function InputsItem() {
                                 {item.produto}
                               </SelectItem>
                             ))}
-                          {/* {itens.map((item, index) => {
-                            if (
-                              !produtoList.some(
-                                (produto) => produto.produto == item.produto
-                              )
-                            ) {
-                              return (
-                                <SelectItem
-                                  key={`custom-categoria--${index}`}
-                                  value={item.produto}
-                                >
-                                  {item.produto}
-                                </SelectItem>
-                              );
-                            }
-                            return null;
-                          })} */}
                         </>
                       )}
                     </SelectContent>

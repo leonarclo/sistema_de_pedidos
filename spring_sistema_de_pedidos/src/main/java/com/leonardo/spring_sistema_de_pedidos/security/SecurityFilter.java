@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.leonardo.spring_sistema_de_pedidos.repositories.UsuarioRepository;
+import com.leonardo.spring_sistema_de_pedidos.services.TokenService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

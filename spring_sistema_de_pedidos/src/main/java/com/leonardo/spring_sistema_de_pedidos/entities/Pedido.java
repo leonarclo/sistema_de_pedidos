@@ -8,9 +8,12 @@ import java.util.List;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -19,24 +22,25 @@ import com.leonardo.spring_sistema_de_pedidos.common.Formatters;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
-@EnableJpaAuditing
 @Audited
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" }, ignoreUnknown = true)
+@EntityListeners(AuditingEntityListener.class)
+@ToString(callSuper = true)
 @Table(name = "co_pedidos")
 public class Pedido implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -155,23 +159,6 @@ public class Pedido implements Serializable {
     private String emailLogin;
 
     @NotAudited
-    @LastModifiedDate
-    @Column(name = "editado_em", nullable = true)
-    private LocalDateTime editadoEm;
-
-    @NotAudited
-    @ManyToOne
-    @LastModifiedBy
-    @JoinColumn(name = "editado_por", referencedColumnName = "id", nullable = true)
-    private Usuario editadoPor;
-
-    @NotAudited
-    @ManyToOne
-    @CreatedBy
-    @JoinColumn(name = "criado_por", referencedColumnName = "id", nullable = true, updatable = false)
-    private Usuario criadoPor;
-
-    @NotAudited
     @JsonIgnore
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens;
@@ -180,6 +167,24 @@ public class Pedido implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "pedido")
     private List<Arquivo> arquivos;
+
+    @CreatedDate
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @CreatedBy
+    @Column(name = "created_by", length = 50)
+    private Long createdBy;
+
+    @LastModifiedDate
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @LastModifiedBy
+    @Column(name = "updated_by", length = 50)
+    private Long updatedBy;
 
     public List<Arquivo> getArquivos() {
         if (this.arquivos == null) {
