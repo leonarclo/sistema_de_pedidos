@@ -6,6 +6,7 @@ import { ArrowUpDown } from "lucide-react";
 import EditButton from "./EditButton";
 import dateBetweenFilterFn from "./DateBetweenFilter";
 import moment from "moment";
+import RevisionDialog from "../dialogs/RevisionDialog";
 
 export function fetchPedidoColumns(): ColumnDef<IPedido>[] {
   return [
@@ -150,6 +151,16 @@ export function fetchPedidoColumns(): ColumnDef<IPedido>[] {
         return (
           <div className="w-[60px] flex justify-end">
             <EditButton row={row} />
+          </div>
+        );
+      },
+    },
+    {
+      id: "revisoes",
+      cell: ({ row }) => {
+        return (
+          <div className="w-[60px] flex justify-end">
+            <RevisionDialog row={row} />
           </div>
         );
       },

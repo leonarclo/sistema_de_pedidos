@@ -1,6 +1,7 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.envers.Audited;
@@ -11,6 +12,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.leonardo.spring_sistema_de_pedidos.common.Formatters;
@@ -37,7 +39,7 @@ import lombok.ToString;
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "co_arquivos")
-public class Arquivo extends Audit implements Serializable {
+public class Arquivo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -60,22 +62,22 @@ public class Arquivo extends Audit implements Serializable {
     private Pedido pedido;
 
     @CreatedDate
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "criado_em")
+    private LocalDateTime criadoEm;
 
     @CreatedBy
-    @Column(name = "created_by", length = 50)
-    private Long createdBy;
+    @Column(name = "criado_por", length = 50)
+    private String criadoPor;
 
     @LastModifiedDate
-    @Column(name = "updated_at")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
+    @Column(name = "editado_em")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime editadoEm;
 
     @LastModifiedBy
-    @Column(name = "updated_by", length = 50)
-    private Long updatedBy;
+    @Column(name = "editado_por", length = 50)
+    private String editadoPor;
 
     public Arquivo() {
         this.chave = Formatters.generateChave();

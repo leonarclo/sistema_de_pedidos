@@ -169,7 +169,7 @@ function InputsItem() {
                       ) : (
                         <>
                           {produtoList
-                            .filter((item) => item.categoria == 2)
+                            .filter((item) => item.categoria === 2)
                             .map((item) => (
                               <SelectItem key={item.id} value={item.produto}>
                                 {item.produto}

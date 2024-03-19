@@ -11,11 +11,11 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -41,7 +41,7 @@ import lombok.ToString;
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "co_acesso")
-public class Usuario extends Audit implements UserDetails {
+public class Usuario implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -49,45 +49,45 @@ public class Usuario extends Audit implements UserDetails {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true, length = 20)
     private String usuario;
 
-    @Column(name = "fullname")
+    @Column(name = "fullname", length = 100)
     private String nomeCompleto;
 
-    @Column(name = "departamento")
+    @Column(name = "departamento", length = 20)
     private String departamento;
 
-    @Column(name = "secretpin")
+    @Column(name = "secretpin", length = 150)
     private String email;
 
     @NotAudited
     @Column(name = "password", length = 100)
     private String password;
 
-    @Column(name = "adm")
+    @Column(name = "adm", length = 1)
     private Integer nivel;
 
     @Column(name = "imagem", nullable = true)
     private String imagem;
 
     @CreatedDate
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "criado_em")
+    private LocalDateTime criadoEm;
 
     @CreatedBy
-    @Column(name = "created_by", length = 50)
-    private Long createdBy;
+    @Column(name = "criado_por", length = 50)
+    private String criadoPor;
 
     @LastModifiedDate
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Column(name = "editado_em")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime editadoEm;
 
     @LastModifiedBy
-    @Column(name = "updated_by", length = 50)
-    private Long updatedBy;
+    @Column(name = "editado_por", length = 50)
+    private String editadoPor;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

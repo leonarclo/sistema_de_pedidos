@@ -49,14 +49,15 @@ public class PedidoService {
         return PedidoMapper.toPedidoList(pedidoRepository.findFirstByCnpj(cnpj));
     }
 
-    public List<PedidoResponseDTO> findByConsultor(Usuario criadoPor) {
+    public List<PedidoResponseDTO> findByConsultor(Long usuarioId) {
         return PedidoMapper
-                .toPedidoList(pedidoRepository.findByCreatedByOrderByIdDesc(criadoPor));
+                .toPedidoList(pedidoRepository.findByUsuarioIdOrderByIdDesc(usuarioId));
     }
 
     @Transactional
     public PedidoCompletoRequestDTO save(PedidoCompletoRequestDTO pedidoCompleto, @NonNull Long usuarioId) {
         Pedido pedido = PedidoMapper.toPedidoCompletoResponse(pedidoCompleto);
+        pedido.setUsuarioId(usuarioId);
 
         for (ItemPedido itemPedido : pedido.getItens()) {
             itemPedido.setPedido(pedido);

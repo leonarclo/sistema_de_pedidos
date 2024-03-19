@@ -21,7 +21,34 @@ export const logApi = createApi({
     pedidoRevisions: builder.query<[], number>({
       query(id) {
         return {
-          url: `/revisions/${id}`,
+          url: `/pedido-revisions/${id}`,
+          method: "GET",
+          credentials: "include",
+        };
+      },
+    }),
+    itemRevisions: builder.query<[], number>({
+      query(id) {
+        return {
+          url: `/item-revisions/${id}`,
+          method: "GET",
+          credentials: "include",
+        };
+      },
+    }),
+    produtoRevisions: builder.query<[], number>({
+      query(id) {
+        return {
+          url: `/produto-revisions/${id}`,
+          method: "GET",
+          credentials: "include",
+        };
+      },
+    }),
+    usuarioRevisions: builder.query<[], number>({
+      query(id) {
+        return {
+          url: `/usuario-revisions/${id}`,
           method: "GET",
           credentials: "include",
         };
@@ -30,4 +57,5 @@ export const logApi = createApi({
   }),
 });
 
-export const { useLazyPedidoRevisionsQuery } = logApi;
+export const { useLazyPedidoRevisionsQuery, useLazyItemRevisionsQuery } =
+  logApi;

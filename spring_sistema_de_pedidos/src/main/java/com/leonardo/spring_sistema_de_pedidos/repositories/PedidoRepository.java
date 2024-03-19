@@ -9,14 +9,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.leonardo.spring_sistema_de_pedidos.entities.Pedido;
-import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
 
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long>, RevisionRepository<Pedido, Long, Long> {
 
     List<Pedido> findAllByOrderByIdDesc();
 
-    List<Pedido> findByCreatedByOrderByIdDesc(Usuario criadoPor);
+    List<Pedido> findByUsuarioIdOrderByIdDesc(Long usuarioId);
 
     @Query("select e from Pedido e where trim(e.cnpj) like concat(:cnpj,'%')")
     List<Pedido> findFirstByCnpj(@Param("cnpj") String cnpj);

@@ -54,6 +54,7 @@ public class PedidoCompletoRequestDTO {
         private String codigoRastreio;
         private String observacoes;
         private String emailLogin;
+        private Long usuarioId;
         private List<ItemPedidoRequestDTO> itens;
         private List<ArquivoDTO> arquivos;
 

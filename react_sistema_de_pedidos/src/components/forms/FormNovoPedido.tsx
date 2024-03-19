@@ -225,11 +225,13 @@ function FormNovoPedido() {
         itemId,
       });
 
-      triggerUpload({
-        files: renameFiles(form.getValues("arquivos")),
-        id: editar.id,
-      });
-      console.log(form.getValues("arquivos"));
+      if (form.getValues("arquivos").length > 0) {
+        triggerUpload({
+          files: renameFiles(form.getValues("arquivos")),
+          id: editar.id,
+        });
+        console.log(form.getValues("arquivos"));
+      }
     } else {
       const name = usuario?.usuario;
       const formattedName = name

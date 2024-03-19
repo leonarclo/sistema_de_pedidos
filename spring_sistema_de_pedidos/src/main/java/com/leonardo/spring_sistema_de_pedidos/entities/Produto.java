@@ -1,6 +1,7 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.envers.Audited;
@@ -11,6 +12,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -52,21 +54,21 @@ public class Produto implements Serializable {
     private Integer categoria;
 
     @CreatedDate
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "criado_em")
+    private LocalDateTime criadoEm;
 
     @CreatedBy
-    @Column(name = "created_by", length = 50)
-    private Long createdBy;
+    @Column(name = "criado_por", length = 50)
+    private String criadoPor;
 
     @LastModifiedDate
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Column(name = "editado_em")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime editadoEm;
 
     @LastModifiedBy
-    @Column(name = "updated_by", length = 50)
-    private Long updatedBy;
+    @Column(name = "editado_por", length = 50)
+    private String editadoPor;
 
 }

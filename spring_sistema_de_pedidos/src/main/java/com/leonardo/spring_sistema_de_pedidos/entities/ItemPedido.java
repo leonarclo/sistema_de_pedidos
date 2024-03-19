@@ -1,15 +1,20 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.leonardo.spring_sistema_de_pedidos.common.Formatters;
 
@@ -35,7 +40,7 @@ import lombok.Setter;
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" }, ignoreUnknown = true)
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "co_itens")
-public class ItemPedido extends Audit implements Serializable {
+public class ItemPedido implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -43,14 +48,15 @@ public class ItemPedido extends Audit implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pedido_id", referencedColumnName = "id")
     private Pedido pedido;
 
-    @Column(name = "chaveb")
+    @Column(name = "chaveb", updatable = false)
     private String chave;
 
-    @Column(name = "categoria", updatable = false)
+    @Column(name = "categoria")
     private String categoria;
 
     @Column(name = "produto")
@@ -93,22 +99,22 @@ public class ItemPedido extends Audit implements Serializable {
     private String vigenciaFim;
 
     @CreatedDate
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "criado_em")
+    private LocalDateTime criadoEm;
 
     @CreatedBy
-    @Column(name = "created_by", length = 50)
-    private Long createdBy;
+    @Column(name = "criado_por", length = 50)
+    private String criadoPor;
 
     @LastModifiedDate
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Column(name = "editado_em")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime editadoEm;
 
     @LastModifiedBy
-    @Column(name = "updated_by", length = 50)
-    private Long updatedBy;
+    @Column(name = "editado_por", length = 50)
+    private String editadoPor;
 
     public ItemPedido() {
         if (this.chave == null || this.chave.isEmpty()) {
