@@ -125,7 +125,7 @@ function FormNovoPedido() {
 
     if (editar && editarItem) {
       const name = usuario?.usuario;
-      const currentDate = moment(Date.now()).format("YYYY-MM-DD HH:mm");
+      const currentDate = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
       const formattedName = name
         ? name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
         : "";
@@ -163,16 +163,16 @@ function FormNovoPedido() {
           valorMensal: item.valorMensal,
           formaPagamento: item.formaPagamento,
           vencimento1Boleto: moment(item.vencimento1Boleto).format(
-            "YYYY-MM-DD HH:mm"
+            "YYYY-MM-DD HH:mm:ss"
           ),
           tipoPagamento: item.tipoPagamento,
           duracaoContrato: item.duracaoContrato,
           vigenciaInicio: item.vigenciaInicio
-            ? moment(item.vigenciaInicio).format("YYYY-MM-DD HH:mm")
-            : undefined,
+            ? moment(item.vigenciaInicio).format("YYYY-MM-DD HH:mm:ss")
+            : null,
           vigenciaFim: item.vigenciaFim
-            ? moment(item.vigenciaFim).format("YYYY-MM-DD HH:mm")
-            : undefined,
+            ? moment(item.vigenciaFim).format("YYYY-MM-DD HH:mm:ss")
+            : null,
         };
         editarItemPedido.push(itemPedido);
       });
@@ -183,7 +183,9 @@ function FormNovoPedido() {
         empresa: values.empresa,
         cargoCliente: values.cargoCliente,
         leadOrigem: values.leadOrigem,
-        leadData: moment(values.leadData).format("YYYY-MM-DD HH:mm"),
+        leadData: values.leadData
+          ? moment(values.leadData).format("YYYY-MM-DD HH:mm:ss")
+          : null,
         cnpj: values.cnpj,
         email: values.email,
         status: values.status,
@@ -210,14 +212,15 @@ function FormNovoPedido() {
         notaFiscal: values.notaFiscal,
         unidadeNegocio: values.unidadeNegocio,
         previsaoEntrega: values.previsaoEntrega
-          ? moment(values.previsaoEntrega).format("YYYY-MM-DD HH:mm")
-          : undefined,
+          ? moment(values.previsaoEntrega).format("YYYY-MM-DD HH:mm:ss")
+          : null,
         numeroSerie: values.numeroSerie,
         codigoRastreio: values.codigoRastreio,
         emailLogin: values.emailLogin,
         itens: editarItemPedido,
         // arquivos: fileNames,
       };
+
       triggerEditarPedido({
         body: editarPedido,
         usuarioId: usuario?.id,
@@ -234,12 +237,13 @@ function FormNovoPedido() {
       }
     } else {
       const name = usuario?.usuario;
+      const currentDate = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
       const formattedName = name
         ? name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
         : "";
       const observacoes =
         values.observacoes && values.observacoes != ""
-          ? `${formattedName}: ${values.observacoes}`
+          ? `(${currentDate}) ${formattedName}: ${values.observacoes}`
           : "";
       const itens: IItemPedidoRequest[] = [];
       values.itens.forEach((item) => {
@@ -249,19 +253,22 @@ function FormNovoPedido() {
           preco: item.preco,
           quantidade: item.quantidade,
           precoTotal: item.precoTotal,
-          valorMensal: item.valorMensal,
           formaPagamento: item.formaPagamento,
           vencimento1Boleto: moment(item.vencimento1Boleto).format(
-            "YYYY-MM-DD HH:mm"
+            "YYYY-MM-DD HH:mm:ss"
           ),
           tipoPagamento: item.tipoPagamento,
-          duracaoContrato: item.duracaoContrato,
-          vigenciaInicio: item.vigenciaInicio
-            ? moment(item.vigenciaInicio).format("YYYY-MM-DD HH:mm")
-            : undefined,
-          vigenciaFim: item.vigenciaFim
-            ? moment(item.vigenciaFim).format("YYYY-MM-DD HH:mm")
-            : undefined,
+          valorMensal: item.categoria == "Contrato" ? item.valorMensal : null,
+          duracaoContrato:
+            item.categoria == "Contrato" ? item.duracaoContrato : null,
+          vigenciaInicio:
+            item.categoria == "Contrato" && item.vigenciaInicio
+              ? moment(item.vigenciaInicio).format("YYYY-MM-DD HH:mm:ss")
+              : null,
+          vigenciaFim:
+            item.categoria == "Contrato" && item.vigenciaFim
+              ? moment(item.vigenciaFim).format("YYYY-MM-DD HH:mm:ss")
+              : null,
         };
 
         itens.push(itemPedido);
@@ -281,7 +288,7 @@ function FormNovoPedido() {
         empresa: values.empresa,
         cargoCliente: values.cargoCliente,
         leadOrigem: values.leadOrigem,
-        leadData: moment(values.leadData).format("YYYY-MM-DD HH:mm"),
+        leadData: moment(values.leadData).format("YYYY-MM-DD HH:mm:ss"),
         cnpj: values.cnpj,
         email: values.email,
         status: values.status,
@@ -299,7 +306,7 @@ function FormNovoPedido() {
         nomeCliente: values.nomeCliente,
         cpfCliente: values.cpfCliente,
         categoriaGrupo,
-        observacoes: values.observacoes ? observacoes : undefined,
+        observacoes: values.observacoes ? observacoes : null,
         planilhaVendas: values.planilhaVendas == true ? "1" : "0",
         licencaGerada: values.licencaGerada == true ? 1 : 0,
         assinatura: values.assinatura == true ? 1 : 0,
@@ -308,8 +315,8 @@ function FormNovoPedido() {
         notaFiscal: values.notaFiscal,
         unidadeNegocio: values.unidadeNegocio,
         previsaoEntrega: values.previsaoEntrega
-          ? moment(values.previsaoEntrega).format("YYYY-MM-DD HH:mm")
-          : undefined,
+          ? moment(values.previsaoEntrega).format("YYYY-MM-DD HH:mm:ss")
+          : null,
         numeroSerie: values.numeroSerie,
         codigoRastreio: values.codigoRastreio,
         emailLogin: values.emailLogin,

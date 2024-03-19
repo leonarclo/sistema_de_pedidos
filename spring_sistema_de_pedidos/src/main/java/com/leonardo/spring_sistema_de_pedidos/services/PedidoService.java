@@ -1,6 +1,5 @@
 package com.leonardo.spring_sistema_de_pedidos.services;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -15,12 +14,9 @@ import com.leonardo.spring_sistema_de_pedidos.dto.mapper.PedidoMapper;
 import com.leonardo.spring_sistema_de_pedidos.entities.Arquivo;
 import com.leonardo.spring_sistema_de_pedidos.entities.ItemPedido;
 import com.leonardo.spring_sistema_de_pedidos.entities.Pedido;
-import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
 import com.leonardo.spring_sistema_de_pedidos.repositories.ArquivoRepository;
 import com.leonardo.spring_sistema_de_pedidos.repositories.ItemPedidoRepository;
 import com.leonardo.spring_sistema_de_pedidos.repositories.PedidoRepository;
-import com.leonardo.spring_sistema_de_pedidos.repositories.UsuarioRepository;
-
 import jakarta.transaction.Transactional;
 
 @Service
@@ -28,16 +24,14 @@ public class PedidoService {
 
     private final PedidoRepository pedidoRepository;
     private final ItemPedidoRepository itemPedidoRepository;
-    private final UsuarioRepository usuarioRepository;
     private final ArquivoRepository arquivoRepository;
 
     private static final ModelMapper modelMapper = new ModelMapper();
 
     public PedidoService(PedidoRepository pedidoRepository, ItemPedidoRepository itemPedidoRepository,
-            UsuarioRepository usuarioRepository, ArquivoRepository arquivoRepository) {
+            ArquivoRepository arquivoRepository) {
         this.pedidoRepository = pedidoRepository;
         this.itemPedidoRepository = itemPedidoRepository;
-        this.usuarioRepository = usuarioRepository;
         this.arquivoRepository = arquivoRepository;
     }
 

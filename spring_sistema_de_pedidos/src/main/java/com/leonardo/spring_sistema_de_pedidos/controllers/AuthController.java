@@ -2,7 +2,6 @@ package com.leonardo.spring_sistema_de_pedidos.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.leonardo.spring_sistema_de_pedidos.dto.LoginDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.TokenResponseDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.UsuarioRequestDTO;
@@ -11,11 +10,7 @@ import com.leonardo.spring_sistema_de_pedidos.dto.mapper.UsuarioMapper;
 import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
 import com.leonardo.spring_sistema_de_pedidos.repositories.UsuarioRepository;
 import com.leonardo.spring_sistema_de_pedidos.services.TokenService;
-
 import jakarta.transaction.Transactional;
-
-import java.time.LocalDateTime;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

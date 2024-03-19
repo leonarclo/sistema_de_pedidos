@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class AuditorAwareImpl implements AuditorAware<String> {
 
+    @SuppressWarnings("null")
     @Override
     public Optional<String> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

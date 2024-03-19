@@ -32,6 +32,7 @@ function Dashboard() {
 
   useEffect(() => {
     if (errorUser) {
+      Cookies.remove("access_token");
       navigate("/login");
     }
   }, [successUser, errorUser]);

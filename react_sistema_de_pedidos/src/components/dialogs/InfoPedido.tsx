@@ -7,6 +7,7 @@ import { LoadingSpinner } from "../ui/loading-spinner";
 import { arquivosState } from "@/redux/features/arquivosSlice";
 import { useLazyGetFileQuery } from "@/redux/api/filesApi";
 import { useEffect, useState } from "react";
+import RevisionDialog from "./RevisionDialog";
 
 function InfoPedido() {
   const dispatch = useAppDispatch();
@@ -82,8 +83,9 @@ function InfoPedido() {
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="bg-white min-w-[75vw] max-h-[90vh] m-2 overflow-y-scroll">
-        <DialogHeader>
+        <DialogHeader className="flex flex-row justify-between py-2">
           <DialogTitle>Pedido: {pedido?.id}</DialogTitle>
+          <RevisionDialog row={pedido?.id} />
         </DialogHeader>
         <div className="p-2">
           <div className="flex flex-row gap-4 justify-between p-2">

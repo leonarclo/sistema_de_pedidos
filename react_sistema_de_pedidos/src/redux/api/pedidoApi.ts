@@ -119,7 +119,7 @@ export const pedidoApi = createApi({
 
     editarProduto: builder.mutation<
       IProduto,
-      { body: IProdutoRequest; id: number }
+      { body: IProdutoRequest; id: number | undefined }
     >({
       query({ body, id }) {
         return {
@@ -132,7 +132,7 @@ export const pedidoApi = createApi({
       invalidatesTags: ["Produtos"],
       transformResponse: (response: { data: IProduto }) => response.data,
     }),
-    removerProduto: builder.mutation<IProduto, { id: number }>({
+    removerProduto: builder.mutation<IProduto, { id: number | undefined }>({
       query({ id }) {
         return {
           url: `/remover-produto/${id}`,

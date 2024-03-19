@@ -1,7 +1,6 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.envers.Audited;
@@ -10,8 +9,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -61,23 +58,23 @@ public class Arquivo implements Serializable {
     @JoinColumn(name = "pedido_id", referencedColumnName = "id", nullable = true)
     private Pedido pedido;
 
+    @CreatedBy
+    @Column(name = "criado_por", length = 50)
+    private String criadoPor;
+
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "criado_em")
     private LocalDateTime criadoEm;
 
-    @CreatedBy
-    @Column(name = "criado_por", length = 50)
-    private String criadoPor;
+    @LastModifiedBy
+    @Column(name = "editado_por", length = 50)
+    private String editadoPor;
 
     @LastModifiedDate
     @Column(name = "editado_em")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime editadoEm;
-
-    @LastModifiedBy
-    @Column(name = "editado_por", length = 50)
-    private String editadoPor;
 
     public Arquivo() {
         this.chave = Formatters.generateChave();

@@ -71,23 +71,23 @@ public class Usuario implements UserDetails {
     @Column(name = "imagem", nullable = true)
     private String imagem;
 
+    @CreatedBy
+    @Column(name = "criado_por", length = 50)
+    private String criadoPor;
+
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "criado_em")
     private LocalDateTime criadoEm;
 
-    @CreatedBy
-    @Column(name = "criado_por", length = 50)
-    private String criadoPor;
+    @LastModifiedBy
+    @Column(name = "editado_por", length = 50)
+    private String editadoPor;
 
     @LastModifiedDate
     @Column(name = "editado_em")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime editadoEm;
-
-    @LastModifiedBy
-    @Column(name = "editado_por", length = 50)
-    private String editadoPor;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

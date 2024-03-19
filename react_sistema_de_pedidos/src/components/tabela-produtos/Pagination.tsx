@@ -22,7 +22,7 @@ interface PaginationProps<TData> {
 
 export function Pagination<TData>({
   table,
-  pageSizeOptions = [10, 20, 30, 40, 50],
+  pageSizeOptions = [10, 15, 20, 30, 40, 50],
 }: PaginationProps<TData>) {
   return (
     <div className="flex w-full flex-col items-center justify-end gap-4 overflow-auto px-2 py-1 sm:flex-row sm:gap-8">

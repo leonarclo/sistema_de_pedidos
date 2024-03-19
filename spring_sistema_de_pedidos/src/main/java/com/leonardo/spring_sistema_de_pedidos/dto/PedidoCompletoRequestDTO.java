@@ -1,13 +1,9 @@
 package com.leonardo.spring_sistema_de_pedidos.dto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.leonardo.spring_sistema_de_pedidos.common.Formatters;
-import com.leonardo.spring_sistema_de_pedidos.entities.ItemPedido;
-import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

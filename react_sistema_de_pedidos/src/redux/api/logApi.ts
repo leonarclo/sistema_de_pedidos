@@ -36,6 +36,15 @@ export const logApi = createApi({
         };
       },
     }),
+    arquivoRevisions: builder.query<[], number>({
+      query(id) {
+        return {
+          url: `/arquivo-revisions/${id}`,
+          method: "GET",
+          credentials: "include",
+        };
+      },
+    }),
     produtoRevisions: builder.query<[], number>({
       query(id) {
         return {
@@ -57,5 +66,8 @@ export const logApi = createApi({
   }),
 });
 
-export const { useLazyPedidoRevisionsQuery, useLazyItemRevisionsQuery } =
-  logApi;
+export const {
+  useLazyPedidoRevisionsQuery,
+  useLazyItemRevisionsQuery,
+  useLazyArquivoRevisionsQuery,
+} = logApi;

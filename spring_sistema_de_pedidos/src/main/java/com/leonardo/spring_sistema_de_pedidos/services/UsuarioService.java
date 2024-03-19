@@ -1,6 +1,5 @@
 package com.leonardo.spring_sistema_de_pedidos.services;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -28,6 +27,7 @@ public class UsuarioService {
         return UsuarioMapper.toUserList(usuarioRepository.findAllByOrderByIdDesc());
     }
 
+    @SuppressWarnings("null")
     public UsuarioResponseDTO update(UsuarioRequestDTO updateUser, @NonNull Long id) {
         ModelMapper modelMapper = new ModelMapper();
 

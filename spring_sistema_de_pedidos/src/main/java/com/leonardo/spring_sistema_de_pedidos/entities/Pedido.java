@@ -1,7 +1,6 @@
 package com.leonardo.spring_sistema_de_pedidos.entities;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +12,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -70,6 +66,7 @@ public class Pedido implements Serializable {
     @Column(name = "lead_origem")
     private String leadOrigem;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "lead_data", nullable = true)
     private String leadData;
 
@@ -173,23 +170,25 @@ public class Pedido implements Serializable {
     @Column(name = "usuario_id", length = 5, updatable = false)
     private Long usuarioId;
 
+    @CreatedBy
+    @Column(name = "criado_por", length = 50, updatable = false)
+    private String criadoPor;
+
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "criado_em", updatable = false)
     private LocalDateTime criadoEm;
 
-    @CreatedBy
-    @Column(name = "criado_por", length = 50)
-    private String criadoPor;
+    @LastModifiedBy
+    @Column(name = "editado_por", length = 50)
+    private String editadoPor;
 
+    @NotAudited
+    @JsonIgnore
     @LastModifiedDate
     @Column(name = "editado_em")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime editadoEm;
-
-    @LastModifiedBy
-    @Column(name = "editado_por", length = 50)
-    private String editadoPor;
 
     public List<Arquivo> getArquivos() {
         if (this.arquivos == null) {

@@ -88,7 +88,7 @@ export interface IPedidoCompleto {
   empresa: string;
   cargoCliente: string;
   leadOrigem: string;
-  leadData: string;
+  leadData: string | null;
   cnpj: string;
   email: string;
   status: string;

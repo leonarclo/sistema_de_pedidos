@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class Formatters {
 
-    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
+    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String CHAVE_FORMAT = "yyyyMMddHHmmss";
 
     public static String currentDateTime() {
