@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.history.RevisionRepository;
 import org.springframework.stereotype.Repository;
 import com.leonardo.spring_sistema_de_pedidos.entities.ItemPedido;
+import com.leonardo.spring_sistema_de_pedidos.entities.Pedido;
 
 @Repository
 public interface ItemPedidoRepository
@@ -13,5 +14,5 @@ public interface ItemPedidoRepository
 
     List<ItemPedido> findAllByOrderByIdDesc();
 
-    List<ItemPedido> findAllByChave(String chave);
+    List<ItemPedido> findAllByPedido(Pedido id);
 }

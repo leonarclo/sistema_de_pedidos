@@ -12,7 +12,7 @@ import com.leonardo.spring_sistema_de_pedidos.entities.Pedido;
 @Repository
 public interface ArquivoRepository extends JpaRepository<Arquivo, Long>, RevisionRepository<Arquivo, Long, Long> {
 
-    List<Arquivo> findAllByChave(String chave);
+    List<Arquivo> findAllByPedido(Pedido id);
 
     boolean existsByPedidoAndArquivo(Pedido findPedido, String arq);
 

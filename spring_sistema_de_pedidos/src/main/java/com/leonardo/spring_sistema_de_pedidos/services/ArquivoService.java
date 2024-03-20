@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.leonardo.spring_sistema_de_pedidos.entities.Arquivo;
+import com.leonardo.spring_sistema_de_pedidos.entities.Pedido;
 import com.leonardo.spring_sistema_de_pedidos.repositories.ArquivoRepository;
 
 @Service
@@ -15,7 +16,7 @@ public class ArquivoService {
         this.arquivoRepository = arquivoRepository;
     }
 
-    public List<Arquivo> findByPedido(String chave) {
-        return arquivoRepository.findAllByChave(chave);
+    public List<Arquivo> findById(Pedido id) {
+        return arquivoRepository.findAllByPedido(id);
     }
 }

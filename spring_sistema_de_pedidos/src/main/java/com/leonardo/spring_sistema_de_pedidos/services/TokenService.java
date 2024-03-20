@@ -20,7 +20,7 @@ public class TokenService {
     private String secret;
 
     // Número de expiração em HORAS
-    @Value("${api.security.token.secret.expires}")
+    @Value("${api.security.token.secret.expires.hours}")
     private Integer expires;
 
     public String generateToken(Usuario usuario) {

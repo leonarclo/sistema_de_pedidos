@@ -32,7 +32,7 @@ import { useUploadMutation } from "@/redux/api/filesApi";
 import { renameFiles } from "@/lib/renameFiles";
 import { editarPedidoState } from "@/redux/features/pedidoSlice";
 import { itensPedidoState } from "@/redux/features/itensPedidoSlice";
-import moment from "moment";
+import moment from "moment-timezone";
 
 function FormNovoPedido() {
   const dispatch = useAppDispatch();
@@ -57,7 +57,7 @@ function FormNovoPedido() {
   const editar = useAppSelector(
     (state) => state.editarPedidoState.editarPedido
   );
-  const { data: arqData } = useBuscarArquivosQuery(editar?.chave);
+  const { data: arqData } = useBuscarArquivosQuery(editar?.id);
 
   const editarItem = useAppSelector((state) => state.itensPedidoState.itens);
 
@@ -125,7 +125,9 @@ function FormNovoPedido() {
 
     if (editar && editarItem) {
       const name = usuario?.usuario;
-      const currentDate = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
+      const currentDate = moment
+        .tz(Date.now(), "America/Sao_Paulo")
+        .format("YYYY-MM-DD HH:mm:ss");
       const formattedName = name
         ? name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
         : "";
@@ -162,16 +164,20 @@ function FormNovoPedido() {
           numeroFuncionarios: funcionariosId,
           valorMensal: item.valorMensal,
           formaPagamento: item.formaPagamento,
-          vencimento1Boleto: moment(item.vencimento1Boleto).format(
-            "YYYY-MM-DD HH:mm:ss"
-          ),
+          vencimento1Boleto: moment
+            .tz(item.vencimento1Boleto, "America/Sao_Paulo")
+            .format("YYYY-MM-DD"),
           tipoPagamento: item.tipoPagamento,
           duracaoContrato: item.duracaoContrato,
           vigenciaInicio: item.vigenciaInicio
-            ? moment(item.vigenciaInicio).format("YYYY-MM-DD HH:mm:ss")
+            ? moment
+                .tz(item.vigenciaInicio, "America/Sao_Paulo")
+                .format("YYYY-MM-DD")
             : null,
           vigenciaFim: item.vigenciaFim
-            ? moment(item.vigenciaFim).format("YYYY-MM-DD HH:mm:ss")
+            ? moment
+                .tz(item.vigenciaFim, "America/Sao_Paulo")
+                .format("YYYY-MM-DD")
             : null,
         };
         editarItemPedido.push(itemPedido);
@@ -184,7 +190,7 @@ function FormNovoPedido() {
         cargoCliente: values.cargoCliente,
         leadOrigem: values.leadOrigem,
         leadData: values.leadData
-          ? moment(values.leadData).format("YYYY-MM-DD HH:mm:ss")
+          ? moment.tz(values.leadData, "America/Sao_Paulo").format("YYYY-MM-DD")
           : null,
         cnpj: values.cnpj,
         email: values.email,
@@ -212,7 +218,9 @@ function FormNovoPedido() {
         notaFiscal: values.notaFiscal,
         unidadeNegocio: values.unidadeNegocio,
         previsaoEntrega: values.previsaoEntrega
-          ? moment(values.previsaoEntrega).format("YYYY-MM-DD HH:mm:ss")
+          ? moment
+              .tz(values.previsaoEntrega, "America/Sao_Paulo")
+              .format("YYYY-MM-DD")
           : null,
         numeroSerie: values.numeroSerie,
         codigoRastreio: values.codigoRastreio,
@@ -254,20 +262,24 @@ function FormNovoPedido() {
           quantidade: item.quantidade,
           precoTotal: item.precoTotal,
           formaPagamento: item.formaPagamento,
-          vencimento1Boleto: moment(item.vencimento1Boleto).format(
-            "YYYY-MM-DD HH:mm:ss"
-          ),
+          vencimento1Boleto: moment
+            .utc(item.vencimento1Boleto)
+            .format("YYYY-MM-DD"),
           tipoPagamento: item.tipoPagamento,
           valorMensal: item.categoria == "Contrato" ? item.valorMensal : null,
           duracaoContrato:
             item.categoria == "Contrato" ? item.duracaoContrato : null,
           vigenciaInicio:
             item.categoria == "Contrato" && item.vigenciaInicio
-              ? moment(item.vigenciaInicio).format("YYYY-MM-DD HH:mm:ss")
+              ? moment
+                  .tz(item.vigenciaInicio, "America/Sao_Paulo")
+                  .format("YYYY-MM-DD")
               : null,
           vigenciaFim:
             item.categoria == "Contrato" && item.vigenciaFim
-              ? moment(item.vigenciaFim).format("YYYY-MM-DD HH:mm:ss")
+              ? moment
+                  .tz(item.vigenciaFim, "America/Sao_Paulo")
+                  .format("YYYY-MM-DD")
               : null,
         };
 
@@ -288,7 +300,9 @@ function FormNovoPedido() {
         empresa: values.empresa,
         cargoCliente: values.cargoCliente,
         leadOrigem: values.leadOrigem,
-        leadData: moment(values.leadData).format("YYYY-MM-DD HH:mm:ss"),
+        leadData: moment
+          .tz(values.leadData, "America/Sao_Paulo")
+          .format("YYYY-MM-DD"),
         cnpj: values.cnpj,
         email: values.email,
         status: values.status,
@@ -315,7 +329,9 @@ function FormNovoPedido() {
         notaFiscal: values.notaFiscal,
         unidadeNegocio: values.unidadeNegocio,
         previsaoEntrega: values.previsaoEntrega
-          ? moment(values.previsaoEntrega).format("YYYY-MM-DD HH:mm:ss")
+          ? moment
+              .tz(values.previsaoEntrega, "America/Sao_Paulo")
+              .format("YYYY-MM-DD")
           : null,
         numeroSerie: values.numeroSerie,
         codigoRastreio: values.codigoRastreio,
@@ -324,6 +340,13 @@ function FormNovoPedido() {
         arquivos: fileNames,
       };
       triggerInserirPedido({ body: pedidoCompleto, usuarioId: usuario?.id });
+
+      if (form.getValues("arquivos").length > 0) {
+        triggerUpload({
+          files: renameFiles(form.getValues("arquivos")),
+        });
+        console.log(form.getValues("arquivos"));
+      }
     }
   }
 

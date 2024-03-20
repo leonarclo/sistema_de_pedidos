@@ -66,7 +66,6 @@ public class Pedido implements Serializable {
     @Column(name = "lead_origem")
     private String leadOrigem;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "lead_data", nullable = true)
     private String leadData;
 

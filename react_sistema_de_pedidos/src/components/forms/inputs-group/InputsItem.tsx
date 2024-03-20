@@ -148,15 +148,17 @@ function InputsItem() {
                         <SelectValue placeholder="Selecione..." />
                       </SelectTrigger>
                     </FormControl>
-                    {form.getValues(`itens.${index}.categoria`) != "Venda" && (
+                    {form.getValues(`itens.${index}.categoria`) !== "Venda" && (
                       <SelectContent className="bg-white">
                         {produtoList
                           .filter((item) => item.categoria === 2)
-                          .map((item) => (
-                            <SelectItem key={item.id} value={item.produto}>
-                              {item.produto}
-                            </SelectItem>
-                          ))}
+                          .map((item) => {
+                            return (
+                              <SelectItem key={item.id} value={item.produto}>
+                                {item.produto}
+                              </SelectItem>
+                            );
+                          })}
                       </SelectContent>
                     )}
                     {form.getValues(`itens.${index}.categoria`) !=

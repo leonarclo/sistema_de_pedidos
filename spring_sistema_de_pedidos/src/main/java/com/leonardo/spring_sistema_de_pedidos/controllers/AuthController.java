@@ -11,6 +11,8 @@ import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
 import com.leonardo.spring_sistema_de_pedidos.repositories.UsuarioRepository;
 import com.leonardo.spring_sistema_de_pedidos.services.TokenService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,7 +40,7 @@ public class AuthController {
 
     @Transactional
     @PostMapping("/login")
-    public ResponseEntity<TokenResponseDTO> login(@RequestBody LoginDTO login) {
+    public ResponseEntity<TokenResponseDTO> login(@RequestBody @Valid LoginDTO login) {
         Usuario findUser = usuarioRepository.findByUsuarioAndPassword(login.getUsuario(), login.getPassword());
 
         if (findUser != null) {
@@ -57,7 +59,7 @@ public class AuthController {
     }
 
     @PostMapping("/registrar")
-    public ResponseEntity<UsuarioResponseDTO> registrar(@RequestBody UsuarioRequestDTO novoUsuario) {
+    public ResponseEntity<UsuarioResponseDTO> registrar(@RequestBody @Valid UsuarioRequestDTO novoUsuario) {
         if (usuarioRepository.findByUsuario(novoUsuario.getUsuario()) != null) {
             return ResponseEntity.badRequest().build();
         }

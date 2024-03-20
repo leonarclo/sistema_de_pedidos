@@ -43,7 +43,16 @@ function FormLogin() {
 
   useEffect(() => {
     if (isSuccess && data) {
-      Cookies.set("access_token", data.token, { expires: 2 });
+      const expirationDate = new Date();
+      expirationDate.setHours(
+        expirationDate.getHours() +
+          import.meta.env.VITE_APP_TOKEN_EXPIRES_HOURS -
+          3
+      );
+
+      Cookies.set("access_token", data.token, {
+        expires: expirationDate,
+      });
       navigate("/");
     }
     if (isError) {

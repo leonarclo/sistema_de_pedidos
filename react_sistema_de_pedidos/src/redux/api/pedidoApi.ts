@@ -45,19 +45,19 @@ export const pedidoApi = createApi({
       providesTags: ["Pedidos"],
     }),
 
-    buscarItem: builder.query<IItemPedidoRequest[], void>({
-      query(chave) {
+    buscarItem: builder.query<IItemPedidoRequest[], number | undefined>({
+      query(id) {
         return {
-          url: `/buscar-item?chave=${chave}`,
+          url: `/buscar-item/${id}`,
           method: "GET",
           credentials: "include",
         };
       },
     }),
-    buscarArquivos: builder.query<IArquivo[], string | undefined>({
-      query(chave) {
+    buscarArquivos: builder.query<IArquivo[], number | undefined>({
+      query(id) {
         return {
-          url: `/buscar-arquivos?chave=${chave}`,
+          url: `/buscar-arquivos/${id}`,
           method: "GET",
           credentials: "include",
         };

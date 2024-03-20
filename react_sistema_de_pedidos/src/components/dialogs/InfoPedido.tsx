@@ -352,42 +352,44 @@ function InfoPedido() {
             ))
           )}
         </div>
-        <div className="mt-4">
-          <p>Arquivos:</p>
-          {arquivos.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => handleGetfile(item.arquivo)}
-              className="flex flex-col text-blue-500 hover:text-blue-700"
-            >
-              {loadingFile ? <LoadingSpinner /> : item.arquivo}
-            </button>
-          ))}
-        </div>
+        {arquivos.length > 0 && (
+          <div className="mt-4">
+            <p>Arquivos:</p>
+            {arquivos.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => handleGetfile(item.arquivo)}
+                className="flex flex-col text-blue-500 hover:text-blue-700"
+              >
+                {loadingFile ? <LoadingSpinner /> : item.arquivo}
+              </button>
+            ))}
+          </div>
+        )}
         <div className="mt-4">
           <p>Administrativo:</p>
           <div className="flex flex-row gap-10">
             <p>
               <span className="text-blue-600 text-sm">Planilha de Vendas:</span>{" "}
               <br />
-              {pedido?.planilhaVendas}
+              {pedido?.planilhaVendas == "0" ? "Não" : "Sim"}
             </p>
             <p>
               <span className="text-blue-600 text-sm">Licença Gerada:</span>{" "}
               <br />
-              {pedido?.licencaGerada}
+              {pedido?.licencaGerada == 0 ? "Não" : "Sim"}
             </p>
             <p>
               <span className="text-blue-600 text-sm">Assinatura:</span> <br />
-              {pedido?.assinatura}
+              {pedido?.assinatura == 0 ? "Não" : "Sim"}
             </p>
             <p>
               <span className="text-blue-600 text-sm">Chat:</span> <br />
-              {pedido?.chat}
+              {pedido?.chat == 0 ? "Não" : "Sim"}
             </p>
             <p>
               <span className="text-blue-600 text-sm">Pós-venda:</span> <br />
-              {pedido?.posVenda}
+              {pedido?.posVenda == 0 ? "Não" : "Sim"}
             </p>
           </div>
           <div className="flex flex-row gap-10">

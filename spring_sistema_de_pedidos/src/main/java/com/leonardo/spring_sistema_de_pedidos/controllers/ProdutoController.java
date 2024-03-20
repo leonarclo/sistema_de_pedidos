@@ -5,9 +5,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.leonardo.spring_sistema_de_pedidos.dto.ProdutoDTO;
+import com.leonardo.spring_sistema_de_pedidos.entities.Produto;
 import com.leonardo.spring_sistema_de_pedidos.services.ProdutoService;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +43,12 @@ public class ProdutoController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @PostMapping("/buscar-produto/{id}")
+    public ResponseEntity<Optional<Produto>> findoById(@PathVariable @NonNull Long id) {
+        Optional<Produto> produto = produtoService.findById(id);
+        return ResponseEntity.ok(produto);
     }
 
     @PostMapping("/inserir-produto")

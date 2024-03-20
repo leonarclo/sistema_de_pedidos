@@ -2,20 +2,16 @@ package com.leonardo.spring_sistema_de_pedidos.entities;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
 import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.leonardo.spring_sistema_de_pedidos.common.Formatters;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -78,8 +74,6 @@ public class ItemPedido implements Serializable {
     @Column(name = "forma_pgto")
     private String formaPagamento;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "venc_1_boleto")
     private String vencimento1Boleto;
 
@@ -89,13 +83,9 @@ public class ItemPedido implements Serializable {
     @Column(name = "duracao")
     private String duracaoContrato;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "vigenciain")
     private String vigenciaInicio;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "vigenciaout")
     private String vigenciaFim;
 

@@ -1,6 +1,7 @@
 package com.leonardo.spring_sistema_de_pedidos.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.lang.NonNull;
@@ -26,6 +27,11 @@ public class ProdutoService {
 
     public List<ProdutoDTO> findByCategoria(Integer categoria) {
         return ProdutoMapper.toProdutoList(produtoRepository.findAllByCategoria(categoria));
+    }
+
+    @SuppressWarnings("null")
+    public Optional<Produto> findById(Long id) {
+        return produtoRepository.findById(id);
     }
 
     @SuppressWarnings("null")

@@ -13,6 +13,8 @@ import com.leonardo.spring_sistema_de_pedidos.dto.UsuarioRequestDTO;
 import com.leonardo.spring_sistema_de_pedidos.dto.UsuarioResponseDTO;
 import com.leonardo.spring_sistema_de_pedidos.services.UsuarioService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1")
 public class UsuarioController {
@@ -30,7 +32,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/editar-usuario/{id}")
-    public ResponseEntity<UsuarioResponseDTO> update(@RequestBody UsuarioRequestDTO updateUser,
+    public ResponseEntity<UsuarioResponseDTO> update(@RequestBody @Valid UsuarioRequestDTO updateUser,
             @PathVariable @NonNull Long id) {
         UsuarioResponseDTO usuario = usuarioService.update(updateUser, id);
         return ResponseEntity.ok(usuario);

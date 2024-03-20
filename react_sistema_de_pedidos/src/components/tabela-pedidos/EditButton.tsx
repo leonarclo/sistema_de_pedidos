@@ -20,8 +20,8 @@ function EditButton({ row }: any) {
     row.getIsSelected();
     dispatch(openModal("edit"));
     dispatch(editarPedidoState(row.original as IPedido));
-    triggerBuscarItens(row.original.chave);
-    triggerBuscarArquivos(row.original.chave);
+    triggerBuscarItens(row.original.id);
+    triggerBuscarArquivos(row.original.id);
     console.log("Valor da linha para editar:", row.original);
   };
   return (
