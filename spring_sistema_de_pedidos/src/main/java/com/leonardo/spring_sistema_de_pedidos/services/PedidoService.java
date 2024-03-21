@@ -51,7 +51,6 @@ public class PedidoService {
     @Transactional
     public PedidoCompletoRequestDTO save(PedidoCompletoRequestDTO pedidoCompleto, @NonNull Long usuarioId) {
         Pedido pedido = PedidoMapper.toPedidoCompletoResponse(pedidoCompleto);
-        pedido.setUsuarioId(usuarioId);
 
         for (ItemPedido itemPedido : pedido.getItens()) {
             itemPedido.setPedido(pedido);
@@ -64,6 +63,7 @@ public class PedidoService {
         }
 
         modelMapper.map(pedidoCompleto, pedido);
+        pedido.setUsuarioId(usuarioId);
         pedidoRepository.save(pedido);
         return PedidoMapper.toUpdate(pedido);
     }

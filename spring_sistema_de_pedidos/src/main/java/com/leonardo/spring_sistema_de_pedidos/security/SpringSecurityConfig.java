@@ -31,7 +31,7 @@ public class SpringSecurityConfig {
                         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                         .authorizeHttpRequests(
                                     authorize -> authorize.requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
-                                                .requestMatchers(HttpMethod.POST, "/api/v1/registrar").hasAuthority("9")
+                                                .requestMatchers(HttpMethod.POST, "/api/v1/registrar").hasAuthority("7")
                                                 .requestMatchers(HttpMethod.GET, "/api/v1/editar-pedido")
                                                 .hasAuthority("5")
                                                 .requestMatchers(HttpMethod.POST, "/api/v1/encrypt").hasAuthority("9")
@@ -45,11 +45,11 @@ public class SpringSecurityConfig {
                                                 .hasAuthority("7")
                                                 .requestMatchers(HttpMethod.POST, "/api/v1/files/delete")
                                                 .hasAuthority("7")
-                                                .requestMatchers(HttpMethod.POST,
+                                                .requestMatchers(HttpMethod.GET,
                                                             "/api/v1/buscar-usuarios")
-                                                .hasAuthority("9")
+                                                .hasAuthority("7")
                                                 .requestMatchers(HttpMethod.POST, "/api/v1/editar-usuario")
-                                                .hasAuthority("9")
+                                                .hasAuthority("7")
                                                 .anyRequest().authenticated())
                         .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                         .logout(logout -> logout

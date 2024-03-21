@@ -8,6 +8,7 @@ import { arquivosState } from "@/redux/features/arquivosSlice";
 import { useLazyGetFileQuery } from "@/redux/api/filesApi";
 import { useEffect, useState } from "react";
 import RevisionDialog from "./RevisionDialog";
+import { Square, Check } from "lucide-react";
 
 function InfoPedido() {
   const dispatch = useAppDispatch();
@@ -80,6 +81,22 @@ function InfoPedido() {
     const observacoes = text?.split(" | ");
     return observacoes;
   }
+
+  const fmtNumerosSerie = (
+    numerosSerie: string | null | undefined
+  ): string | null | undefined => {
+    if (numerosSerie) {
+      return numerosSerie.split(" / ").length > 1
+        ? numerosSerie
+        : numerosSerie
+            ?.split("\n")
+            .filter((x) => x.length > 0)
+            .join(" ")
+            .split(" ")
+            .filter((x) => x != "")
+            .join(" / ");
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
@@ -166,7 +183,10 @@ function InfoPedido() {
               {pedido?.transportadora}
             </p>
             <p className="bg-blue-200 px-2">
-              <span className="text-blue-600 text-sm"> Email Login:</span>
+              <span className="text-blue-600 text-sm">
+                {" "}
+                Email Login (Sistema Ponto):
+              </span>
               <br />
               {pedido?.emailLogin}
             </p>
@@ -357,7 +377,7 @@ function InfoPedido() {
         </div>
         {arquivos.length > 0 && (
           <div className="mt-4">
-            <p>Arquivos:</p>
+            <p className="font-semibold">Arquivos:</p>
             {arquivos.map((item) => (
               <button
                 key={item.id}
@@ -370,32 +390,52 @@ function InfoPedido() {
           </div>
         )}
         <div className="mt-4">
-          <p>Administrativo:</p>
-          <div className="flex flex-row gap-10">
-            <p>
+          <p className="mb-2 font-semibold">Administrativo:</p>
+          <div className="flex flex-row gap-10 p-2 border">
+            <p className="flex flex-row gap-1 items-center">
               <span className="text-blue-600 text-sm">Planilha de Vendas:</span>{" "}
               <br />
-              {pedido?.planilhaVendas == "0" ? "Não" : "Sim"}
+              {pedido?.planilhaVendas == "0" ? (
+                <Square className="text-gray-400" />
+              ) : (
+                <Check />
+              )}
             </p>
-            <p>
+            <p className="flex flex-row gap-1 items-center">
               <span className="text-blue-600 text-sm">Licença Gerada:</span>{" "}
               <br />
-              {pedido?.licencaGerada == 0 ? "Não" : "Sim"}
+              {pedido?.licencaGerada == 0 ? (
+                <Square className="text-gray-400" />
+              ) : (
+                <Check />
+              )}
             </p>
-            <p>
+            <p className="flex flex-row gap-1 items-center">
               <span className="text-blue-600 text-sm">Assinatura:</span> <br />
-              {pedido?.assinatura == 0 ? "Não" : "Sim"}
+              {pedido?.assinatura == 0 ? (
+                <Square className="text-gray-400" />
+              ) : (
+                <Check />
+              )}
             </p>
-            <p>
+            <p className="flex flex-row gap-1 items-center">
               <span className="text-blue-600 text-sm">Chat:</span> <br />
-              {pedido?.chat == 0 ? "Não" : "Sim"}
+              {pedido?.chat == 0 ? (
+                <Square className="text-gray-400" />
+              ) : (
+                <Check />
+              )}
             </p>
-            <p>
+            <p className="flex flex-row gap-1 items-center">
               <span className="text-blue-600 text-sm">Pós-venda:</span> <br />
-              {pedido?.posVenda == 0 ? "Não" : "Sim"}
+              {pedido?.posVenda == 0 ? (
+                <Square className="text-gray-400" />
+              ) : (
+                <Check />
+              )}
             </p>
           </div>
-          <div className="flex flex-row gap-10">
+          <div className="flex flex-row gap-10 p-2 border">
             <p>
               <span className="text-blue-600 text-sm">Nota Fiscal:</span> <br />
               {pedido?.notaFiscal}
@@ -418,15 +458,17 @@ function InfoPedido() {
               {pedido?.codigoRastreio}
             </p>
             <p>
-              <span className="text-blue-600 text-sm">Números de Série:</span>{" "}
+              <span className="text-blue-600 text-sm">Número(s) de Série:</span>{" "}
               <br />
-              {pedido?.numeroSerie}
+              {fmtNumerosSerie(pedido?.numeroSerie)}
             </p>
           </div>
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-blue-600 text-sm">Observações:</span>
+            <span className="text-blue-600 text-base font-semibold">
+              Observações:
+            </span>
             <br />
             {observacoesFmt(pedido?.observacoes)?.map((item: string) => {
               return <p key={item}>{item}</p>;

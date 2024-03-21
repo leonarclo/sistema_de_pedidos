@@ -119,6 +119,7 @@ function InputsItem() {
                   <Select
                     value={field.value}
                     onValueChange={(e) => {
+                      form.setValue(`itens.${index}.produto`, null);
                       field.onChange(e);
                     }}
                   >
@@ -376,6 +377,7 @@ function InputsItem() {
                     <Select
                       value={field.value}
                       onValueChange={(e) => {
+                        form.setValue(`itens.${index}.produto`, null);
                         field.onChange(e);
                       }}
                     >

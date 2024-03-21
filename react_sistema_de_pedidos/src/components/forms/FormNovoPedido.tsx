@@ -19,7 +19,7 @@ import TextareaObservacao from "./TextareaObservacao";
 import {
   useInserirPedidoMutation,
   useEditarPedidoMutation,
-  useBuscarArquivosQuery,
+  useLazyBuscarArquivosQuery,
 } from "@/redux/api/pedidoApi";
 import InputsHidden from "./inputs-group/InputsHidden";
 import InputsAdm from "./inputs-group/InputsAdm";
@@ -57,9 +57,9 @@ function FormNovoPedido() {
   const editar = useAppSelector(
     (state) => state.editarPedidoState.editarPedido
   );
-  const { data: arqData } = useBuscarArquivosQuery(editar?.id);
-
   const editarItem = useAppSelector((state) => state.itensPedidoState.itens);
+
+  const [triggerBuscarArq, { data: arqData }] = useLazyBuscarArquivosQuery();
 
   const form = useForm<z.infer<typeof fullSchema>>({
     resolver: zodResolver(fullSchema),
@@ -124,6 +124,7 @@ function FormNovoPedido() {
     });
 
     if (editar && editarItem) {
+      triggerBuscarArq(editar?.id);
       const name = usuario?.usuario;
       const currentDate = moment
         .tz(Date.now(), "America/Sao_Paulo")

@@ -19,7 +19,7 @@ export const authApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Usuario"],
+  tagTypes: ["Auth"],
   endpoints: (builder) => ({
     login: builder.mutation<ITokenResponse, ILogin>({
       query(body) {
@@ -30,7 +30,7 @@ export const authApi = createApi({
           credentials: "include",
         };
       },
-      invalidatesTags: ["Usuario"],
+      invalidatesTags: ["Auth"],
     }),
     registrar: builder.mutation<IUsuario, IUsuarioRequest>({
       query(body) {
@@ -50,7 +50,7 @@ export const authApi = createApi({
           credentials: "include",
         };
       },
-      invalidatesTags: ["Usuario"],
+      invalidatesTags: ["Auth"],
     }),
 
     getMe: builder.query<IUsuario, void>({
@@ -61,7 +61,7 @@ export const authApi = createApi({
           credentials: "include",
         };
       },
-      providesTags: ["Usuario"],
+      providesTags: ["Auth"],
       async onQueryStarted(_args, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;

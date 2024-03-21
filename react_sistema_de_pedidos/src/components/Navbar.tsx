@@ -47,7 +47,7 @@ function Navbar() {
                   Painel
                 </Button>
               </a>
-            )}
+            )}{" "}
             {userInfo && userInfo.nivel >= 7 ? (
               <DropdownMenu>
                 <DropdownMenuTrigger className="bg-cyan-500 hover:bg-cyan-700 rounded text-white font-bold flex items-center gap-2 px-5 focus:outline-none">

@@ -39,7 +39,6 @@ public class ProdutoService {
         return ProdutoMapper.toProdutoResponse(produtoRepository.save(ProdutoMapper.toProdutoRequest(novoProduto)));
     }
 
-    @SuppressWarnings("null")
     public ProdutoDTO update(@NonNull ProdutoDTO updateProduto, @NonNull Long id) {
         ModelMapper modelMapper = new ModelMapper();
 
@@ -48,6 +47,7 @@ public class ProdutoService {
 
         ProdutoDTO produtoUpdated = ProdutoMapper.toProdutoResponse(findProduto);
         modelMapper.map(updateProduto, findProduto);
+        findProduto.setId(id);
         produtoRepository.save(findProduto);
         return produtoUpdated;
     }
