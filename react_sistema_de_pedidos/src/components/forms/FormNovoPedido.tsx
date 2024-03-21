@@ -162,7 +162,7 @@ function FormNovoPedido() {
           quantidade: item.quantidade,
           precoTotal: item.precoTotal,
           numeroFuncionarios: funcionariosId,
-          valorMensal: item.valorMensal,
+          valorMensal: item.valorMensal != "" ? item.valorMensal : null,
           formaPagamento: item.formaPagamento,
           vencimento1Boleto: moment
             .utc(item.vencimento1Boleto)

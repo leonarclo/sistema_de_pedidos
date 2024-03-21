@@ -42,7 +42,12 @@ export const schemaItem = z.object({
       required_error: "Preencha o campo de 'Pagamento'",
     })
     .min(1, "Preencha o campo de 'Tipo de Pagamento'"),
-  valorMensal: z.string({}).nullable().optional(),
+  valorMensal: z
+    .string({})
+    .min(4, "O valor precisa conter pelo menos 3 números")
+    .nullable()
+    .optional()
+    .or(z.literal("")),
   duracaoContrato: z
     .string({
       required_error: "Preencha o campo de 'Pagamento'",
