@@ -24,7 +24,6 @@ export const schemaItem = z.object({
     })
     .min(1, { message: "Preencha o campo de 'Quantidade'" }),
   precoTotal: z.string({}).nullable().optional(),
-  valorMensal: z.string({}).nullable().optional(),
   formaPagamento: z
     .string({
       required_error: "Preencha o campo de 'Forma de Pagamento'",
@@ -43,6 +42,7 @@ export const schemaItem = z.object({
       required_error: "Preencha o campo de 'Pagamento'",
     })
     .min(1, "Preencha o campo de 'Tipo de Pagamento'"),
+  valorMensal: z.string({}).nullable().optional(),
   duracaoContrato: z
     .string({
       required_error: "Preencha o campo de 'Pagamento'",
@@ -50,7 +50,7 @@ export const schemaItem = z.object({
     .nullable()
     .optional(),
   vigenciaInicio: z.coerce
-    .date({
+    .string({
       errorMap: (issue, { defaultError }) => ({
         message:
           issue.code === "invalid_date"
@@ -59,9 +59,10 @@ export const schemaItem = z.object({
       }),
     })
     .nullable()
-    .optional(),
+    .optional()
+    .or(z.literal("")),
   vigenciaFim: z.coerce
-    .date({
+    .string({
       errorMap: (issue, { defaultError }) => ({
         message:
           issue.code === "invalid_date"
@@ -70,5 +71,6 @@ export const schemaItem = z.object({
       }),
     })
     .nullable()
-    .optional(),
+    .optional()
+    .or(z.literal("")),
 });

@@ -25,7 +25,7 @@ function Navbar() {
             Olá,{" "}
             {userInfo && !isLoading ? (
               <span className="capitalize">
-                {userInfo && userInfo.usuario}!{" "}
+                {userInfo && userInfo.nomeCompleto.split(" ")[0]}!{" "}
                 <sup className="text-sm text-orange-400 font-bold">
                   {nivelAcessoString(userInfo.nivel)}
                 </sup>
@@ -55,13 +55,11 @@ function Navbar() {
                   <ChevronDown size={18} color="white" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-white p-3 flex flex-col gap-2">
-                  {userInfo.nivel == 9 && (
-                    <a href="/usuarios">
-                      <DropdownMenuItem className="cursor-pointer">
-                        Gerenciar usuários
-                      </DropdownMenuItem>
-                    </a>
-                  )}
+                  <a href="/usuarios">
+                    <DropdownMenuItem className="cursor-pointer">
+                      Gerenciar usuários
+                    </DropdownMenuItem>
+                  </a>
 
                   <a href="/produtos">
                     <DropdownMenuItem className="cursor-pointer ">

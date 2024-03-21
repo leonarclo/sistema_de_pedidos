@@ -27,6 +27,11 @@ public class UsuarioService {
         return UsuarioMapper.toUserList(usuarioRepository.findAllByOrderByIdDesc());
     }
 
+    public List<UsuarioResponseDTO> findAllByNivel(Long id, Integer nivel) {
+        return UsuarioMapper
+                .toUserList(usuarioRepository.findAllByIdEqualsOrNivelLessThanOrderByIdDesc(id, nivel));
+    }
+
     @SuppressWarnings("null")
     public UsuarioResponseDTO update(UsuarioRequestDTO updateUser, @NonNull Long id) {
         ModelMapper modelMapper = new ModelMapper();

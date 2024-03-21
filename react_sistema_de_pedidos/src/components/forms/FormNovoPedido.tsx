@@ -165,19 +165,15 @@ function FormNovoPedido() {
           valorMensal: item.valorMensal,
           formaPagamento: item.formaPagamento,
           vencimento1Boleto: moment
-            .tz(item.vencimento1Boleto, "America/Sao_Paulo")
+            .utc(item.vencimento1Boleto)
             .format("YYYY-MM-DD"),
           tipoPagamento: item.tipoPagamento,
           duracaoContrato: item.duracaoContrato,
           vigenciaInicio: item.vigenciaInicio
-            ? moment
-                .tz(item.vigenciaInicio, "America/Sao_Paulo")
-                .format("YYYY-MM-DD")
+            ? moment.utc(item.vigenciaInicio).format("YYYY-MM-DD")
             : null,
           vigenciaFim: item.vigenciaFim
-            ? moment
-                .tz(item.vigenciaFim, "America/Sao_Paulo")
-                .format("YYYY-MM-DD")
+            ? moment.utc(item.vigenciaFim).format("YYYY-MM-DD")
             : null,
         };
         editarItemPedido.push(itemPedido);
@@ -190,7 +186,7 @@ function FormNovoPedido() {
         cargoCliente: values.cargoCliente,
         leadOrigem: values.leadOrigem,
         leadData: values.leadData
-          ? moment.tz(values.leadData, "America/Sao_Paulo").format("YYYY-MM-DD")
+          ? moment.utc(values.leadData).format("YYYY-MM-DD")
           : null,
         cnpj: values.cnpj,
         email: values.email,
@@ -218,9 +214,7 @@ function FormNovoPedido() {
         notaFiscal: values.notaFiscal,
         unidadeNegocio: values.unidadeNegocio,
         previsaoEntrega: values.previsaoEntrega
-          ? moment
-              .tz(values.previsaoEntrega, "America/Sao_Paulo")
-              .format("YYYY-MM-DD")
+          ? moment.utc(values.previsaoEntrega).format("YYYY-MM-DD")
           : null,
         numeroSerie: values.numeroSerie,
         codigoRastreio: values.codigoRastreio,
@@ -271,15 +265,11 @@ function FormNovoPedido() {
             item.categoria == "Contrato" ? item.duracaoContrato : null,
           vigenciaInicio:
             item.categoria == "Contrato" && item.vigenciaInicio
-              ? moment
-                  .tz(item.vigenciaInicio, "America/Sao_Paulo")
-                  .format("YYYY-MM-DD")
+              ? moment.utc(item.vigenciaInicio).format("YYYY-MM-DD")
               : null,
           vigenciaFim:
             item.categoria == "Contrato" && item.vigenciaFim
-              ? moment
-                  .tz(item.vigenciaFim, "America/Sao_Paulo")
-                  .format("YYYY-MM-DD")
+              ? moment.utc(item.vigenciaFim).format("YYYY-MM-DD")
               : null,
         };
 
@@ -300,9 +290,7 @@ function FormNovoPedido() {
         empresa: values.empresa,
         cargoCliente: values.cargoCliente,
         leadOrigem: values.leadOrigem,
-        leadData: moment
-          .tz(values.leadData, "America/Sao_Paulo")
-          .format("YYYY-MM-DD"),
+        leadData: moment.utc(values.leadData).format("YYYY-MM-DD"),
         cnpj: values.cnpj,
         email: values.email,
         status: values.status,
@@ -329,9 +317,7 @@ function FormNovoPedido() {
         notaFiscal: values.notaFiscal,
         unidadeNegocio: values.unidadeNegocio,
         previsaoEntrega: values.previsaoEntrega
-          ? moment
-              .tz(values.previsaoEntrega, "America/Sao_Paulo")
-              .format("YYYY-MM-DD")
+          ? moment.utc(values.previsaoEntrega).format("YYYY-MM-DD")
           : null,
         numeroSerie: values.numeroSerie,
         codigoRastreio: values.codigoRastreio,

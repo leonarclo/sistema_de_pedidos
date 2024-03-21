@@ -51,8 +51,8 @@ function DataTable<TData, TValue>({
   const [triggerBuscarItens] = useLazyBuscarItemQuery();
   const [triggerBuscarArquivos] = useLazyBuscarArquivosQuery();
   const usuario = useAppSelector((state) => state.getUserState.usuario);
-  const userEdit = usuario && usuario?.nivel >= 5;
-  const userAdm = usuario && usuario?.nivel >= 7;
+  // const userEdit = usuario && usuario?.nivel >= 5;
+  const userAdm = usuario && usuario?.nivel >= 5;
 
   const table = useReactTable({
     data,
@@ -73,7 +73,7 @@ function DataTable<TData, TValue>({
       columnFilters,
       rowSelection,
       columnVisibility: {
-        edit: userEdit ? true : false,
+        // edit: userEdit ? true : false,
         consultor: userAdm ? true : false,
       },
     },

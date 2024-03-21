@@ -20,10 +20,10 @@ export const usuariosApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    buscarUsuarios: builder.query<IUsuario[], void>({
-      query() {
+    buscarUsuarios: builder.query<IUsuario[], number | undefined>({
+      query(id) {
         return {
-          url: "/buscar-usuarios",
+          url: `/buscar-usuarios/${id}`,
           method: "GET",
           credentials: "include",
         };
@@ -48,4 +48,5 @@ export const usuariosApi = createApi({
   }),
 });
 
-export const { useBuscarUsuariosQuery, useEditarUsuarioMutation } = usuariosApi;
+export const { useLazyBuscarUsuariosQuery, useEditarUsuarioMutation } =
+  usuariosApi;

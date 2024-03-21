@@ -12,12 +12,16 @@ import { IPedido } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import Cookies from "js-cookie";
+import { useAppSelector } from "@/redux/store";
 
 function Dashboard() {
+  const usuario = useAppSelector((state) => state.getUserState.usuario);
+
   const columns = React.useMemo<ColumnDef<IPedido>[]>(
-    () => fetchPedidoColumns(),
-    []
+    () => fetchPedidoColumns(usuario),
+    [usuario]
   );
+
   const navigate = useNavigate();
 
   const {

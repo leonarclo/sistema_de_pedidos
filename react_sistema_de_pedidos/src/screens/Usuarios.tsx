@@ -5,7 +5,7 @@ import { columns } from "@/components/tabela-usuarios/Columns";
 import DataTable from "@/components/tabela-usuarios/DataTable";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useGetMeQuery } from "@/redux/api/authApi";
-import { useBuscarUsuariosQuery } from "@/redux/api/usuariosApi";
+import { useLazyBuscarUsuariosQuery } from "@/redux/api/usuariosApi";
 import { getUserState } from "@/redux/features/authSlice";
 import { useAppDispatch } from "@/redux/store";
 import { useEffect } from "react";
@@ -15,7 +15,8 @@ import Cookies from "js-cookie";
 function AdmUsuarios() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { data, isLoading, isError } = useBuscarUsuariosQuery();
+  const [triggerBuscarUsuarios, { data, isLoading, isError }] =
+    useLazyBuscarUsuariosQuery();
 
   const {
     data: userInfo,
@@ -27,6 +28,7 @@ function AdmUsuarios() {
   useEffect(() => {
     if (successUser) {
       dispatch(getUserState(userInfo));
+      triggerBuscarUsuarios(userInfo.id);
     }
 
     if (errorUser || isError) {

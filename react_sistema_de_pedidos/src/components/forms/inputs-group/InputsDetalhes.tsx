@@ -18,6 +18,11 @@ import { useFormContext } from "react-hook-form";
 import moment from "moment";
 
 function InputsDetalhes() {
+  const today = new Date();
+  today.setHours(today.getHours() - 3);
+
+  const maxDate = today.toISOString().split("T")[0];
+
   const form = useFormContext();
   return (
     <>
@@ -70,11 +75,11 @@ function InputsDetalhes() {
                 {...field}
                 value={
                   field.value
-                    ? moment(field.value).format("YYYY-MM-DD")
+                    ? moment.utc(field.value).format("YYYY-MM-DD")
                     : "" || ""
                 }
                 type="date"
-                max={new Date().toISOString().split("T")[0]}
+                max={maxDate}
               />
             </FormControl>
             <FormMessage />

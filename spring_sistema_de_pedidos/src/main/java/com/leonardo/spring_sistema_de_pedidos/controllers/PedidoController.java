@@ -48,7 +48,7 @@ public class PedidoController {
             Usuario usuario = usuarioRepository.findById(consultorId)
                     .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
 
-            if (usuario.getNivel() <= 5) {
+            if (usuario.getNivel() < 5) {
                 return ResponseEntity.ok(pedidoService.findByConsultor(consultorId));
             }
             return ResponseEntity.ok(pedidoService.findAll());

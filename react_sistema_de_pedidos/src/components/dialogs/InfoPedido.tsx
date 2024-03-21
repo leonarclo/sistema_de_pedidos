@@ -15,6 +15,7 @@ function InfoPedido() {
   const pedido = useAppSelector((state) => state.pedidoState.pedido);
   const itensPedido = useAppSelector((state) => state.itensPedidoState.itens);
   const arquivos = useAppSelector((state) => state.arquivosState.arquivos);
+  const usuario = useAppSelector((state) => state.getUserState.usuario);
 
   const [fileState, setFileState] = useState<string>("");
 
@@ -85,7 +86,9 @@ function InfoPedido() {
       <DialogContent className="bg-white min-w-[75vw] max-h-[90vh] m-2 overflow-y-scroll">
         <DialogHeader className="flex flex-row justify-between py-2">
           <DialogTitle>Pedido: {pedido?.id}</DialogTitle>
-          <RevisionDialog row={pedido?.id} />
+          {usuario && usuario.nivel >= 9 ? (
+            <RevisionDialog row={pedido?.id} />
+          ) : null}
         </DialogHeader>
         <div className="p-2">
           <div className="flex flex-row gap-4 justify-between p-2">

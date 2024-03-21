@@ -29,37 +29,49 @@ export const schema = z.object({
       required_error: "Preencha o campo de 'Empresa'",
     })
     .min(3, "'Empresa' precisa conter pelo menos 3 letras"),
-  cnpj: z.string().refine(
-    (value) => {
-      const number = value.replace(/\D/g, "");
-      return number.length == 14;
-    },
-    { message: "O  CNPJ precisa conter 14 números" }
-  ),
+  cnpj: z
+    .string({
+      required_error: "Preencha o campo de 'CNPJ'",
+    })
+    .refine(
+      (value) => {
+        const number = value.replace(/\D/g, "");
+        return number.length == 14;
+      },
+      { message: "O  CNPJ precisa conter 14 números" }
+    ),
   nomeCliente: z
     .string({
       required_error: "Preencha o campo de 'Nome'",
     })
     .min(3, "'Nome' precisa conter pelo menos 3 letras"),
-  cpfCliente: z.string().refine(
-    (value) => {
-      const number = value.replace(/\D/g, "");
-      return number.length == 11;
-    },
-    { message: "O CPF precisa conter 11 números" }
-  ),
+  cpfCliente: z
+    .string({
+      required_error: "Preencha o campo de 'CPF'",
+    })
+    .refine(
+      (value) => {
+        const number = value.replace(/\D/g, "");
+        return number.length == 11;
+      },
+      { message: "O CPF precisa conter 11 números" }
+    ),
   email: z
     .string({
       required_error: "Preencha o campo de 'Email'",
     })
     .email("Email inválido"),
-  telefone1: z.string().refine(
-    (value) => {
-      const number = value.replace(/\D/g, "");
-      return number.length >= 10;
-    },
-    { message: "O Telefone precisa conter 10 ou 11 números" }
-  ),
+  telefone1: z
+    .string({
+      required_error: "Preencha o campo de 'Telefone 1'",
+    })
+    .refine(
+      (value) => {
+        const number = value.replace(/\D/g, "");
+        return number.length >= 10;
+      },
+      { message: "O Telefone precisa conter 10 ou 11 números" }
+    ),
   telefone2: z
     .string({
       required_error: "Preencha o campo de 'Telefone 2'",
@@ -67,13 +79,17 @@ export const schema = z.object({
     .nullable()
     .optional(),
   emailLogin: z.string({}).nullable().optional(),
-  cep: z.string().refine(
-    (value) => {
-      const number = value.replace(/\D/g, "");
-      return number.length == 8;
-    },
-    { message: "O CEP precisa conter 8 números" }
-  ),
+  cep: z
+    .string({
+      required_error: "Preencha o campo de 'CEP'",
+    })
+    .refine(
+      (value) => {
+        const number = value.replace(/\D/g, "");
+        return number.length == 8;
+      },
+      { message: "O CEP precisa conter 8 números" }
+    ),
   logradouro: z
     .string({
       required_error: "Preencha o campo de 'Logradouro'",
@@ -81,15 +97,19 @@ export const schema = z.object({
     .min(3, {
       message: "'Logradouro' precisa conter pelo menos 3 letras",
     }),
-  numeroEndereco: z.string().refine(
-    (value) => {
-      const number = value.replace(/\D/g, "");
-      const isValid = number;
-      const isSN = value.toUpperCase() === "S/N";
-      return isValid || isSN;
-    },
-    { message: "Preencha apenas números ou com 'S/N'" }
-  ),
+  numeroEndereco: z
+    .string({
+      required_error: "Preencha o campo de 'Número'",
+    })
+    .refine(
+      (value) => {
+        const number = value.replace(/\D/g, "");
+        const isValid = number;
+        const isSN = value.toUpperCase() === "S/N";
+        return isValid || isSN;
+      },
+      { message: "Preencha apenas números ou com 'S/N'" }
+    ),
   complemento: z
     .string({
       required_error: "Preencha o campo de 'Complemento'",

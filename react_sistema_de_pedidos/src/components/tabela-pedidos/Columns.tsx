@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IPedido } from "@/types";
+import { IPedido, IUsuario } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
 import { ArrowUpDown } from "lucide-react";
@@ -7,7 +7,9 @@ import EditButton from "./EditButton";
 import dateBetweenFilterFn from "./DateBetweenFilter";
 import moment from "moment";
 
-export function fetchPedidoColumns(): ColumnDef<IPedido>[] {
+export function fetchPedidoColumns(
+  usuario: IUsuario | undefined
+): ColumnDef<IPedido>[] {
   return [
     {
       accessorKey: "status",
@@ -147,11 +149,25 @@ export function fetchPedidoColumns(): ColumnDef<IPedido>[] {
     {
       id: "edit",
       cell: ({ row }) => {
-        return (
-          <div className="w-[60px] flex justify-end">
-            <EditButton row={row} />
-          </div>
-        );
+        const status = row.getValue("status");
+        const nivel = usuario?.nivel;
+        if (nivel && nivel < 5) {
+          if (status === "Aberta") {
+            return (
+              <div className="w-[60px] flex justify-end">
+                <EditButton row={row} />
+              </div>
+            );
+          } else {
+            return null;
+          }
+        } else {
+          return (
+            <div className="w-[60px] flex justify-end">
+              <EditButton row={row} />
+            </div>
+          );
+        }
       },
     },
   ];

@@ -36,7 +36,7 @@ function FormUsuario() {
     { isLoading: inserindo, isSuccess: inserido, isError: erroInserir },
   ] = useRegistrarMutation();
   const [
-    editarIsuario,
+    editarUsuario,
     { isLoading: editando, isSuccess: editado, isError: erroEditar },
   ] = useEditarUsuarioMutation();
 
@@ -68,7 +68,13 @@ function FormUsuario() {
       message: "O nome de usuário precisa conter no mínimo 3 letras",
     }),
     password: estaEditando
-      ? z.string({}).optional()
+      ? z
+          .string({})
+          .min(6, {
+            message: "A senha precisa conter pelo menos 6 caracteres",
+          })
+          .optional()
+          .or(z.literal(""))
       : z.string({ required_error: "Preenchimento obrigatório" }).min(6, {
           message: "A senha precisa conter pelo menos 6 caracteres",
         }),
@@ -79,8 +85,8 @@ function FormUsuario() {
       }),
     departamento: z
       .string({ required_error: "Preenchimento obrigatório" })
-      .min(2, {
-        message: "O departamento precisa conter no mínimo 2 letras",
+      .min(1, {
+        message: "Selecione um departamento",
       }),
     email: z.string({ required_error: "Preenchimento obrigatório" }).email({
       message: "Insira um email válido",
@@ -107,11 +113,10 @@ function FormUsuario() {
   function onSubmit(values: z.infer<typeof NovoUsuarioSchema>) {
     form.setValue("nivel", Number(values.nivel));
     if (estaEditando) {
-      editarIsuario({ body: values, id: estaEditando.id });
+      editarUsuario({ body: values, id: estaEditando.id });
     } else {
       inserirUsuario(values);
     }
-    console.log(values);
   }
 
   useEffect(() => {
@@ -122,6 +127,35 @@ function FormUsuario() {
       );
     }
   }, [estaEditando, form]);
+
+  useEffect(() => {
+    if (estaEditando && estaEditando?.nivel == 7) {
+      form.setValue("nivel", 7);
+    }
+  }, [form]);
+
+  const setores = [
+    "Pós-venda",
+    "Comercial",
+    "Gerência",
+    "Administrativo",
+    "Faturamento",
+    "Liticação",
+    "Financeiro",
+    "TI",
+    "Expedição",
+    "Assistência",
+    "Suporte Técnico",
+    "Marketing",
+    "Desenvolvimento",
+    "Outro",
+  ];
+
+  const sortedSetores = setores.sort((a, b) => {
+    if (a === "Outro") return 1;
+    if (b === "Outro") return -1;
+    return a.localeCompare(b);
+  });
 
   return (
     <Form {...form}>
@@ -151,7 +185,7 @@ function FormUsuario() {
               <FormItem>
                 <FormLabel>Senha:</FormLabel>
                 <FormControl className="rounded">
-                  <Input {...field} type="password" />
+                  <Input {...field} type="password" value={field.value || ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -189,11 +223,22 @@ function FormUsuario() {
             control={form.control}
             name="departamento"
             render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Departamento:</FormLabel>
-                <FormControl className="rounded w-full">
-                  <Input {...field} type="text" />
-                </FormControl>
+              <FormItem>
+                <FormLabel>Departamento</FormLabel>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <FormControl className="rounded w-64">
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione..." />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="bg-white">
+                    {sortedSetores.map((setor) => (
+                      <SelectItem key={setor} value={setor}>
+                        {setor}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -220,16 +265,25 @@ function FormUsuario() {
                     <SelectItem value="5" className="cursor-pointer">
                       Editor
                     </SelectItem>
-                    <SelectItem value="7" className="cursor-pointer">
-                      ADM
-                    </SelectItem>
-                    <SelectItem value="0" className="cursor-pointer">
-                      Inativo
-                    </SelectItem>
-                    {usuario?.nivel == 9 ? (
-                      <SelectItem value="9" className="cursor-pointer">
-                        Master
+                    {estaEditando && (
+                      <SelectItem value="0" className="cursor-pointer">
+                        Inativo
                       </SelectItem>
+                    )}
+                    {estaEditando && estaEditando?.nivel == 7 && (
+                      <SelectItem value="7" className="cursor-pointer">
+                        ADM
+                      </SelectItem>
+                    )}
+                    {usuario?.nivel == 9 ? (
+                      <>
+                        <SelectItem value="7" className="cursor-pointer">
+                          ADM
+                        </SelectItem>
+                        <SelectItem value="9" className="cursor-pointer">
+                          Master
+                        </SelectItem>
+                      </>
                     ) : null}
                   </SelectContent>
                 </Select>

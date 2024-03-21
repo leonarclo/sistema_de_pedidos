@@ -245,7 +245,7 @@ function InputsItem() {
                       {...field}
                       value={
                         field.value
-                          ? moment(field.value).format("YYYY-MM-DD")
+                          ? moment.utc(field.value).format("YYYY-MM-DD")
                           : "" || ""
                       }
                       type="date"
@@ -327,7 +327,7 @@ function InputsItem() {
                           {...field}
                           value={
                             field.value
-                              ? moment(field.value).format("YYYY-MM-DD")
+                              ? moment.utc(field.value).format("YYYY-MM-DD")
                               : "" || ""
                           }
                           type="date"
@@ -348,7 +348,7 @@ function InputsItem() {
                           {...field}
                           value={
                             field.value
-                              ? moment(field.value).format("YYYY-MM-DD")
+                              ? moment.utc(field.value).format("YYYY-MM-DD")
                               : "" || ""
                           }
                           type="date"
@@ -512,7 +512,7 @@ function InputsItem() {
                         {...field}
                         value={
                           field.value
-                            ? moment(field.value).format("YYYY-MM-DD")
+                            ? moment.utc(field.value).format("YYYY-MM-DD")
                             : "" || ""
                         }
                         type="date"
@@ -593,7 +593,7 @@ function InputsItem() {
                             {...field}
                             value={
                               field.value
-                                ? moment(field.value).format("YYYY-MM-DD")
+                                ? moment.utc(field.value).format("YYYY-MM-DD")
                                 : "" || ""
                             }
                             type="date"
@@ -614,7 +614,7 @@ function InputsItem() {
                             {...field}
                             value={
                               field.value
-                                ? moment(field.value).format("YYYY-MM-DD")
+                                ? moment.utc(field.value).format("YYYY-MM-DD")
                                 : "" || ""
                             }
                             type="date"

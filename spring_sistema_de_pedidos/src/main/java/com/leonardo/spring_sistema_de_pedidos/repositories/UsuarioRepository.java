@@ -15,6 +15,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>, Revisio
 
     List<Usuario> findAllByOrderByIdDesc();
 
+    List<Usuario> findAllByIdEqualsOrNivelLessThanOrderByIdDesc(Long id, Integer nivel);
+
     Usuario findByPassword(String password);
 
     Usuario findByUsuarioAndPassword(String usuario, String rawPassword);

@@ -28,7 +28,7 @@ function EditButton({ row }: any) {
     <Button
       onClick={(e) => handleClickEditButton(e, row)}
       style={{ cursor: "pointer" }}
-      className="border p-3 border-gray-400 hover:bg-gray-300 z-20"
+      className="border p-3 border-gray-700 hover:bg-gray-400 z-20"
     >
       <Pencil />
     </Button>
