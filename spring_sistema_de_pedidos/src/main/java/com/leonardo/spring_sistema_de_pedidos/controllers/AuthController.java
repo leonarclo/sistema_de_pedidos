@@ -11,6 +11,8 @@ import com.leonardo.spring_sistema_de_pedidos.entities.Usuario;
 import com.leonardo.spring_sistema_de_pedidos.repositories.UsuarioRepository;
 import com.leonardo.spring_sistema_de_pedidos.services.TokenService;
 import jakarta.transaction.Transactional;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -57,18 +59,12 @@ public class AuthController {
     }
 
     @PostMapping("/registrar")
-    public ResponseEntity<UsuarioResponseDTO> registrar(@RequestBody UsuarioRequestDTO novoUsuario) {
+    public ResponseEntity<?> registrar(@RequestBody UsuarioRequestDTO novoUsuario) {
         if (usuarioRepository.findByUsuario(novoUsuario.getUsuario()) != null) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário já existe.");
         }
-        String hashedPassword = new BCryptPasswordEncoder().encode(novoUsuario.getPassword());
-        Usuario usuario = new Usuario();
-        usuario.setUsuario(novoUsuario.getUsuario());
-        usuario.setNomeCompleto(novoUsuario.getNomeCompleto());
-        usuario.setDepartamento(novoUsuario.getDepartamento());
-        usuario.setEmail(novoUsuario.getEmail());
-        usuario.setPassword(hashedPassword);
-        usuario.setNivel(novoUsuario.getNivel());
+        Usuario usuario = UsuarioMapper.toUserRequest(novoUsuario);
+        usuario.setPassword(new BCryptPasswordEncoder().encode(novoUsuario.getPassword()));
         usuarioRepository.save(usuario);
         return ResponseEntity.ok().build();
     }

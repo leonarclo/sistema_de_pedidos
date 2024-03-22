@@ -159,8 +159,8 @@ export interface IProdutoResponse {
 }
 
 export interface ILogin {
-  usuario: string;
-  password: string;
+  usuario?: string;
+  password?: string;
 }
 
 export interface ITokenPayload {

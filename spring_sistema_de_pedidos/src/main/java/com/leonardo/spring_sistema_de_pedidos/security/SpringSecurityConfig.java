@@ -31,9 +31,16 @@ public class SpringSecurityConfig {
                         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                         .authorizeHttpRequests(
                                     authorize -> authorize.requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/api/v1/pedido-revisions/*")
+                                                .hasAuthority("7")
+                                                .requestMatchers(HttpMethod.GET, "/api/v1/item-revisions/*")
+                                                .hasAuthority("7")
+                                                .requestMatchers(HttpMethod.GET, "/api/v1/arquivo-revisions/*")
+                                                .hasAuthority("7")
+                                                .requestMatchers(HttpMethod.POST, "/api/v1/registrar").hasAuthority("7")
                                                 .requestMatchers(HttpMethod.POST, "/api/v1/registrar").hasAuthority("7")
                                                 .requestMatchers(HttpMethod.GET, "/api/v1/editar-pedido")
-                                                .hasAuthority("5")
+                                                .hasAuthority("7")
                                                 .requestMatchers(HttpMethod.POST, "/api/v1/encrypt").hasAuthority("9")
                                                 .requestMatchers(HttpMethod.POST,
                                                             "/api/v1/inserir-produto")
@@ -42,8 +49,6 @@ public class SpringSecurityConfig {
                                                 .hasAuthority("7")
                                                 .requestMatchers(HttpMethod.POST,
                                                             "/api/v1/remover-produto")
-                                                .hasAuthority("7")
-                                                .requestMatchers(HttpMethod.POST, "/api/v1/files/delete")
                                                 .hasAuthority("7")
                                                 .requestMatchers(HttpMethod.GET,
                                                             "/api/v1/buscar-usuarios")

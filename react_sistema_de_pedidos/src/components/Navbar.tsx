@@ -12,6 +12,7 @@ import LogoutDialog from "./dialogs/LogoutDialog";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import { LoadingSpinner } from "./ui/loading-spinner";
 import { nivelAcessoString } from "@/lib/nivelAcessoString";
+import dixiLogo from "../assets/img/dixi-ponto-logo.webp";
 
 function Navbar() {
   const thisPage = location.pathname;
@@ -21,19 +22,22 @@ function Navbar() {
     <>
       <div className="container bg-white mx-auto border rounded-md p-5 m-5">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl">
-            Olá,{" "}
-            {userInfo && !isLoading ? (
-              <span className="capitalize">
-                {userInfo && userInfo.nomeCompleto.split(" ")[0]}!{" "}
-                <sup className="text-sm text-orange-400 font-bold">
-                  {nivelAcessoString(userInfo.nivel)}
-                </sup>
-              </span>
-            ) : (
-              <LoadingSpinner />
-            )}
-          </h1>
+          <div className="flex flex-row items-center gap-10">
+            <img src={dixiLogo} alt="Dixi Logo" />
+            <h1 className="text-2xl">
+              Olá,{" "}
+              {userInfo && !isLoading ? (
+                <span className="capitalize">
+                  {userInfo && userInfo.nomeCompleto.split(" ")[0]}!{" "}
+                  <sup className="text-sm text-orange-400 font-bold">
+                    {nivelAcessoString(userInfo.nivel)}
+                  </sup>
+                </span>
+              ) : (
+                <LoadingSpinner />
+              )}
+            </h1>
+          </div>
           <div className="flex gap-10">
             {thisPage === "/" ? (
               <NovoPedidoDialog />

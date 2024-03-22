@@ -45,21 +45,19 @@ function FormNovoPedido() {
     triggerEditarPedido,
     { isLoading: editando, isSuccess: editado, isError: erroEditar },
   ] = useEditarPedidoMutation();
-  const usuario = useAppSelector((state) => state.getUserState.usuario);
-
+  const [triggerBuscarArq, { data: arqData }] = useLazyBuscarArquivosQuery();
   const [triggerUpload] = useUploadMutation();
 
-  const fullSchema = z.object({
-    ...schema.shape,
-    itens: z.array(schemaItem),
-  });
-
+  const usuario = useAppSelector((state) => state.getUserState.usuario);
   const editar = useAppSelector(
     (state) => state.editarPedidoState.editarPedido
   );
   const editarItem = useAppSelector((state) => state.itensPedidoState.itens);
 
-  const [triggerBuscarArq, { data: arqData }] = useLazyBuscarArquivosQuery();
+  const fullSchema = z.object({
+    ...schema.shape,
+    itens: z.array(schemaItem),
+  });
 
   const form = useForm<z.infer<typeof fullSchema>>({
     resolver: zodResolver(fullSchema),

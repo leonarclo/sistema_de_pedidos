@@ -12,6 +12,8 @@ export const getStatusColor = (status: string): string => {
       return "bg-blue-400";
     case "Aguardando Pagamento":
       return "bg-indigo-400";
+    case "Aguardando Pagamento Cielo":
+      return "bg-zinc-300";
     case "Teste 7 Dias":
       return "bg-purple-400";
     case "Finalizado":
@@ -19,15 +21,15 @@ export const getStatusColor = (status: string): string => {
     case "Atrelado":
       return "bg-pink-400";
     case "Enviado":
-      return "bg-teal-400";
+      return "bg-lime-500";
     case "Omie Contrato":
-      return "bg-lime-400";
+      return "bg-teal-400";
     case "Lançado OMIE":
-      return "bg-deepOrange-400";
+      return "bg-sky-400";
     case "Emitir NFSe":
       return "bg-cyan-400";
     case "Em Producao":
-      return "bg-deepPurple-400";
+      return "bg-purple-400";
     case "Recusado":
       return "bg-orange-600";
     case "Edicao":

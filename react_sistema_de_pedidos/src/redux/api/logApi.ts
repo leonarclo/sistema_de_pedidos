@@ -18,7 +18,7 @@ export const logApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    pedidoRevisions: builder.query<[], number>({
+    pedidoRevisions: builder.query<string[], number>({
       query(id) {
         return {
           url: `/pedido-revisions/${id}`,
@@ -27,7 +27,7 @@ export const logApi = createApi({
         };
       },
     }),
-    itemRevisions: builder.query<[], number>({
+    itemRevisions: builder.query<string[], number>({
       query(id) {
         return {
           url: `/item-revisions/${id}`,
@@ -36,7 +36,7 @@ export const logApi = createApi({
         };
       },
     }),
-    arquivoRevisions: builder.query<[], number>({
+    arquivoRevisions: builder.query<string[], number>({
       query(id) {
         return {
           url: `/arquivo-revisions/${id}`,
@@ -45,7 +45,7 @@ export const logApi = createApi({
         };
       },
     }),
-    produtoRevisions: builder.query<[], number>({
+    produtoRevisions: builder.query<string[], number>({
       query(id) {
         return {
           url: `/produto-revisions/${id}`,
@@ -54,7 +54,7 @@ export const logApi = createApi({
         };
       },
     }),
-    usuarioRevisions: builder.query<[], number>({
+    usuarioRevisions: builder.query<string[], number>({
       query(id) {
         return {
           url: `/usuario-revisions/${id}`,

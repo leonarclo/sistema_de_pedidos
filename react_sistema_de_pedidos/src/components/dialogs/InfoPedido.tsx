@@ -103,7 +103,7 @@ function InfoPedido() {
       <DialogContent className="bg-white min-w-[75vw] max-h-[90vh] m-2 overflow-y-scroll">
         <DialogHeader className="flex flex-row justify-between py-2">
           <DialogTitle>Pedido: {pedido?.id}</DialogTitle>
-          {usuario && usuario.nivel >= 9 ? (
+          {usuario && usuario.nivel >= 7 ? (
             <RevisionDialog row={pedido?.id} />
           ) : null}
         </DialogHeader>

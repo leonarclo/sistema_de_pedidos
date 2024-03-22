@@ -58,10 +58,10 @@ function FormUsuario() {
     } else if (erroInserir || erroEditar) {
       toast({
         variant: "error",
-        description: "Ops... tente novamente!",
+        description: "Usuário inválido ou já existe!",
       });
     }
-  }, [editado, inserido]);
+  }, [editado, inserido, erroInserir, erroEditar]);
 
   const NovoUsuarioSchema = z.object({
     usuario: z.string({ required_error: "Preenchimento obrigatório" }).min(3, {
@@ -91,11 +91,7 @@ function FormUsuario() {
     email: z.string({ required_error: "Preenchimento obrigatório" }).email({
       message: "Insira um email válido",
     }),
-    nivel: z.coerce
-      .number({ required_error: "Preenchimento obrigatório" })
-      .min(1, {
-        message: "Insira um nível válido",
-      }),
+    nivel: z.coerce.number({ required_error: "Preenchimento obrigatório" }),
   });
 
   const form = useForm<z.infer<typeof NovoUsuarioSchema>>({

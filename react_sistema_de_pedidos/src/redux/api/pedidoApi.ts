@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   IArquivo,
-  IItemPedidoRequest,
+  IItemPedido,
   IPedido,
   IPedidoCompleto,
   IProduto,
@@ -45,7 +45,7 @@ export const pedidoApi = createApi({
       providesTags: ["Pedidos"],
     }),
 
-    buscarItem: builder.query<IItemPedidoRequest[], number | undefined>({
+    buscarItem: builder.query<IItemPedido[], number | undefined>({
       query(id) {
         return {
           url: `/buscar-item/${id}`,
@@ -105,7 +105,7 @@ export const pedidoApi = createApi({
       providesTags: ["Produtos"],
     }),
 
-    inserirProduto: builder.mutation<IProduto, IProdutoRequest>({
+    inserirProduto: builder.mutation<IProduto, IProdutoRequest | undefined>({
       query(body) {
         return {
           url: "/inserir-produto",

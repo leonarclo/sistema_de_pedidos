@@ -51,7 +51,7 @@ function RevisionDialog({ row }: any) {
                 <table className="border-collapse border border-gray-400">
                   <colgroup>
                     <col className="max-w-[200px] overflow-x-auto flex-nowrap truncate" />
-                    {Object.keys(pedidoRev[0][0]).map((_, index: number) => (
+                    {Object.keys(pedidoRev[0][0])?.map((_, index: number) => (
                       <col
                         key={index}
                         className="max-w-[200px] overflow-x-auto flex-nowrap truncate"

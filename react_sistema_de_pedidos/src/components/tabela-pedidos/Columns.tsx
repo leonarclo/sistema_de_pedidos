@@ -31,6 +31,25 @@ export function fetchPedidoColumns(
       },
     },
     {
+      accessorKey: "id",
+      id: "id",
+      maxSize: 150,
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            ID
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return <p className="text-center">{row.getValue("id")}</p>;
+      },
+    },
+    {
       accessorKey: "consultor",
       id: "consultor",
       header: ({ column }) => {
@@ -87,7 +106,7 @@ export function fetchPedidoColumns(
         );
       },
       cell: ({ row }) => {
-        return <p className="w-[160px] text-center">{row.getValue("cnpj")}</p>;
+        return <p className="w-[170px] text-center">{row.getValue("cnpj")}</p>;
       },
     },
     {
@@ -128,25 +147,6 @@ export function fetchPedidoColumns(
       },
     },
     {
-      accessorKey: "emailLogin",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Email Login
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => {
-        return (
-          <p className="w-[160px] truncate">{row.getValue("emailLogin")}</p>
-        );
-      },
-    },
-    {
       id: "edit",
       cell: ({ row }) => {
         const status = row.getValue("status");
@@ -154,7 +154,7 @@ export function fetchPedidoColumns(
         if (nivel && nivel < 5) {
           if (status === "Aberta") {
             return (
-              <div className="w-[60px] flex justify-end">
+              <div className="flex justify-end">
                 <EditButton row={row} />
               </div>
             );
@@ -163,7 +163,7 @@ export function fetchPedidoColumns(
           }
         } else {
           return (
-            <div className="w-[60px] flex justify-end">
+            <div className="flex justify-end">
               <EditButton row={row} />
             </div>
           );
