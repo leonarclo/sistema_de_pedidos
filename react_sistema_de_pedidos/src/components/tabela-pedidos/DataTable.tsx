@@ -57,6 +57,7 @@ function DataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
+    manualPagination: true,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,

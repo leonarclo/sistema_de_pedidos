@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import com.leonardo.spring_sistema_de_pedidos.dto.ItemPedidoRequestDTO;
@@ -39,6 +40,10 @@ public class PedidoService {
         return PedidoMapper.toPedidoList(pedidoRepository.findAllByOrderByIdDesc());
     }
 
+    public List<PedidoResponseDTO> findAll(Pageable pageable) {
+        return PedidoMapper.toPedidoList(pedidoRepository.findAllByOrderByIdDesc(pageable));
+    }
+
     public List<PedidoResponseDTO> findByCnpj(String cnpj) {
         return PedidoMapper.toPedidoList(pedidoRepository.findFirstByCnpj(cnpj));
     }
@@ -46,6 +51,11 @@ public class PedidoService {
     public List<PedidoResponseDTO> findByConsultor(Long usuarioId) {
         return PedidoMapper
                 .toPedidoList(pedidoRepository.findByUsuarioIdOrderByIdDesc(usuarioId));
+    }
+
+    public List<PedidoResponseDTO> findByConsultor(Long usuarioId, Pageable pageable) {
+        return PedidoMapper
+                .toPedidoList(pedidoRepository.findByUsuarioIdOrderByIdDesc(usuarioId, pageable));
     }
 
     @Transactional
@@ -96,6 +106,11 @@ public class PedidoService {
         @SuppressWarnings("null")
         Pedido savedPedido = pedidoRepository.save(findPedido);
         return PedidoMapper.toUpdate(savedPedido);
+    }
+
+    public Object findByConsultor(Pageable pageable) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByConsultor'");
     }
 
 }

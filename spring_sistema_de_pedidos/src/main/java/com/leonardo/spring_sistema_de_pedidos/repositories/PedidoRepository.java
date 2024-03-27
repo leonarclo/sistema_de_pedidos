@@ -2,6 +2,7 @@ package com.leonardo.spring_sistema_de_pedidos.repositories;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.history.RevisionRepository;
@@ -17,6 +18,10 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>, RevisionR
 
     List<Pedido> findByUsuarioIdOrderByIdDesc(Long usuarioId);
 
+    List<Pedido> findByUsuarioIdOrderByIdDesc(Long usuarioId, Pageable pageable);
+
     @Query("select e from Pedido e where trim(e.cnpj) like concat(:cnpj,'%')")
     List<Pedido> findFirstByCnpj(@Param("cnpj") String cnpj);
+
+    List<Pedido> findAllByOrderByIdDesc(Pageable pageable);
 }

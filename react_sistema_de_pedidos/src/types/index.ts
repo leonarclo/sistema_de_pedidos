@@ -181,4 +181,6 @@ export interface ITokenResponse {
 export interface IQueryPedido {
   consultorId?: number;
   cnpj?: string;
+  page?: number;
+  size?: number;
 }

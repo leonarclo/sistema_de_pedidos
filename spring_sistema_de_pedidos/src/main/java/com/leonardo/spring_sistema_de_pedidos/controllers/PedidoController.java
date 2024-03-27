@@ -1,6 +1,9 @@
 package com.leonardo.spring_sistema_de_pedidos.controllers;
 
 import java.util.List;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -38,6 +41,8 @@ public class PedidoController {
     @GetMapping("/buscar-pedidos")
     public ResponseEntity<List<PedidoResponseDTO>> findAll(
             @RequestParam(name = "consultorId", required = false) Long consultorId,
+            @RequestParam(name = "page", required = false) Integer page,
+            @RequestParam(name = "size", required = false) Integer size,
             @RequestParam(name = "cnpj", required = false) String cnpj) {
 
         if (cnpj != null) {
@@ -48,10 +53,15 @@ public class PedidoController {
             Usuario usuario = usuarioRepository.findById(consultorId)
                     .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
 
-            if (usuario.getNivel() < 5) {
-                return ResponseEntity.ok(pedidoService.findByConsultor(consultorId));
+            if (usuario.getNivel() < 5 && page != null && size != null) {
+                Pageable pageable = PageRequest.of(page, size);
+                return ResponseEntity.ok(pedidoService.findByConsultor(consultorId, pageable));
             }
-            return ResponseEntity.ok(pedidoService.findAll());
+
+            if (usuario.getNivel() >= 5 && page != null && size != null) {
+                Pageable pageable = PageRequest.of(page, size);
+                return ResponseEntity.ok(pedidoService.findAll(pageable));
+            }
         }
 
         return ResponseEntity.notFound().build();

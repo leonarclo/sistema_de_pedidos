@@ -35,27 +35,25 @@ function Dashboard() {
     useLazyBuscarPedidosQuery();
 
   useEffect(() => {
-    if (errorUser) {
+    if (errorUser || isError) {
       Cookies.remove("access_token");
       navigate("/login");
     }
-  }, [successUser, errorUser]);
+  }, [successUser, errorUser, isError]);
 
   const usuarioId = userInfo?.id;
-  const query = usuarioId ? { consultorId: usuarioId } : undefined;
+  const page = 1;
+  const size = 20;
+  const query =
+    usuarioId && page && size
+      ? { consultorId: usuarioId, page, size }
+      : undefined;
 
   useEffect(() => {
     if (successUser) {
       triggerBuscarPedidos(query);
     }
   }, [userInfo]);
-
-  useEffect(() => {
-    if (isError) {
-      Cookies.remove("access_token");
-      navigate("/login");
-    }
-  }, [isError]);
 
   return loadingUser ? (
     <div className="h-screen w-screen">

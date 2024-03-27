@@ -34,9 +34,14 @@ export const pedidoApi = createApi({
           ? `consultorId=${data?.consultorId}`
           : "";
         const cnpjParam = data?.cnpj ? `cnpj=${data?.cnpj}` : "";
+        const pageParam = data?.page ? `page=${data?.page}` : "";
+        const sizeParam = data?.size ? `size=${data?.size}` : "";
+
         return {
           url: `/buscar-pedidos${
-            consultorIdParam ? `?${consultorIdParam}` : `?${cnpjParam}`
+            consultorIdParam && pageParam && sizeParam
+              ? `?${consultorIdParam}&${pageParam}&${sizeParam}`
+              : `?${cnpjParam}`
           }`,
           method: "GET",
           credentials: "include",

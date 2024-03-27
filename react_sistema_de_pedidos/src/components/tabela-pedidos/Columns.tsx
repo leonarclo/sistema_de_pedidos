@@ -27,7 +27,11 @@ export function fetchPedidoColumns(
         );
       },
       cell: ({ row }) => {
-        return <p className="w-[120px] text-start">{row.getValue("status")}</p>;
+        return (
+          <p className="w-[120px] text-start font-semibold">
+            {row.getValue("status")}
+          </p>
+        );
       },
     },
     {
